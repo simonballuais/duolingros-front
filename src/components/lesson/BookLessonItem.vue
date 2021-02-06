@@ -1,9 +1,11 @@
 <template>
   <div>
-  <router-link :to="{ name: 'learning-session', params: { id: bookLesson.id }}"
+  <router-link :to="{ name: 'learning-session', params: { lessonId: 48, difficulty: 1 }}"
                v-slot="{href, route, navigate, isActive, isExactActive}"
     >
-    <span>{{ bookLesson.title }}</span>
+    <a :href="href">
+      >{{ bookLesson.title }}
+    </a>
   </router-link>
   </div>
 </template>

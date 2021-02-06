@@ -4,10 +4,6 @@
                     :bookLesson="bookLesson"
                     :key="bookLesson.id"
                     />
-    <BookLessonItem v-for="bookLesson in bookLessons"
-                    :bookLesson="bookLesson"
-                    :key="bookLesson.id"
-                    />
 
     <Spinner v-if="!bookLessons"
              :big="true"
@@ -24,7 +20,7 @@ import Spinner from './misc/Spinner'
 
 export default {
   name: 'Home',
-  props: ['id'],
+  props: [],
   data() {
     return {
     }
@@ -43,9 +39,6 @@ export default {
     this.loadAllBookLessons()
   },
   watch: {
-    id() {
-      this.updateCurrentLesson({ id: this.id })
-    }
   }
 }
 </script>

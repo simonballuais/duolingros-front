@@ -4,15 +4,9 @@ import router from './router'
 const urls = {
     'login': 'login',
     'logout': 'logout',
-    'lessons': 'lessons',
-    'lesson': 'lessons/{id}',
-    'propositions': 'propositions',
-    'proposition': 'propositions/{id}',
-    'translations': 'translations',
-    'translation': 'translations/{id}',
-    'questions': 'questions',
-    'question': 'questions/{id}',
     'book_lessons': 'book_lessons',
+    'start_learning_session': 'learning-session/start-lesson/{lesson}/{difficulty}',
+    'submit_learning_session': 'learning-session/{learningSession}',
 }
 
 const axiosConfigured = axios.create({

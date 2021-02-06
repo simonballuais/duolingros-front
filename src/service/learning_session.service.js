@@ -1,17 +1,14 @@
 import Urls from '../urls'
 
-export const propositionService = {
-    add,
-    remove,
+export const learningSessionService = {
+    start,
+    submit,
 }
 
-function add (proposition) {
+function start (lessonId, difficulty) {
     return new Promise((resolve, reject) => {
         Urls.getAxios()
-            .post(
-                Urls.get('propositions'),
-                JSON.stringify(proposition)
-            )
+            .get(Urls.get('start_learning_session', {lesson: lessonId, difficulty}))
             .then((response) => {
                 resolve(response.data)
             }).catch(() => {
@@ -20,10 +17,13 @@ function add (proposition) {
     });
 }
 
-function remove (id) {
+function submit (learningSession, proposedAnswers) {
     return new Promise((resolve, reject) => {
         Urls.getAxios()
-            .delete(Urls.get('proposition', id))
+            .post(
+                Urls.get('submit_learning_session', {learningSession: learningSession}),
+                JSON.stringify({proposedAnswers})
+            )
             .then((response) => {
                 resolve(response.data)
             }).catch(() => {

@@ -2,12 +2,22 @@ import VueRouter from 'vue-router'
 
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
+import LearningSession from './components/LearningSession.vue'
 
 let router = new VueRouter({
     routes: [
         {name: 'login', path: '/login', component: Login},
-        {path: '/', component: Home},
-        {name: 'learning-session', path: '/learning-session/:id', component: Home, props: true},
+        {
+            name: 'home',
+            path: '/',
+            component: Home,
+        },
+        {
+            name: 'learning-session',
+            path: '/learning-session/:lessonId/:difficulty',
+            component: LearningSession,
+            props: true,
+        },
     ],
 })
 
