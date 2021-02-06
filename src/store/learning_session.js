@@ -66,7 +66,6 @@ const mutations = {
         learningSession.questions.forEach((q) => q.question = true)
         learningSession.translations.forEach((t) => t.translation = true)
         state.exercisesToDo = learningSession.questions.concat(learningSession.translations)
-        state.exercisesToDo = learningSession.questions
         state.targetCount = state.exercisesToDo.length
         state.progress = 15 + 85 * (state.exercisesDone / state.targetCount)
         state.validatedAnswers = []

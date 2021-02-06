@@ -3,6 +3,10 @@
     <Question v-if="currentExercise.question"
               :question="currentExercise"
     />
+
+    <Translation v-if="currentExercise.translation"
+                 :translation="currentExercise"
+    />
   </div>
 </template>
 
@@ -10,6 +14,7 @@
 import {mapState, mapActions} from 'vuex'
 
 import Question from './Question.vue'
+import Translation from './Translation.vue'
 
 export default {
   name: 'CurrentExercise',
@@ -19,6 +24,7 @@ export default {
   },
   components: {
     Question,
+    Translation,
   },
   computed: {
     ...mapState('learningSession', ['currentExercise']),

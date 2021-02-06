@@ -16,6 +16,7 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.1.0",
     "core-js": "^3.4.3",
+    "js-levenshtein": "^1.1.6",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
     "sass": "^1.23.7",
