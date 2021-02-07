@@ -7,6 +7,7 @@ const urls = {
     'book_lessons': 'book_lessons',
     'start_learning_session': 'learning-sessions/start-lesson/{lesson}/{difficulty}',
     'submit_learning_session': 'learning-sessions/{learningSession}/submit',
+    'current_progress': 'current-progress',
 }
 
 const axiosConfigured = axios.create({

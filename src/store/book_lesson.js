@@ -1,7 +1,8 @@
-import { bookLessonService } from '../service'
+import { bookLessonService, progressService } from '../service'
 
 const state = {
-    'bookLessons': [],
+    'bookLessons': null,
+    'progress': null,
 }
 
 const actions = {
@@ -9,9 +10,20 @@ const actions = {
         bookLessonService.fetchAll()
             .then((bookLessons) => {
                 commit('bookLessonsUpdated', bookLessons)
+                commit('mergeProgressIntoBookLessonsIfPossible')
             })
             .catch(() => {
                 commit('bookLessonsUpdateError')
+            })
+    },
+    loadProgress({commit}) {
+        progressService.get()
+            .then((progress) => {
+                commit('progressUpdated', progress)
+                commit('mergeProgressIntoBookLessonsIfPossible')
+            })
+            .catch(() => {
+                commit('progressUpdateError')
             })
     },
 }
@@ -23,6 +35,24 @@ const mutations = {
     bookLessonsUpdateError(state) {
         state.bookLessons = []
     },
+    progressUpdated(state, progress) {
+        state.progress = progress
+    },
+    mergeProgressIntoBookLessonsIfPossible(state) {
+        if (!state.bookLessons || !state.progress) {
+            return
+        }
+
+        state.bookLessons.forEach((bl) => {
+            const correspondingProgress = state.progress.filter(
+                    (p) => p.bookLessonId === bl.id
+            ).pop()
+
+            if (correspondingProgress) {
+                bl.progress = correspondingProgress
+            }
+        })
+    }
 }
 
 export const bookLesson = {

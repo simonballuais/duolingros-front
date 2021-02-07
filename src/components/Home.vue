@@ -1,11 +1,13 @@
 <template>
   <div class="container-home">
-    <BookLessonItem v-for="bookLesson in bookLessons"
-                    :bookLesson="bookLesson"
-                    :key="bookLesson.id"
-                    />
+    <div v-if="bookLessons && progress">
+      <BookLessonItem v-for="bookLesson in bookLessons"
+                      :bookLesson="bookLesson"
+                      :key="bookLesson.id"
+                      />
+    </div>
 
-    <Spinner v-if="!bookLessons"
+    <Spinner v-if="!bookLessons || !progress"
              :big="true"
              :center="true"
              ></Spinner>
@@ -30,13 +32,26 @@ export default {
     Spinner,
   },
   computed: {
-    ...mapState('bookLesson', ['bookLessons']),
+    ...mapState(
+      'bookLesson',
+      [
+        'bookLessons',
+        'progress',
+      ]
+    ),
   },
   methods: {
-    ...mapActions('bookLesson', ['loadAllBookLessons']),
+    ...mapActions(
+      'bookLesson',
+      [
+        'loadAllBookLessons',
+        'loadProgress',
+      ]
+    ),
   },
   created() {
     this.loadAllBookLessons()
+    this.loadProgress()
   },
   watch: {
   }

@@ -1,12 +1,30 @@
 <template>
-  <div>
-  <router-link :to="{ name: 'learning-session', params: { lessonId: 48, difficulty: 1 }}"
-               v-slot="{href, route, navigate, isActive, isExactActive}"
-    >
-    <a :href="href">
-      >{{ bookLesson.title }}
-    </a>
-  </router-link>
+  <div class="book-element">
+    <router-link :to="{
+          name: 'learning-session',
+          params: {
+            lessonId: bookLesson.progress ? bookLesson.progress.currentLessonId : bookLesson.lessonList[0].id,
+            difficulty: bookLesson.progress ? bookLesson.progress.difficulty : 1 
+          }
+       }"
+       v-slot="{href, route, navigate, isActive, isExactActive}"
+       >
+       <a :href="href">
+         >
+         {{ bookLesson.title }}
+
+         <span v-if="bookLesson.progress">
+           {{ bookLesson.progress.currentLessonId }}
+         </span>
+         <div class="progress-container">
+           <div class="progress"
+                v-if="bookLesson.progress"
+                :style="{width: 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) + '%'}"
+                >
+           </div>
+         </div>
+       </a>
+    </router-link>
   </div>
 </template>
 
@@ -17,12 +35,20 @@ export default {
 }
 </script>
 
-<style lang="sass">
-.sidebar .nav-link
-  font-weight: 500
-  color: #343
-  padding: 4px 0 0 16px
+<style lang="sass" scoped>
+div.book-element
+  margin-top: 5vh
 
-  &.active, &:hover
-    color: #999
+  div.progress-container
+    display: block
+    width: 100%
+    background: gray
+    height: 5vh
+
+    .progress
+      position: relative
+      background: green
+      width: 10%
+      height: 100%
+      transition: width 0.25s ease-out
 </style>
