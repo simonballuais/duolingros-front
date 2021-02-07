@@ -1,15 +1,21 @@
 const levenshtein = require('js-levenshtein')
 
+const DEBUG = false
 const THRESHOLD_FOR_GUESSING = 15
 const THRESHOLD_FOR_ACCEPTING = 1
+const NOT_A_GROUP_DELIMITER = '[^({[]'
+const OPTION_GROUP_REGEX = new RegExp(
+    '\\(' + NOT_A_GROUP_DELIMITER + '*?(?:\\|' + NOT_A_GROUP_DELIMITER + '*?)\\)',
+    'i'
+)
 
 export const translationCorrector = {
     correct,
 }
 
 function correct(translation, proposedAnswer) {
-    const answers = translation.answers
-    window.console.log("Début de correction de proposition")
+    const answers = getConcreteAnswers(translation.answers)
+    log("Début de correction de proposition")
 
     let correction = {
         type: 'translation',
@@ -21,20 +27,20 @@ function correct(translation, proposedAnswer) {
     }
 
     const purifiedProposition = purifyString(proposedAnswer)
-    window.console.log("Proposition analysée : " + purifiedProposition)
+    log("Proposition analysée : " + purifiedProposition)
 
     answers.forEach((answer) => {
         const purifiedAnswer = purifyString(answer)
-        window.console.log("Réponse envisagée : " + purifiedAnswer)
+        log("Réponse envisagée : " + purifiedAnswer)
         const regex = new RegExp('^' + purifiedProposition, 'i')
 
         if (purifiedAnswer.match(regex)) {
-            window.console.log("Match parfait trouvé")
+            log("Match parfait trouvé")
             return correction
         }
     })
 
-    window.console.log("Aucun match parfait trouvé")
+    log("Aucun match parfait trouvé")
 
     const closestGoodAnswer = findClosestCandidate(
         proposedAnswer,
@@ -43,13 +49,13 @@ function correct(translation, proposedAnswer) {
 
     correction.correctAnswer = closestGoodAnswer
     const purifiedAnswer = purifyString(closestGoodAnswer)
-    window.console.log("Réponse la plus proche de la proposition" + purifiedAnswer)
+    log("Réponse la plus proche de la proposition" + purifiedAnswer)
 
     const distance = levenshtein(purifiedAnswer, purifiedProposition)
-    window.console.log("Distance avec la proposition :" + distance)
+    log("Distance avec la proposition :" + distance)
 
     if (distance <= THRESHOLD_FOR_ACCEPTING) {
-        window.console.log("Réponse acceptée malgré la distance")
+        log("Réponse acceptée malgré la distance")
         correction.isCorrect = true
     }
 
@@ -62,13 +68,102 @@ function correct(translation, proposedAnswer) {
 
             correction.remark = "Vouliez-vous dire " + correctedAnswer + " ?"
         }
-        else {
-            correction.addRemark("On aurait pu dire : <strong>" + closestGoodAnswer + "</strong> ?")
-        }
     }
 
     return correction
 }
+
+function getConcreteAnswers(answers)
+{
+    let concreteAnswers = []
+
+    answers.forEach((a) => {
+        concreteAnswers = concreteAnswers.concat(concretiseAnswer(a))
+    })
+
+    return concreteAnswers
+}
+
+function concretiseAnswer(answers)
+{
+    if (!Array.isArray(answers)) {
+        answers = [answers]
+    }
+
+    let concretisedAnswers = []
+
+    answers.forEach((answer) => {
+        let finalOptionGroups = findFinalOptionGroups(answer)
+        let probablyConcretisedAnswers = distributeOptionGroups(answer, finalOptionGroups)
+
+        probablyConcretisedAnswers.forEach((probablyConcretisedAnswer) => {
+            let finalOptionGroups = findFinalOptionGroups(probablyConcretisedAnswer)
+
+            if (finalOptionGroups.length) {
+                let actuallyConcretisedAnswers = concretiseAnswer(probablyConcretisedAnswer)
+                concretisedAnswers = concretisedAnswers.concat(actuallyConcretisedAnswers)
+            }
+            else {
+                concretisedAnswers.push(probablyConcretisedAnswer.trim())
+            }
+        })
+    })
+
+    return concretisedAnswers
+}
+
+function findFinalOptionGroups(candidate)
+{
+    let result = candidate.match(OPTION_GROUP_REGEX)
+        log(candidate, result, OPTION_GROUP_REGEX)
+
+    if (result) {
+        return result.reverse()
+    }
+
+    return []
+}
+
+function distributeOptionGroups(answer, optionGroups)
+{
+    return recursiveDistribution([answer], optionGroups)
+}
+
+function recursiveDistribution(answers, optionGroups)
+{
+    if (!optionGroups || !optionGroups.length) {
+        return answers
+    }
+
+    let distributedAnswers = []
+    let optionGroup = optionGroups.pop()
+    let options = optionGroup
+            .replace(')', '')
+            .replace('(', '')
+            .split('|')
+    let replaceTarget = optionGroup
+        .replace('|', '\\|')
+        .replace('(', '\\(')
+        .replace(')', '\\)')
+
+    answers.forEach((distributableAnswer) =>
+        options.forEach((option) => {
+            log(distributableAnswer, replaceTarget, option, distributableAnswer.replace(optionGroup, option))
+            distributedAnswers.push(distributableAnswer.replace(optionGroup, option))
+        })
+    )
+
+    if (optionGroups.length) {
+        return recursiveDistribution(distributedAnswers, optionGroups)
+    }
+
+    return distributedAnswers
+}
+
+
+
+
+
 
 function purifyString(subject)
 {
@@ -115,13 +210,13 @@ function findClosestCandidate(model, candidates)
 
 function generateCorrectedAnswer(submitted, expected)
 {
-    window.console.log("Génération d'une proposition corrigée", submitted, expected)
+    log("Génération d'une proposition corrigée", submitted, expected)
     let correctedAnswer = ""
     let submittedWords = submitted.split(' ')
     let expectedWords = expected.split(' ')
 
-    window.console.log(expectedWords)
-    window.console.log(submittedWords)
+    log(expectedWords)
+    log(submittedWords)
 
     let submittedWordSelectionOffset = 0
 
@@ -145,14 +240,14 @@ function generateCorrectedAnswer(submitted, expected)
             nextExpectedWord = expectedWords[index + 1]
         }
 
-        window.console.log("Comparaison de expectedWord vs submittedWord")
+        log("Comparaison de expectedWord vs submittedWord")
 
         if (expectedWord != submittedWord) {
-            window.console.log("Échec de la comparaison")
+            log("Échec de la comparaison")
 
             if (submittedWord == nextExpectedWord) {
-                correctedAnswer += "<strong>expectedWord</strong> "
-                window.console.log(expectedWord +" On le met en gras")
+                correctedAnswer += "<strong>" + expectedWord + "</strong> "
+                log(expectedWord +" On le met en gras")
 
                 submittedWordSelectionOffset --
 
@@ -161,7 +256,7 @@ function generateCorrectedAnswer(submitted, expected)
 
             if (nextSubmittedWord == expectedWord) {
                 correctedAnswer += "<strike>" + submittedWord + "</strike>"
-                window.console.log(submittedWord + ". On raye le mot actuel")
+                log(submittedWord + ". On raye le mot actuel")
 
                 submittedWordSelectionOffset ++
 
@@ -169,7 +264,7 @@ function generateCorrectedAnswer(submitted, expected)
             }
 
             correctedAnswer += "<strike>" + submittedWord + "</strike> <strong>" + expectedWord+ "</strong>"
-            window.console.log("Erreur simple. Rayage et remplacement")
+            log("Erreur simple. Rayage et remplacement")
         }
         else {
             correctedAnswer += submittedWord + ""
@@ -179,7 +274,13 @@ function generateCorrectedAnswer(submitted, expected)
     }
 
     correctedAnswer = correctedAnswer.trim()
-    window.console.log("Réponse corrigée : " + correctedAnswer)
+    log("Réponse corrigée : " + correctedAnswer)
 
     return correctedAnswer
+}
+
+function log(text) {
+    if (DEBUG) {
+        window.console.log(text)
+    }
 }

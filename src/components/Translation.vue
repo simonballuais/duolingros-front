@@ -21,16 +21,16 @@
       Correct !
     </h2>
 
-    <h2 v-if="currentCorrection && !currentCorrection.isCorrect">
-      Réponse :
-    </h2>
-
-    <h2 v-if="currentCorrection && currentCorrection.remark"
+    <h2 v-if="currentCorrection && currentCorrection.isCorrect && currentCorrection.remark"
         v-html="currentCorrection.remark"
         >
     </h2>
 
-    <h2 v-if="currentCorrection && currentCorrection.correctAnswer"
+    <h2 v-if="currentCorrection && !currentCorrection.isCorrect">
+      Réponse :
+    </h2>
+
+    <h2 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswer"
         v-html="currentCorrection.correctAnswer"
         >
     </h2>
@@ -122,10 +122,12 @@ textarea
   width: 80%
   margin-left: 10%
   resize: none
+  transition: background-color 0.5s
+  background-color: white
 
   &.wrong-answer
-    background: red
+    background-color: red
 
   &.right-answer
-    background: green
+    background-color: green
 </style>
