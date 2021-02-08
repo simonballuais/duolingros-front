@@ -14,7 +14,7 @@
          {{ bookLesson.title }}
 
          <span v-if="bookLesson.progress">
-           {{ bookLesson.progress.currentLessonId }}
+            - {{ bookLesson.progress.difficulty }} ({{ bookLesson.progress.currentLessonId }})
          </span>
          <div class="progress-container">
            <div class="progress"

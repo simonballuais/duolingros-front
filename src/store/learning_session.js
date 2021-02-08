@@ -15,6 +15,8 @@ const state = {
 
 const actions = {
     startLearningSession({commit}, {lessonId, difficulty}) {
+        commit('startingNewLearningLesson')
+
         learningSessionService.start(lessonId, difficulty)
             .then((learningSession) => {
                 commit('startedNewLearningLesson', learningSession)
@@ -61,6 +63,17 @@ const actions = {
 }
 
 const mutations = {
+    startingNewLearningLesson(state) {
+        state.currentLearningSession = null
+        state.currentExercise = null
+        state.exercisesToDo = []
+        state.exercisesDone = 0
+        state.currentCorrection = null
+        state.validatedAnswers = []
+        state.targetCount = 0
+        state.progress = 0
+        state.submittingSession = false
+    },
     startedNewLearningLesson(state, learningSession) {
         state.currentLearningSession = learningSession
         learningSession.questions.forEach((q) => q.question = true)
@@ -99,7 +112,7 @@ const mutations = {
         state.submittingSession = true
     },
     sessionSubmitted(state) {
-        state.submittingSession = true
+        state.submittingSession = false
     },
 }
 export const learningSession = {
