@@ -3,6 +3,7 @@ import { bookLessonService, progressService } from '../service'
 const state = {
     'bookLessons': null,
     'progress': null,
+    'lastUnlockedBookLessonId': null,
 }
 
 const actions = {
@@ -51,6 +52,15 @@ const mutations = {
             if (correspondingProgress) {
                 bl.progress = correspondingProgress
             }
+        })
+
+        state.bookLessons.every((b) => {
+            if (!b.progress) {
+                state.lastUnlockedBookLessonId = b.id
+                return false
+            }
+
+            return true
         })
     }
 }

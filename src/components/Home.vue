@@ -4,6 +4,7 @@
       <BookLessonItem v-for="bookLesson in bookLessons"
                       :bookLesson="bookLesson"
                       :key="bookLesson.id"
+                      :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
                       />
     </div>
 
@@ -37,6 +38,7 @@ export default {
       [
         'bookLessons',
         'progress',
+        'lastUnlockedBookLessonId',
       ]
     ),
   },

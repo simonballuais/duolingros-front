@@ -9,7 +9,7 @@
        }"
        v-slot="{href, route, navigate, isActive, isExactActive}"
        >
-       <a :href="href">
+       <a :href="href" v-if="!disabled">
          >
          {{ bookLesson.title }}
 
@@ -24,6 +24,21 @@
            </div>
          </div>
        </a>
+
+       <span v-if="disabled" class="disabled">
+         {{ bookLesson.title }}
+
+         <span v-if="bookLesson.progress">
+            - {{ bookLesson.progress.difficulty }} ({{ bookLesson.progress.currentLessonId }})
+         </span>
+         <div class="progress-container">
+           <div class="progress"
+                v-if="bookLesson.progress"
+                :style="{width: 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) + '%'}"
+                >
+           </div>
+         </div>
+       </span>
     </router-link>
   </div>
 </template>
@@ -31,7 +46,13 @@
 <script>
 export default {
   name: 'BookLessonItem',
-  props: ['bookLesson'],
+  props: {
+    'bookLesson': null,
+    'disabled': {
+      type: Boolean,
+      default: false,
+    },
+  },
 }
 </script>
 
@@ -51,4 +72,8 @@ div.book-element
       width: 10%
       height: 100%
       transition: width 0.25s ease-out
+
+.disabled
+  color: darkgray
+  background-color: gray
 </style>
