@@ -43,14 +43,6 @@
       >
       Valider
     </button>
-
-    <button class="end-correction"
-            type="button"
-            @click="goToNextExercise"
-            v-if="currentCorrection"
-      >
-      Continuer
-    </button>
   </div>
 </template>
 
@@ -78,7 +70,6 @@ export default {
       ]
     ),
     selectProposition(id) {
-      window.console.log('coucou')
       if (id === this.selectedPropositionId) {
         this.selectedPropositionId = null
         return
@@ -91,10 +82,6 @@ export default {
     },
     submit() {
       this.submitAnswer({answer: this.selectedPropositionId})
-    },
-    goToNextExercise() {
-      this.endCorrection()
-      this.selectedPropositionId = null
     },
     handleEnterKey(e) {
       e.preventDefault()

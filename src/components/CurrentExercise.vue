@@ -1,15 +1,17 @@
 <template>
-  <div class="current-exercise"
-       v-if="exercise.id == currentExercise.id"
-    >
-    <Question v-if="exercise.question"
-              :question="exercise"
-    />
+  <transition name="exercise-fade">
+    <div class="current-exercise"
+         v-if="exercise.id == currentExercise.id"
+      >
+      <Question v-if="exercise.question"
+                :question="exercise"
+      />
 
-    <Translation v-if="exercise.translation"
-                 :translation="exercise"
-    />
-  </div>
+      <Translation v-if="exercise.translation"
+                   :translation="exercise"
+      />
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -47,4 +49,13 @@ div.current-exercise
   left: 0
   height: 90%
   width: 100%
+
+.exercise-fade-enter-active, .exercise-fade-leave-active
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+  transition: all .3s ease
+.exercise-fade-enter
+  transform: translateX(100vw)
+.exercise-fade-leave-to
+  transform: translateX(-100vw)
+  opacity: 0
 </style>

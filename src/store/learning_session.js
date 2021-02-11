@@ -76,8 +76,14 @@ const mutations = {
     },
     startedNewLearningLesson(state, learningSession) {
         state.currentLearningSession = learningSession
-        learningSession.questions.forEach((q) => q.question = true)
-        learningSession.translations.forEach((t) => t.translation = true)
+        learningSession.questions.forEach((q) => {
+            q.question = true
+            q.type = 'question'
+        })
+        learningSession.translations.forEach((t) => {
+            t.translation = true
+            t.type = 'translation'
+        })
         state.exercisesToDo = learningSession.questions.concat(learningSession.translations)
         state.targetCount = state.exercisesToDo.length
         state.progress = 15 + 85 * (state.exercisesDone / state.targetCount)
@@ -98,16 +104,19 @@ const mutations = {
                 id: correction.id,
                 proposedAnswer: correction.proposedAnswer
             })
-        } else {
-            state.exercisesToDo.push(state.currentExercise)
         }
 
         state.exercisesDone = state.validatedAnswers.length
         state.progress = 15 + 85 * (state.exercisesDone / state.targetCount)
     },
     correctionEnded(state) {
-        state.currentCorrection = null
         state.exercisesToDo.shift()
+
+        if (!state.currentCorrection.isCorrect) {
+            state.exercisesToDo.push(state.currentExercise)
+        }
+
+        state.currentCorrection = null
     },
     submittingSession(state) {
         state.submittingSession = true

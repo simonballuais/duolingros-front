@@ -17,38 +17,12 @@
       >
     </textarea>
 
-    <h2 v-if="currentCorrection && currentCorrection.isCorrect">
-      Correct !
-    </h2>
-
-    <h2 v-if="currentCorrection && currentCorrection.isCorrect && currentCorrection.remark"
-        v-html="currentCorrection.remark"
-        >
-    </h2>
-
-    <h2 v-if="currentCorrection && !currentCorrection.isCorrect">
-      Réponse :
-    </h2>
-
-    <h2 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswer"
-        v-html="currentCorrection.correctAnswer"
-        >
-    </h2>
-
     <button class="submit"
             type="button"
             @click="submitOrNext"
             :disabled="!proposedAnswer"
       >
       Valider
-    </button>
-
-    <button class="end-correction"
-            type="button"
-            @click="submitOrNext"
-            v-if="currentCorrection"
-      >
-      Continuer
     </button>
   </div>
 </template>
@@ -73,16 +47,12 @@ export default {
       'learningSession',
       [
         'submitAnswer',
-        'endCorrection',
       ]
     ),
     submitOrNext() {
       if (!this.currentCorrection) {
         this.proposedAnswer = this.proposedAnswer.replace(/\n/, '')
         this.submitAnswer({answer: this.proposedAnswer})
-      } else {
-        this.endCorrection()
-        this.proposedAnswer = null
       }
     },
   },
@@ -115,8 +85,9 @@ button
       background-color: green
 
   &.submit,&.end-correction
-    position: absolute
-    bottom: 5%
+    position: fixed
+    bottom: 5vh
+    height: 50px
 
 textarea
   width: 80%
