@@ -1,11 +1,13 @@
 <template>
-  <div class="current-exercise">
-    <Question v-if="currentExercise.question"
-              :question="currentExercise"
+  <div class="current-exercise"
+       v-if="exercise.id == currentExercise.id"
+    >
+    <Question v-if="exercise.question"
+              :question="exercise"
     />
 
-    <Translation v-if="currentExercise.translation"
-                 :translation="currentExercise"
+    <Translation v-if="exercise.translation"
+                 :translation="exercise"
     />
   </div>
 </template>
@@ -18,6 +20,7 @@ import Translation from './Translation.vue'
 
 export default {
   name: 'CurrentExercise',
+  props: ['exercise'],
   data() {
     return {
     }
@@ -44,5 +47,4 @@ div.current-exercise
   left: 0
   height: 90%
   width: 100%
-  background: yellow
 </style>

@@ -1,7 +1,12 @@
 <template>
   <div class="learning-lesson">
     <Header v-if="currentLearningSession" />
-    <CurrentExercise v-if="currentLearningSession" />
+    <transition name="exercise-fade">
+      <CurrentExercise v-for="exercise in exercisesToDo"
+                      :key="'' + exercise.type + exercise.id"
+                      :exercise="exercise"
+      />
+    </transition>
 
     <Spinner v-if="!currentLearningSession || submittingSession"
              :big="true"
@@ -34,10 +39,15 @@ export default {
     [
       'currentLearningSession',
       'submittingSession',
+      'exercisesToDo'
       ]),
   },
   methods: {
-    ...mapActions('learningSession', ['startLearningSession']),
+    ...mapActions(
+    'learningSession',
+    [
+      'startLearningSession',
+    ]),
   },
   created() {
     this.startLearningSession({
@@ -61,4 +71,17 @@ div.learning-lesson
   left: 0
   height: calc(var(--vh, 1vh) * 100)
   width: 100%
+  overflow: hidden
+  background: yellow
+</style>
+
+<style lang="sass">
+.exercise-fade-enter-active, .exercise-fade-leave-active
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+  transition: all .3s ease
+.exercise-fade-enter
+  transform: translateX(100vw)
+.exercise-fade-leave-to
+  transform: translateX(-100vw)
+  opacity: 0
 </style>

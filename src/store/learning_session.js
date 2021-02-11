@@ -87,7 +87,7 @@ const mutations = {
         state.startLearningSessionError = true
     },
     nextExerciseStarted(state) {
-        state.currentExercise = state.exercisesToDo.shift()
+        state.currentExercise = state.exercisesToDo[0]
     },
     currentExerciseCorrected(state, correction) {
         state.currentCorrection = correction
@@ -107,6 +107,7 @@ const mutations = {
     },
     correctionEnded(state) {
         state.currentCorrection = null
+        state.exercisesToDo.shift()
     },
     submittingSession(state) {
         state.submittingSession = true

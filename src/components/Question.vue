@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <h1>
       Choisissez la bonne traduction
     </h1>
