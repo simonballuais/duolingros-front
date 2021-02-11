@@ -8,20 +8,33 @@
       {{ question.text }}
     </h2>
 
-    <button v-for="proposition in question.propositions"
-            type="button"
-            :key="proposition.id"
-            :class="{
-              selected: proposition.id === selectedPropositionId,
-              'right-answer': currentCorrection && proposition.id === currentCorrection.correctAnswer,
-              'wrong-answer': currentCorrection && proposition.id === selectedPropositionId && currentCorrection.correctAnswer !== selectedPropositionId,
-            }"
-            :disabled="currentCorrection"
-            @click="selectProposition(proposition.id)"
-            class="proposition"
+    <div class="proposition-container"
+         :class="{
+            'with-picture': !question.isNoPictures,
+         }"
       >
-      {{ proposition.text }}
-    </button>
+      <button v-for="proposition in question.propositions"
+              type="button"
+              :key="proposition.id"
+              :class="{
+                selected: proposition.id === selectedPropositionId,
+                'right-answer': currentCorrection && proposition.id === currentCorrection.correctAnswer,
+                'wrong-answer': currentCorrection && proposition.id === selectedPropositionId && currentCorrection.correctAnswer !== selectedPropositionId,
+              }"
+              :disabled="currentCorrection"
+              @click="selectProposition(proposition.id)"
+              class="proposition"
+        >
+
+        <img v-if="!question.isNoPictures"
+             :src="proposition.image"
+          />
+
+        <span>
+          {{ proposition.text }}
+        </span>
+      </button>
+    </div>
 
     <button class="submit"
             type="button"
@@ -111,20 +124,48 @@ div
   height: 100%
 
 button
-  display: block
+  transition: background-color 0.35s
   width: 80%
   margin-left: 10%
-  transition: background-color 0.35s
 
-  &.proposition
+  &.submit,&.end-correction
+    position: absolute
+    bottom: 5%
+
+div.proposition-container
+  display: flex
+  flex-flow: column nowrap
+  align-content: flex-start
+  width: 80%
+  height: 10%
+  margin-left: 10%
+  justify-content: center
+
+  button.proposition
+    margin: 0
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
     &.selected
       background-color: gold
     &.wrong-answer
       background-color: red
     &.right-answer
       background-color: green
+    img
+      display: flex
+      width: 80%
+      height: 80%
+    span
+      display: flex
 
-  &.submit,&.end-correction
-    position: absolute
-    bottom: 5%
+  &.with-picture
+    flex-flow: row wrap
+    button.proposition
+      width: 35vw
+      height: 35vw
+      margin: 2vw
 </style>
