@@ -2,6 +2,7 @@
   <transition name="correction-fade">
     <div class="current-correction"
          v-if="currentCorrection" 
+         :class="{wrong: !currentCorrection.isCorrect}"
       >
       <h2 v-if="currentCorrection && currentCorrection.isCorrect">
         Correct !
@@ -50,6 +51,7 @@ export default {
     ...mapActions('learningSession', ['endCorrection']),
   },
   created() {
+
   },
 }
 </script>
@@ -63,6 +65,9 @@ div.current-correction
   height: 20%
   width: 100%
   background: lightgreen
+
+  &.wrong
+    background: red
 
 .correction-fade-enter-active, .correction-fade-leave-active
   transition: all .2s ease

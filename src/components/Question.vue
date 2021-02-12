@@ -22,6 +22,7 @@
                 'wrong-answer': currentCorrection && proposition.id === selectedPropositionId && currentCorrection.correctAnswer !== selectedPropositionId,
               }"
               :disabled="currentCorrection"
+              @focus="resetButtonFocus"
               @click="selectProposition(proposition.id)"
               class="proposition"
         >
@@ -83,13 +84,14 @@ export default {
     submit() {
       this.submitAnswer({answer: this.selectedPropositionId})
     },
+    resetButtonFocus() {
+      document.activeElement.blur()
+    },
     handleEnterKey(e) {
-      e.preventDefault()
-      window.console.log('pouet')
-
       if (e.keyCode === 13) {
         if (this.currentCorrection) {
           this.endCorrection()
+          this.selectedPropositionId = null
         } else if (this.selectedPropositionId) {
           this.submit()
         }

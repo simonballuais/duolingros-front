@@ -10,6 +10,7 @@
 
     <textarea v-model="proposedAnswer"
               @keyup.enter="submitOrNext"
+              ref="answer-input"
               :class="{
                 'right-answer': currentCorrection && currentCorrection.isCorrect,
                 'wrong-answer': currentCorrection && !currentCorrection.isCorrect,
@@ -20,7 +21,6 @@
     <button class="submit"
             type="button"
             @click="submitOrNext"
-            :disabled="!proposedAnswer"
       >
       Valider
     </button>
@@ -47,17 +47,25 @@ export default {
       'learningSession',
       [
         'submitAnswer',
+        'endCorrection',
       ]
     ),
     submitOrNext() {
+      this.proposedAnswer = this.proposedAnswer.replace(/\n/, '')
+
       if (!this.currentCorrection) {
-        this.proposedAnswer = this.proposedAnswer.replace(/\n/, '')
         this.submitAnswer({answer: this.proposedAnswer})
+      } else {
+        this.endCorrection()
+        this.proposedAnswer = null
       }
     },
   },
   created() {
     window.addEventListener('keyup', this.handleEnterKey)
+  },
+  mounted () {
+    setTimeout(() => this.$refs['answer-input'].focus(), 500)
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleEnterKey)
