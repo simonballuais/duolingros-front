@@ -87,7 +87,7 @@ export default {
     resetButtonFocus() {
       document.activeElement.blur()
     },
-    handleEnterKey(e) {
+    handleKeyUp(e) {
       if (e.keyCode === 13) {
         if (this.currentCorrection) {
           this.endCorrection()
@@ -96,13 +96,25 @@ export default {
           this.submit()
         }
       }
+      if (e.keyCode === 49) {
+        this.selectedPropositionId = this.question.propositions[0].id
+      }
+      if (e.keyCode === 50) {
+        this.selectedPropositionId = this.question.propositions[1].id
+      }
+      if (e.keyCode === 51) {
+        this.selectedPropositionId = this.question.propositions[2].id
+      }
+      if (e.keyCode === 52) {
+        this.selectedPropositionId = this.question.propositions[3].id
+      }
     },
   },
   created() {
-    window.addEventListener('keyup', this.handleEnterKey)
+    window.addEventListener('keyup', this.handleKeyUp)
   },
   beforeDestroy() {
-    window.removeEventListener('keyup', this.handleEnterKey)
+    window.removeEventListener('keyup', this.handleKeyUp)
   }
 }
 </script>
