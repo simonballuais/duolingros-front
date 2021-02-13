@@ -131,7 +131,7 @@ button
 
   &.submit,&.end-correction
     position: absolute
-    bottom: 5%
+    bottom: 5vh
 
 div.proposition-container
   display: flex

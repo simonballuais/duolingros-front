@@ -69,6 +69,12 @@ div.current-correction
   &.wrong
     background: red
 
+  button
+    position: absolute
+    width: 80%
+    margin-left: 10%
+    bottom: 5vh
+
 .correction-fade-enter-active, .correction-fade-leave-active
   transition: all .2s ease
 .correction-fade-enter
