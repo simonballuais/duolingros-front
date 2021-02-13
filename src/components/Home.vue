@@ -50,10 +50,17 @@ export default {
         'loadProgress',
       ]
     ),
+    ...mapActions(
+      'security',
+      [
+        'reloadUserData',
+      ]
+    ),
   },
   created() {
     this.loadAllBookLessons()
     this.loadProgress()
+    this.reloadUserData()
   },
   watch: {
   }

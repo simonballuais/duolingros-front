@@ -24,6 +24,37 @@ const actions = {
                 }
             )
     },
+    reloadUserData({commit, state}) {
+        if (!state.user) {
+            return
+        }
+
+        userService.get(user.id)
+            .then(
+                (user) => {
+                    window.console.log(user)
+                    commit('userDataUpdated', {user})
+                }
+            ).catch(
+                () => {
+                }
+            )
+    },
+    putUserData({dispatch, state}, user) {
+        if (!state.user) {
+            return
+        }
+
+        userService.put(user)
+            .then(
+                () => {
+                    dispatch('reloadUserData')
+                }
+            ).catch(
+                () => {
+                }
+            )
+    },
     logout({commit}) {
         userService.logout()
         commit('logout')
@@ -46,6 +77,10 @@ const mutations = {
 
         localStorage.setItem('user', JSON.stringify(user))
         localStorage.setItem('token', token)
+    },
+    userDataUpdated(state, {user}) {
+            window.console.log(user)
+        state.user = user
     },
     loginFailure(state) {
         state.status = {

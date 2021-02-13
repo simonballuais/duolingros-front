@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <NavBar v-if="$route.name != 'learning-session'"></NavBar>
+    <NavBar v-if="$route.name == 'home'"></NavBar>
     <router-view></router-view>
-    <BottomNavBar v-if="$route.name != 'learning-session'"></BottomNavBar>
+    <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>
   </div>
 </template>
 

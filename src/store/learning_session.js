@@ -51,12 +51,13 @@ const actions = {
 
         commit('nextExerciseStarted')
     },
-    submitSession({commit, state}) {
+    submitSession({commit, state, dispatch}) {
         commit('submittingSession')
 
         learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
             .then(() => {
                 commit('sessionSubmitted')
+                dispatch('security/reloadUserData', null, {root: true})
             })
             .catch(() => commit('sessionSubmitted'))
     },

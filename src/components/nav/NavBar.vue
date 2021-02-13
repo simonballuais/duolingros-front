@@ -1,11 +1,20 @@
 <template>
   <header>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <Links></Links>
-      <slot></slot>
-      <span v-if="user" class="navbar-text">
-        Coucou {{ user.username }}
-      </span>
+      <div class="menu">
+        <span>
+          test
+        </span>
+        <span>
+          test
+        </span>
+        <span>
+          {{ user.serie || 0 }}
+        </span>
+        <span v-if="user" class="navbar-text">
+          Coucou {{ user.username }}
+        </span>
+      </div>
     </nav>
   </header>
 </template>
@@ -13,12 +22,9 @@
 <script>
 import {mapState} from 'vuex'
 
-import Links from './Links.vue'
-
 export default {
   name: 'NavBar',
   components: {
-    Links,
   },
   computed: {
     ...mapState('security', ['user']),
@@ -30,5 +36,17 @@ export default {
 nav.navbar
   height: 8mm
   font-size: 3mm
-  padding-top: 1mm
+  padding: 0
+
+  .menu
+    display: flex
+    width: 100%
+    height: 100%
+    flex-flow: row nowrap
+    justify-content: space-between
+    align-items: center
+    color: white
+
+    span
+      margin: 2vh
 </style>
