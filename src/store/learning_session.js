@@ -11,6 +11,8 @@ const state = {
     targetCount: 0,
     progress: 0,
     submittingSession: false,
+    showingDailyProgress: false,
+    showingSerieProgress: false,
 }
 
 const actions = {
@@ -51,12 +53,20 @@ const actions = {
 
         commit('nextExerciseStarted')
     },
+    showDailyProgress({commit}) {
+        commit('dailyProgressShowed')
+    },
+    endDailyProgress({commit}) {
+        commit('dailyProgressEnded')
+        commit('sessionEnded')
+    },
     submitSession({commit, state, dispatch}) {
         commit('submittingSession')
 
         learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
             .then(() => {
                 commit('sessionSubmitted')
+                dispatch('showDailyProgress')
                 dispatch('security/reloadUserData', null, {root: true})
             })
             .catch(() => commit('sessionSubmitted'))
@@ -124,6 +134,16 @@ const mutations = {
     },
     sessionSubmitted(state) {
         state.submittingSession = false
+    },
+    dailyProgressShowed(state) {
+        state.showingDailyProgress = true
+    },
+    dailyProgressEnded(state) {
+        state.showingDailyProgress = false
+    },
+    sessionEnded(state) {
+        state.showingDailyProgress = false
+        state.showingSerieProgress = false
     },
 }
 export const learningSession = {

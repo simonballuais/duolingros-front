@@ -1,6 +1,7 @@
 <template>
   <div class="learning-lesson">
-    <Header v-if="currentLearningSession" />
+    <Header v-if="exercisesToDo && exercisesToDo.length > 0" />
+
     <CurrentExercise v-for="exercise in exercisesToDo"
                     :key="'' + exercise.type + exercise.id"
                     :exercise="exercise"
@@ -10,6 +11,10 @@
              :big="true"
              :center="true"
     />
+
+    <transition name="page-transition">
+      <DailyProgress v-if="showingDailyProgress" />
+    </transition>
 
     <CurrentCorrection />
   </div>
@@ -21,6 +26,7 @@ import Header from './Header.vue'
 import CurrentExercise from './CurrentExercise.vue'
 import CurrentCorrection from './CurrentCorrection.vue'
 import Spinner from './misc/Spinner.vue'
+import DailyProgress from './DailyProgress.vue'
 
 export default {
   name: 'LearningSession',
@@ -34,6 +40,7 @@ export default {
     CurrentExercise,
     CurrentCorrection,
     Spinner,
+    DailyProgress,
   },
   computed: {
     ...mapState(
@@ -43,7 +50,9 @@ export default {
       'submittingSession',
       'exercisesToDo',
       'currentCorrection',
-      ]),
+      'showingDailyProgress',
+      'showingSerieProgress',
+    ]),
   },
   methods: {
     ...mapActions(
@@ -59,8 +68,8 @@ export default {
     })
 
     this.$store.subscribe((mutation) => {
-      if (mutation.type === 'learningSession/sessionSubmitted') {
-        this.$router.push({name: 'home'})
+      if (mutation.type === 'learningSession/sessionEnded') {
+        setTimeout(() => this.$router.push({name: 'home'}), 500)
       }
     });
   },
@@ -76,4 +85,12 @@ div.learning-lesson
   width: 100%
   overflow: hidden
   background: yellow
+
+.page-transition-enter-active, .page-transition-leave-active
+  transition: all .3s ease
+.page-transition-enter
+  transform: translateX(100vw)
+.page-transition-leave-to
+  opacity: 0
+  transform: translateX(-100vw)
 </style>

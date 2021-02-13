@@ -79,8 +79,8 @@ const mutations = {
         localStorage.setItem('token', token)
     },
     userDataUpdated(state, {user}) {
-            window.console.log(user)
         state.user = user
+        localStorage.setItem('user', JSON.stringify(user))
     },
     loginFailure(state) {
         state.status = {

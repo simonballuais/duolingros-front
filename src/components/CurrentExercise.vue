@@ -32,10 +32,22 @@ export default {
     Translation,
   },
   computed: {
-    ...mapState('learningSession', ['currentExercise']),
+    ...mapState(
+      'learningSession',
+      [
+        'currentExercise',
+        'showingDailyProgress',
+      ]
+    ),
   },
   methods: {
-    ...mapActions('learningSession', ['startLearningSession']),
+    ...mapActions(
+      'learningSession',
+      [
+        'startLearningSession',
+        'endDailyProgress',
+      ]
+    ),
   },
   created() {
   },

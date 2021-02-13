@@ -5,6 +5,10 @@
       X
     </button>
 
+    <div>
+      Série de jouns consécutifs : {{ user.currentSerie }}
+    </div>
+
     <div class="progress-container">
       <div class="progress"
            :style="{width: dailyProgress + '%'}"

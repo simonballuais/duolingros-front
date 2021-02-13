@@ -5,12 +5,15 @@
         <span>
           test
         </span>
+
         <span>
           test
         </span>
-        <span>
-          {{ user.serie || 0 }}
+
+        <span v-if="user">
+          {{ user.currentSerie || 0 }}
         </span>
+
         <span v-if="user" class="navbar-text">
           Coucou {{ user.username }}
         </span>

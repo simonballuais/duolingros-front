@@ -1,8 +1,14 @@
 <template>
   <div id="app">
-    <NavBar v-if="$route.name == 'home'"></NavBar>
+    <transition name="fade" mode="in">
+      <NavBar v-if="$route.name == 'home'"></NavBar>
+    </transition>
+
     <router-view></router-view>
-    <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>
+
+    <transition name="fade" mode="in">
+      <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>
+    </transition>
   </div>
 </template>
 
@@ -22,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 body
   font-size: .875rem
 
@@ -32,4 +38,11 @@ div.app
 
 button
   display: block
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .3s ease
+.fade-enter
+  opacity: 0
+.fade-leave-to
+  opacity: 0
 </style>
