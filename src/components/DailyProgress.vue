@@ -63,14 +63,6 @@ export default {
   },
   methods: {
     ...mapActions('learningSession', ['endDailyProgress']),
-    convertPopStateToClose() {
-      if (!this.show) {
-        return
-      }
-
-      history.pushState(null, null, null);
-      this.$emit('closeMe')
-    },
     handleKeyUp(e) {
       if (e.keyCode === 13) {
         this.endDailyProgress()

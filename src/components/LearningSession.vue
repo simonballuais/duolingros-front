@@ -16,6 +16,10 @@
       <DailyProgress v-if="showingDailyProgress" />
     </transition>
 
+    <transition name="page-transition">
+      <SerieProgress v-if="showingSerieProgress" />
+    </transition>
+
     <CurrentCorrection />
   </div>
 </template>
@@ -27,6 +31,7 @@ import CurrentExercise from './CurrentExercise.vue'
 import CurrentCorrection from './CurrentCorrection.vue'
 import Spinner from './misc/Spinner.vue'
 import DailyProgress from './DailyProgress.vue'
+import SerieProgress from './SerieProgress.vue'
 
 export default {
   name: 'LearningSession',
@@ -41,6 +46,7 @@ export default {
     CurrentCorrection,
     Spinner,
     DailyProgress,
+    SerieProgress,
   },
   computed: {
     ...mapState(

@@ -57,8 +57,19 @@ const actions = {
     showDailyProgress({commit}) {
         commit('dailyProgressShowed')
     },
-    endDailyProgress({commit}) {
+    endDailyProgress({commit, dispatch, rootState}) {
         commit('dailyProgressEnded')
+
+        if (rootState.security.user.learningSessionCountThatDay <= 1) {
+            dispatch('showSerieProgress')
+        } else {
+            commit('sessionEnded')
+        }
+    },
+    showSerieProgress({commit}) {
+        commit('serieProgressShowed')
+    },
+    endSerieProgress({commit}) {
         commit('sessionEnded')
     },
     submitSession({commit, state, dispatch}) {
@@ -148,6 +159,12 @@ const mutations = {
     },
     dailyProgressEnded(state) {
         state.showingDailyProgress = false
+    },
+    serieProgressShowed(state) {
+        state.showingSerieProgress = true
+    },
+    serieProgressEnded(state) {
+        state.showingSerieProgress = false
     },
     sessionEnded(state) {
         state.showingDailyProgress = false
