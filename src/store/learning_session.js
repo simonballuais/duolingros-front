@@ -13,6 +13,7 @@ const state = {
     submittingSession: false,
     showingDailyProgress: false,
     showingSerieProgress: false,
+    lastSevenDaysGraph: null,
 }
 
 const actions = {
@@ -70,6 +71,13 @@ const actions = {
                 dispatch('security/reloadUserData', null, {root: true})
             })
             .catch(() => commit('sessionSubmitted'))
+    },
+    loadLastSevenDaysGraph({commit}) {
+        learningSessionService.getLastSevenDaysGraph()
+            .then((lastSevenDaysGraph) => {
+                commit('lastSevenDaysGraphUpdated', lastSevenDaysGraph)
+            })
+            .catch(() => commit('lastSevenDaysGraphFailed'))
     },
 }
 
@@ -144,6 +152,12 @@ const mutations = {
     sessionEnded(state) {
         state.showingDailyProgress = false
         state.showingSerieProgress = false
+    },
+    lastSevenDaysGraphUpdated(state, lastSevenDaysGraph) {
+        state.lastSevenDaysGraph = lastSevenDaysGraph
+    },
+    lastSevenDaysGraphFailed(state) {
+        state.lastSevenDaysGraph = null
     },
 }
 export const learningSession = {

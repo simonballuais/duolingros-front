@@ -1,7 +1,7 @@
 <template>
-  <transition name="fade-in" mode="in">
+  <transition name="fade-in">
     <div class="container-home" v-if="show">
-      <transition name="fade-in" mode="in">
+      <transition name="fade-in">
         <div v-if="bookLessons && progress">
           <BookLessonItem v-for="bookLesson in bookLessons"
                           :bookLesson="bookLesson"

@@ -41,6 +41,8 @@
         <label for="five">5</label>
     </div>
     </div>
+
+    <LastSevenDaysGraph />
   </div>
   </transition>
 </template>
@@ -49,6 +51,7 @@
 import _ from 'lodash'
 
 import {mapState, mapActions} from 'vuex'
+import LastSevenDaysGraph from './LastSevenDaysGraph.vue'
 
 export default {
   name: 'ProgressPanel',
@@ -59,6 +62,7 @@ export default {
     },
   },
   components: {
+    LastSevenDaysGraph,
   },
   computed: {
     ...mapState('security', ['user']),

@@ -9,6 +9,7 @@ const urls = {
     'submit_learning_session': 'learning-sessions/{learningSession}/submit',
     'current_progress': 'current-progress',
     'user': 'users/{id}',
+    'last_seven_days_graph': 'last-seven-days-graph',
 }
 
 const axiosConfigured = axios.create({

@@ -3,6 +3,7 @@ import Urls from '../urls'
 export const learningSessionService = {
     start,
     submit,
+    getLastSevenDaysGraph,
 }
 
 function start (lessonId, difficulty) {
@@ -30,4 +31,13 @@ function submit (learningSession, proposedAnswers) {
                 reject()
             })
     });
+}
+
+function getLastSevenDaysGraph () {
+    return new Promise((resolve, reject) => {
+        Urls.getAxios()
+            .get(Urls.get('last_seven_days_graph'))
+            .then((response) => resolve(response.data))
+            .catch(() => reject())
+    })
 }

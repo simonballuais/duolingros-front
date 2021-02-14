@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <transition name="fade" mode="in">
+    <transition name="fade">
       <NavBar v-if="$route.name == 'home'"></NavBar>
     </transition>
 
     <router-view></router-view>
 
-    <transition name="fade" mode="in">
+    <transition name="fade">
       <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>
     </transition>
   </div>
@@ -18,6 +18,7 @@ import BottomNavBar from './components/nav/BottomNavBar.vue'
 
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
+document.documentElement.style.setProperty('--depop', 'cubic-bezier(.08,1.01,.7,.98)');
 
 export default {
   name: 'app',
