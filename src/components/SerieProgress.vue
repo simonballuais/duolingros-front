@@ -1,6 +1,6 @@
 <template>
   <div class="serie-progress">
-    <h1>Votre série continue !</h1>
+    <h1>Votre série {{ !previousSerieCount ? 'démarre' : 'continue' }} !</h1>
 
     <div class="previous serie-count" v-if="previousSerieCount">
       {{ previousSerieCount }}

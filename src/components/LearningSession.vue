@@ -20,6 +20,10 @@
       <SerieProgress v-if="showingSerieProgress" />
     </transition>
 
+    <transition name="page-transition">
+      <EndOfDifficulty v-if="showingEndOfDifficulty" />
+    </transition>
+
     <CurrentCorrection />
   </div>
 </template>
@@ -32,12 +36,14 @@ import CurrentCorrection from './CurrentCorrection.vue'
 import Spinner from './misc/Spinner.vue'
 import DailyProgress from './DailyProgress.vue'
 import SerieProgress from './SerieProgress.vue'
+import EndOfDifficulty from './EndOfDifficulty.vue'
 
 export default {
   name: 'LearningSession',
   props: ['lessonId', 'difficulty'],
   data() {
     return {
+      destroyRedirectSubscription: null,
     }
   },
   components: {
@@ -47,6 +53,7 @@ export default {
     Spinner,
     DailyProgress,
     SerieProgress,
+    EndOfDifficulty,
   },
   computed: {
     ...mapState(
@@ -58,6 +65,7 @@ export default {
       'currentCorrection',
       'showingDailyProgress',
       'showingSerieProgress',
+      'showingEndOfDifficulty',
     ]),
   },
   methods: {
@@ -73,12 +81,15 @@ export default {
       difficulty: this.difficulty,
     })
 
-    this.$store.subscribe((mutation) => {
+    this.destroyRedirectSubscription = this.$store.subscribe((mutation) => {
       if (mutation.type === 'learningSession/sessionEnded') {
         setTimeout(() => this.$router.push({name: 'home'}), 500)
       }
     });
   },
+  beforeDestroy() {
+    this.destroyRedirectSubscription()
+  }
 }
 </script>
 

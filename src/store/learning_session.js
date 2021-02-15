@@ -13,6 +13,7 @@ const state = {
     submittingSession: false,
     showingDailyProgress: false,
     showingSerieProgress: false,
+    showingEndOfDifficulty: false,
     lastSevenDaysGraph: null,
 }
 
@@ -59,6 +60,20 @@ const actions = {
     },
     endDailyProgress({commit, dispatch, rootState}) {
         commit('dailyProgressEnded')
+
+        if (state.currentLearningSession.last_lesson) {
+            dispatch('showEndOfDifficulty')
+        } else if (rootState.security.user.learningSessionCountThatDay <= 1) {
+            dispatch('showSerieProgress')
+        } else {
+            commit('sessionEnded')
+        }
+    },
+    showEndOfDifficulty({commit}) {
+        commit('endOfDifficultyShowed')
+    },
+    endEndOfDifficulty({commit, dispatch, rootState}) {
+        commit('endOfDifficultyEnded')
 
         if (rootState.security.user.learningSessionCountThatDay <= 1) {
             dispatch('showSerieProgress')
@@ -165,6 +180,12 @@ const mutations = {
     },
     serieProgressEnded(state) {
         state.showingSerieProgress = false
+    },
+    endOfDifficultyShowed(state) {
+        state.showingEndOfDifficulty = true
+    },
+    endOfDifficultyEnded(state) {
+        state.showingEndOfDifficulty = false
     },
     sessionEnded(state) {
         state.showingDailyProgress = false

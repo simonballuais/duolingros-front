@@ -3,6 +3,10 @@
     <h1>Bravo !</h1>
 
     <div class="progress-container">
+      <transition name="depop">
+        <div class="progress-pop" v-if="pop"></div>
+      </transition>
+
       <div class="progress"
            :style="{width: dailyProgress + '%'}"
       ></div>
@@ -32,6 +36,7 @@ export default {
   data() {
     return {
       dailyProgress: 0,
+      pop: false,
     }
   },
   computed: {
@@ -54,7 +59,22 @@ export default {
     }
 
     this.dailyProgress = previousPercentage
-    setTimeout(() => this.dailyProgress = percentage, 100)
+    setTimeout(
+      () => {
+        this.dailyProgress = percentage
+
+        if (previousPercentage < 100 && this.dailyProgress >= 100) {
+          setTimeout(
+            () => {
+              this.pop = true
+              this.$nextTick(() => this.pop = false)
+            },
+            500
+          )
+        }
+      },
+      100
+    )
 
     window.addEventListener('keyup', this.handleKeyUp)
   },
@@ -84,14 +104,30 @@ button
 
 div.progress-container
   left: 15%
+  top: 10%
   width: 75%
   background: gray
   height: 5vh
+  position: absolute
 
   .progress
-    position: relative
+    position: absolute
     background: green
     width: 10%
     height: 100%
     transition: width 0.5s ease-in
+
+  .progress-pop
+    left: -2vh
+    top: -2vh
+    position: absolute
+    background: green
+    width: calc(100% + 4vh)
+    height: calc(100% + 4vh)
+
+.depop-leave-active
+  transition: opacity 0.5s linear
+
+.depop-leave-to
+  opacity: 0
 </style>
