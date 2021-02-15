@@ -2,7 +2,7 @@
   <div class="serie-progress">
     <h1>Votre série {{ !previousSerieCount ? 'démarre' : 'continue' }} !</h1>
 
-    <div class="previous serie-count" v-if="previousSerieCount">
+    <div class="previous serie-count" v-if="!newSerieCount">
       {{ previousSerieCount }}
     </div>
 
@@ -43,7 +43,6 @@ export default {
     this.previousSerieCount = this.user.currentSerie - 1
     setTimeout(() => {
       this.newSerieCount = this.previousSerieCount + 1
-      this.previousSerieCount = null
     }, 650)
 
     window.addEventListener('keyup', this.handleKeyUp)
