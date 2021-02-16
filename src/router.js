@@ -3,10 +3,15 @@ import VueRouter from 'vue-router'
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 import LearningSession from './components/LearningSession.vue'
+import Registration from './components/register/Registration.vue'
 
 let router = new VueRouter({
     routes: [
-        {name: 'login', path: '/login', component: Login},
+        {
+            name: 'login',
+            path: '/login',
+            component: Login
+        },
         {
             name: 'home',
             path: '/',
@@ -18,11 +23,24 @@ let router = new VueRouter({
             component: LearningSession,
             props: true,
         },
+        {
+            name: 'registration',
+            path: '/registration',
+            component: Registration,
+            props: true,
+        },
     ],
 })
 
+let noSecurityRoutes = [
+    'login',
+    'registration',
+    'home',
+    'learning-session',
+]
+
 router.beforeEach((to, from, next) => {
-    if (to.name === 'login') {
+    if (noSecurityRoutes.includes(to.name)) {
         return next()
     }
 

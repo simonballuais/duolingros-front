@@ -7,6 +7,8 @@ const urls = {
     'book_lessons': 'book_lessons',
     'start_learning_session': 'learning-sessions/start-lesson/{lesson}/{difficulty}',
     'submit_learning_session': 'learning-sessions/{learningSession}/submit',
+    'start_anonymous_learning_session': 'anonymous-learning-sessions/start-lesson/{lesson}/{difficulty}',
+    'submit_anonymous_learning_session': 'anonymous-learning-sessions/{learningSession}/submit',
     'current_progress': 'current-progress',
     'user': 'users/{id}',
     'last_seven_days_graph': 'last-seven-days-graph',

@@ -8,6 +8,7 @@ const state = {
 
 const actions = {
     loadAllBookLessons({commit}) {
+        window.console.log('booklessonsinon')
         bookLessonService.fetchAll()
             .then((bookLessons) => {
                 commit('bookLessonsUpdated', bookLessons)

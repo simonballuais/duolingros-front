@@ -1,4 +1,8 @@
-import { learningSessionService, questionCorrector, translationCorrector } from '../service'
+import {
+    learningSessionService,
+    questionCorrector,
+    translationCorrector,
+} from '../service'
 
 const state = {
     currentLearningSession: null,
@@ -18,9 +22,16 @@ const state = {
 }
 
 const actions = {
-    startLearningSession({commit}, {lessonId, difficulty}) {
+    startLearningSession({commit, rootState, dispatch}, {lessonId, difficulty}) {
         commit('startingNewLearningLesson')
 
+        if (rootState.security.user) {
+            dispatch('startRegularLesson', {lessonId, difficulty})
+        } else {
+            dispatch('startAnonymousLesson', {lessonId, difficulty})
+        }
+    },
+    startRegularLesson({commit}, {lessonId, difficulty}) {
         learningSessionService.start(lessonId, difficulty)
             .then((learningSession) => {
                 commit('startedNewLearningLesson', learningSession)
@@ -28,7 +39,15 @@ const actions = {
             })
             .catch(() => commit('startLearningSessionError'))
     },
-    submitAnswer({commit, state}, {answer}) {
+    startAnonymousLesson({commit}, {lessonId, difficulty}) {
+        learningSessionService.startAnonymous(lessonId, difficulty)
+            .then((learningSession) => {
+                commit('startedNewLearningLesson', learningSession)
+                commit('nextExerciseStarted')
+            })
+            .catch(() => commit('startLearningSessionError'))
+    },
+    submitAnswer({commit}, {answer}) {
         let corrector
 
         if (state.currentExercise.question) {
@@ -87,16 +106,25 @@ const actions = {
     endSerieProgress({commit}) {
         commit('sessionEnded')
     },
-    submitSession({commit, state, dispatch}) {
+    submitSession({commit, state, rootState, dispatch}) {
         commit('submittingSession')
 
-        learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
-            .then(() => {
-                commit('sessionSubmitted')
-                dispatch('showDailyProgress')
-                dispatch('security/reloadUserData', null, {root: true})
-            })
-            .catch(() => commit('sessionSubmitted'))
+        if (rootState.security.user) {
+            learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
+                .then(() => {
+                    commit('sessionSubmitted')
+                    dispatch('showDailyProgress')
+                    dispatch('security/reloadUserData', null, {root: true})
+                })
+                .catch(() => commit('sessionSubmitted'))
+        } else {
+            learningSessionService.submitAnonymous(state.currentLearningSession.id, state.validatedAnswers)
+                .then(() => {
+                    commit('sessionSubmitted')
+                    dispatch('showDailyProgress')
+                })
+                .catch(() => commit('sessionSubmitted'))
+        }
     },
     loadLastSevenDaysGraph({commit}) {
         learningSessionService.getLastSevenDaysGraph()

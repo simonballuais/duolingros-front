@@ -89,7 +89,7 @@ export default {
   },
   beforeDestroy() {
     this.destroyRedirectSubscription()
-  }
+  },
 }
 </script>
 
