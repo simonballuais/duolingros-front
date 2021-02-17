@@ -17,6 +17,16 @@
           <div class="form-group">
             <Submit label="Go" :loading="status.loggingIn" />
           </div>
+
+          <div class="form-group">
+            <router-link :to="{name: 'registration'}"
+                         v-slot="{href, route, navigate, isActive, isExactActive}"
+            >
+              <a :href="href">
+                S'inscrire
+              </a>
+            </router-link>
+          </div>
           </InlineForm>
         </div>
       </div>
@@ -41,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('security', ['status']),
+    ...mapState('security', ['status', 'isLoggedIn']),
   },
   components: {
     InlineForm,
@@ -55,12 +65,15 @@ export default {
       const {username, password} = this
 
       if (username && password) {
-        window.console.log(this.login)
         this.login({username, password})
       }
     }
   },
   created() {
+    if (this.isLoggedIn) {
+        this.$router.push({name: 'home'})
+    }
+
     this.$store.subscribe((mutation) => {
       if (mutation.type === 'security/loginSuccess') {
         this.$router.push({name: 'home'})

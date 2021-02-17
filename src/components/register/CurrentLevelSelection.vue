@@ -2,27 +2,27 @@
   <div class="current-level-selection">
     <h1>Avez vous déjà commencé à apprendre le malgache ?</h1>
 
-    <button @click="userInfos.currentLevel = 1"
-            :class="{selected: userInfos.currentLevel == 1}"
+    <button @click="user.currentLevel = 1"
+            :class="{selected: user.currentLevel == 1}"
     >
       Pas du tout
     </button>
 
-    <button @click="userInfos.currentLevel = 2"
-            :class="{selected: userInfos.currentLevel == 2}"
+    <button @click="user.currentLevel = 2"
+            :class="{selected: user.currentLevel == 2}"
     >
       Un petit peu
     </button>
 
-    <button @click="userInfos.currentLevel = 3"
-            :class="{selected: userInfos.currentLevel == 3}"
+    <button @click="user.currentLevel = 3"
+            :class="{selected: user.currentLevel == 3}"
     >
       J'ai déjà un certain niveau
     </button>
 
     <button @click="endCurrentLevelSelection"
             class="submit"
-            :disabled="!userInfos.currentLevel"
+            :disabled="!user.currentLevel"
     >
       Confirmer
     </button>
@@ -42,9 +42,9 @@ export default {
   },
   computed: {
     ...mapState(
-      'registration',
+      'security',
       [
-        'userInfos',
+        'user',
       ]
     ),
   },
@@ -53,6 +53,21 @@ export default {
     handleKeyUp(e) {
       if (e.keyCode === 13) {
         this.endCurrentLevelSelection()
+      }
+      if (e.keyCode === 49) {
+        this.user.currentLevel = 1
+      }
+      if (e.keyCode === 50) {
+        this.user.currentLevel = 2
+      }
+      if (e.keyCode === 51) {
+        this.user.currentLevel = 3
+      }
+      if (e.keyCode === 52) {
+        this.user.currentLevel = 4
+      }
+      if (e.keyCode === 53) {
+        this.user.currentLevel = 5
       }
     },
   },

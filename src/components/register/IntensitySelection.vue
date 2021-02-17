@@ -2,39 +2,39 @@
   <div class="intensity-selection">
     <h1>Combien de temps par jour voulez-vous y consacrer ?</h1>
 
-    <button @click="userInfos.intensity = 1"
-            :class="{selected: userInfos.intensity == 1}"
+    <button @click="user.dailyObjective = 1"
+            :class="{selected: user.dailyObjective == 1}"
     >
       5 minutes
     </button>
 
-    <button @click="userInfos.intensity = 2"
-            :class="{selected: userInfos.intensity == 2}"
+    <button @click="user.dailyObjective = 2"
+            :class="{selected: user.dailyObjective == 2}"
     >
       10 minutes
     </button>
 
-    <button @click="userInfos.intensity = 3"
-            :class="{selected: userInfos.intensity == 3}"
+    <button @click="user.dailyObjective = 3"
+            :class="{selected: user.dailyObjective == 3}"
     >
       20 minutes
     </button>
 
-    <button @click="userInfos.intensity = 4"
-            :class="{selected: userInfos.intensity == 4}"
+    <button @click="user.dailyObjective = 4"
+            :class="{selected: user.dailyObjective == 4}"
     >
       30 minutes
     </button>
 
-    <button @click="userInfos.intensity = 5"
-            :class="{selected: userInfos.intensity == 5}"
+    <button @click="user.dailyObjective = 5"
+            :class="{selected: user.dailyObjective == 5}"
     >
       Une heure
     </button>
 
     <button @click="endIntensitySelection"
             class="submit"
-            :disabled="!userInfos.intensity"
+            :disabled="!user.dailyObjective"
     >
       Confirmer
     </button>
@@ -54,9 +54,9 @@ export default {
   },
   computed: {
     ...mapState(
-      'registration',
+      'security',
       [
-        'userInfos',
+        'user',
       ]
     ),
   },
@@ -64,7 +64,22 @@ export default {
     ...mapActions('registration', ['endIntensitySelection']),
     handleKeyUp(e) {
       if (e.keyCode === 13) {
-        this.endCurrentLevelSelection()
+        this.endIntensitySelection()
+      }
+      if (e.keyCode === 49) {
+        this.user.dailyObjective = 1
+      }
+      if (e.keyCode === 50) {
+        this.user.dailyObjective = 2
+      }
+      if (e.keyCode === 51) {
+        this.user.dailyObjective = 3
+      }
+      if (e.keyCode === 52) {
+        this.user.dailyObjective = 4
+      }
+      if (e.keyCode === 53) {
+        this.user.dailyObjective = 5
       }
     },
   },

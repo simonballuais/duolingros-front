@@ -74,8 +74,16 @@ export default {
     [
       'startLearningSession',
     ]),
+    ...mapActions(
+      'security',
+      [
+        'loadAnonymousUserDataIfNecessary',
+      ]
+    ),
   },
   created() {
+    this.loadAnonymousUserDataIfNecessary()
+
     this.startLearningSession({
       lessonId: this.lessonId,
       difficulty: this.difficulty,

@@ -59,10 +59,12 @@ export default {
       'security',
       [
         'reloadUserData',
+        'checkIfLoggedIn',
       ]
     ),
   },
   created() {
+    this.checkIfLoggedIn()
     this.loadAllBookLessons()
     this.loadProgress()
     this.reloadUserData()

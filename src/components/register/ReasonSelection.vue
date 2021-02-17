@@ -2,39 +2,39 @@
   <div class="reason-selection">
     <h1>Pourquoi voulez-vous apprendre le malgache ?</h1>
 
-    <button @click="userInfos.reason = 1"
-            :class="{selected: userInfos.reason == 1}"
+    <button @click="user.reason = 1"
+            :class="{selected: user.reason == 1}"
     >
       Pour y voyager
     </button>
 
-    <button @click="userInfos.reason = 2"
-            :class="{selected: userInfos.reason == 2}"
+    <button @click="user.reason = 2"
+            :class="{selected: user.reason == 2}"
     >
       Pour la culture
     </button>
 
-    <button @click="userInfos.reason = 3"
-            :class="{selected: userInfos.reason == 3}"
+    <button @click="user.reason = 3"
+            :class="{selected: user.reason == 3}"
     >
       Pour le plaisir d'apprendre
     </button>
 
-    <button @click="userInfos.reason = 4"
-            :class="{selected: userInfos.reason == 4}"
+    <button @click="user.reason = 4"
+            :class="{selected: user.reason == 4}"
     >
       Pour pour
     </button>
 
-    <button @click="userInfos.reason = 5"
-            :class="{selected: userInfos.reason == 5}"
+    <button @click="user.reason = 5"
+            :class="{selected: user.reason == 5}"
     >
       Autre
     </button>
 
     <button @click="endReasonSelection"
             class="submit"
-            :disabled="!userInfos.reason"
+            :disabled="!user.reason"
     >
       Confirmer
     </button>
@@ -54,9 +54,9 @@ export default {
   },
   computed: {
     ...mapState(
-      'registration',
+      'security',
       [
-        'userInfos',
+        'user',
       ]
     ),
   },
@@ -64,7 +64,22 @@ export default {
     ...mapActions('registration', ['endReasonSelection']),
     handleKeyUp(e) {
       if (e.keyCode === 13) {
-        this.endCurrentLevelSelection()
+        this.endReasonSelection()
+      }
+      if (e.keyCode === 49) {
+        this.user.reason = 1
+      }
+      if (e.keyCode === 50) {
+        this.user.reason = 2
+      }
+      if (e.keyCode === 51) {
+        this.user.reason = 3
+      }
+      if (e.keyCode === 52) {
+        this.user.reason = 4
+      }
+      if (e.keyCode === 53) {
+        this.user.reason = 5
       }
     },
   },

@@ -25,7 +25,7 @@ const actions = {
     startLearningSession({commit, rootState, dispatch}, {lessonId, difficulty}) {
         commit('startingNewLearningLesson')
 
-        if (rootState.security.user) {
+        if (rootState.isLoggedIn) {
             dispatch('startRegularLesson', {lessonId, difficulty})
         } else {
             dispatch('startAnonymousLesson', {lessonId, difficulty})
@@ -39,7 +39,9 @@ const actions = {
             })
             .catch(() => commit('startLearningSessionError'))
     },
-    startAnonymousLesson({commit}, {lessonId, difficulty}) {
+    startAnonymousLesson({commit, dispatch}, {lessonId, difficulty}) {
+        dispatch('bookLesson/loadAllBookLessons', null, {root: true})
+
         learningSessionService.startAnonymous(lessonId, difficulty)
             .then((learningSession) => {
                 commit('startedNewLearningLesson', learningSession)
@@ -79,10 +81,19 @@ const actions = {
     },
     endDailyProgress({commit, dispatch, rootState}) {
         commit('dailyProgressEnded')
+        const user = rootState.security.user
 
-        if (state.currentLearningSession.last_lesson) {
+        if (!rootState.security.isLoggedIn) {
+            dispatch(
+                'security/anonymousDailyCountIncremented',
+                null,
+                {root: true}
+            )
+        }
+
+        if (state.currentLearningSession.lastLesson) {
             dispatch('showEndOfDifficulty')
-        } else if (rootState.security.user.learningSessionCountThatDay <= 1) {
+        } else if (user.learningSessionCountThatDay <= 1) {
             dispatch('showSerieProgress')
         } else {
             commit('sessionEnded')
@@ -109,7 +120,7 @@ const actions = {
     submitSession({commit, state, rootState, dispatch}) {
         commit('submittingSession')
 
-        if (rootState.security.user) {
+        if (rootState.security.isLoggedIn) {
             learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
                 .then(() => {
                     commit('sessionSubmitted')
@@ -118,8 +129,18 @@ const actions = {
                 })
                 .catch(() => commit('sessionSubmitted'))
         } else {
-            learningSessionService.submitAnonymous(state.currentLearningSession.id, state.validatedAnswers)
+            learningSessionService.submitAnonymous(
+                state.currentLearningSession.id,
+                state.validatedAnswers
+            )
                 .then(() => {
+                    dispatch(
+                        'bookLesson/moveAnonymousProgressForward',
+                        {bookLesson: state.currentLearningSession.bookLesson},
+                        {root: true}
+                    )
+
+                    dispatch('security/putUserData', null, {root: true})
                     commit('sessionSubmitted')
                     dispatch('showDailyProgress')
                 })

@@ -3,7 +3,7 @@
          :type="type"
          :placeholder="placeholder"
          :aria-label="placeholder"
-         :value="inputValue"
+         :value="storedInputValue"
          @input="updateInputValue($event.target.value)"
          @keyup="$emit('keyup', value)"
          @paste="$emit('paste', $event)"
@@ -14,9 +14,6 @@
   <script>
 export default {
   props: {
-    'value': {
-      'type': [Number, String],
-    },
     'placeholder': {
       type: String,
       default: '',
@@ -37,6 +34,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    'hideable': {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      storedInputValue: null,
+    }
   },
   methods: {
     updateInputValue(value) {
@@ -46,24 +52,24 @@ export default {
         castedValue = parseInt(value)
       }
 
-      this.$emit('input', castedValue)
-      this.inputValue = castedValue
+      this.value = castedValue
     },
   },
   computed: {
-    inputValue: {
+    value: {
       get() {
-        return this.value
+        return this.storedInputValue
       },
       set(val) {
-        this.value = val
+        this.storedInputValue = val
+        this.$emit('input', val)
       }
     },
-  }
+  },
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 input.big
   font-size: 32px
   font-variant: small-caps

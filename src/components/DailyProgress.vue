@@ -13,7 +13,7 @@
     </div>
 
     <div>
-      Leçons terminées aujourd'hui : {{ user.learningSessionCountThatDay }}
+      Leçons terminées aujourd'hui : {{ user.learningSessionCountThatDay + 1 }}
     </div>
 
     <button class="submit"

@@ -5,6 +5,8 @@ export const userService = {
     logout,
     get,
     put,
+    saveAnonymous,
+    getAnonymous,
 }
 
 function login(username, password) {
@@ -50,6 +52,15 @@ function put(user) {
     });
 }
 
+function saveAnonymous(user) {
+    localStorage.setItem('anonymousUser', JSON.stringify(user))
+}
+
+function getAnonymous() {
+    return JSON.parse(localStorage.getItem('anonymousUser'))
+}
+
 function logout() {
-    window.console.log('LOGOUT');
+    localStorage.removeItem('user')
+    localStorage.removeItem('token')
 }

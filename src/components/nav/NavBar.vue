@@ -6,9 +6,9 @@
           test
         </span>
 
-        <span>
-          test
-        </span>
+        <button @click="logoutAndGoToLogin">
+          Se déconnecter
+        </button>
 
         <span v-if="user">
           {{ user.currentSerie || 0 }}
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'NavBar',
@@ -31,6 +31,12 @@ export default {
   },
   computed: {
     ...mapState('security', ['user']),
+  },
+  methods: {
+    ...mapActions('security', ['logout']),
+    logoutAndGoToLogin () {
+      this.logout()
+    },
   },
 }
 </script>

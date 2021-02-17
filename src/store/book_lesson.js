@@ -8,7 +8,6 @@ const state = {
 
 const actions = {
     loadAllBookLessons({commit}) {
-        window.console.log('booklessonsinon')
         bookLessonService.fetchAll()
             .then((bookLessons) => {
                 commit('bookLessonsUpdated', bookLessons)
@@ -18,15 +17,54 @@ const actions = {
                 commit('bookLessonsUpdateError')
             })
     },
-    loadProgress({commit}) {
-        progressService.get()
-            .then((progress) => {
-                commit('progressUpdated', progress)
-                commit('mergeProgressIntoBookLessonsIfPossible')
-            })
-            .catch(() => {
-                commit('progressUpdateError')
-            })
+    loadProgress({commit, rootState}) {
+        if (rootState.security.isLoggedIn) {
+            progressService.get()
+                .then((progress) => {
+                    commit('progressUpdated', progress)
+                    commit('mergeProgressIntoBookLessonsIfPossible')
+                })
+                .catch(() => {
+                    commit('progressUpdateError')
+                })
+        } else {
+            commit('progressUpdated', progressService.getAsArray())
+            commit('mergeProgressIntoBookLessonsIfPossible')
+        }
+    },
+    moveAnonymousProgressForward({commit}, {bookLesson}) {
+        let progress = progressService.getAnonymousForBookLessonOrCreateNewOne(bookLesson)
+        let lessonId = progress.currentLessonId
+        const completeBookLesson = state.bookLessons.filter((bl) => bl.id === bookLesson.id).shift()
+        let nextLessonIndex = 0
+        let sortedLessonList = completeBookLesson.lessonList.sort(
+            (a, b) => a.order < b ? -1 : 1
+        )
+
+        sortedLessonList.every(
+            (l) => {
+                nextLessonIndex++
+                return l.id != lessonId
+            }
+        )
+
+        progress.cycleProgression += 1
+
+        if (nextLessonIndex >= sortedLessonList.length) {
+            nextLessonIndex = 0
+            progress.cycleProgression = 0
+            progress.difficulty += 1
+        }
+
+        if (progress.difficulty > 5) {
+            progress.difficulty = 5
+            progress.completed = true
+        }
+
+        progress.currentLessonId = completeBookLesson.lessonList[nextLessonIndex].id
+        progress.totalLessonCount = completeBookLesson.lessonList.length
+
+        commit('localProgressMovedForward', {progress})
     },
 }
 
@@ -63,6 +101,9 @@ const mutations = {
 
             return true
         })
+    },
+    localProgressMovedForward(state, {progress}) {
+        progressService.saveAnonymous(progress)
     }
 }
 

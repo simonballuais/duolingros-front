@@ -1,12 +1,15 @@
 import { userService } from '../service'
+import router from '../router'
 
-const user = JSON.parse(localStorage.getItem('user'));
+const user = JSON.parse(localStorage.getItem('user'))
+const token = localStorage.getItem('token')
 const state = {
     'status': {
         loggedIn: !!user,
     },
     'user': user,
-    'token': null,
+    isLoggedIn: !!(user && token),
+    'token': token,
 }
 
 const actions = {
@@ -24,41 +27,77 @@ const actions = {
                 }
             )
     },
-    reloadUserData({commit, state}) {
-        if (!state.user) {
-            return
+    loadAnonymousUserDataIfNecessary({dispatch, state}) {
+        if (!state.user && !state.isLoggedIn) {
+            dispatch('reloadUserData')
         }
+    },
+    reloadUserData({commit, state}) {
+        if (state.isLoggedIn) {
+            userService.get(user.id)
+                .then(
+                    (user) => {
+                        commit('userDataUpdated', {user})
+                    }
+                ).catch(
+                    () => {
+                    }
+                )
+        } else {
+            const anonymousUser = userService.getAnonymous()
 
-        userService.get(user.id)
-            .then(
-                (user) => {
-                    window.console.log(user)
-                    commit('userDataUpdated', {user})
-                }
-            ).catch(
-                () => {
-                }
-            )
+            if (!anonymousUser) {
+                return router.push({'name': 'login'})
+            }
+
+            commit('userDataUpdated', {user: anonymousUser})
+        }
     },
     putUserData({dispatch, state}, user) {
-        if (!state.user) {
-            return
+        window.console.log('puttinguserdata')
+        if (state.isLoggedIn) {
+            userService.put(user)
+                .then(
+                        () => {
+                            dispatch('reloadUserData')
+                        }
+                     ).catch(
+                         () => {
+                         }
+                         )
+        } else {
+            userService.saveAnonymous(state.user)
         }
-
-        userService.put(user)
-            .then(
-                () => {
-                    dispatch('reloadUserData')
-                }
-            ).catch(
-                () => {
-                }
-            )
     },
     logout({commit}) {
         userService.logout()
         commit('logout')
-    }
+    },
+    initAnonymousUserIfNecessary({commit, state}) {
+        if (state.user) {
+            return
+        }
+
+        const user = {
+            reason: null,
+            dailyObjective: null,
+            currentLevel: null,
+            learningSessionCountThatDay: 0,
+            currentSerie: 0,
+        }
+
+        userService.saveAnonymous(user)
+
+        commit('anonymousUserInitiated', {user})
+    },
+    anonymousDailyCountIncremented({state, dispatch}) {
+        if (state.user.learningSessionCountThatDay == 0) {
+            state.user.currentSerie += 1
+        }
+
+        state.user.learningSessionCountThatDay += 1
+        dispatch('putUserData')
+    },
 }
 
 const mutations = {
@@ -72,6 +111,7 @@ const mutations = {
             loggedIn: true,
         }
 
+        state.isLoggedIn = true
         state.user = user
         state.token = token
 
@@ -80,7 +120,10 @@ const mutations = {
     },
     userDataUpdated(state, {user}) {
         state.user = user
-        localStorage.setItem('user', JSON.stringify(user))
+
+        if (state.isLoggedIn) {
+            localStorage.setItem('user', JSON.stringify(user))
+        }
     },
     loginFailure(state) {
         state.status = {
@@ -91,8 +134,10 @@ const mutations = {
         state.status = {}
         state.token = null
         state.user = null
-        localStorage.removeItem('user')
-        localStorage.removeItem('token')
+        router.push({'name': 'login'})
+    },
+    anonymousUserInitiated(state, {user}) {
+        state.user = user
     },
 }
 

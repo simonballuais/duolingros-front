@@ -2,23 +2,14 @@ const state = {
     showReasonSelection: false,
     showIntensitySelection: false,
     showCurrentLevelSelection: false,
-    userInfos: null,
     firstLearningSession: null,
     anonymousProgress: null
 }
 
 const actions = {
-    startRegistration({commit, state}) {
-        if (!state.userInfos) {
-            commit(
-                'userInfosInitiated',
-                {
-                    reason: null,
-                    intensity: null,
-                    currentLevel: null,
-                }
-            )
-        }
+    startRegistration({commit, dispatch}) {
+        dispatch('security/initAnonymousUserIfNecessary', null, {root: true})
+        dispatch('security/reloadUserData', null, {root: true})
         commit('registrationStarted')
     },
     endReasonSelection({commit}) {
@@ -27,8 +18,9 @@ const actions = {
     endIntensitySelection({commit}) {
         commit('intensitySelectionEnded')
     },
-    endCurrentLevelSelection({commit}) {
+    endCurrentLevelSelection({commit, dispatch}) {
         commit('currentLevelSelectionEnded')
+        dispatch('security/putUserData', null, {root: true})
     },
 }
 
