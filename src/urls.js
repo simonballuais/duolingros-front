@@ -12,6 +12,7 @@ const urls = {
     'current_progress': 'current-progress',
     'user': 'users/{id}',
     'last_seven_days_graph': 'last-seven-days-graph',
+    'submit_profile': 'submit-profile',
 }
 
 const axiosConfigured = axios.create({

@@ -2,8 +2,10 @@ const state = {
     showReasonSelection: false,
     showIntensitySelection: false,
     showCurrentLevelSelection: false,
+    showCreateProfile: false,
     firstLearningSession: null,
-    anonymousProgress: null
+    anonymousProgress: null,
+    profileData: {},
 }
 
 const actions = {
@@ -22,6 +24,9 @@ const actions = {
         commit('currentLevelSelectionEnded')
         dispatch('security/putUserData', null, {root: true})
     },
+    showCreateProfile({commit}) {
+        commit('showingCreateProfile')
+    },
 }
 
 const mutations = {
@@ -32,6 +37,9 @@ const mutations = {
         state.showReasonSelection = true
         state.showIntensitySelection = false
         state.showCurrentLevelSelection = false
+        localStorage.removeItem('anonymousUser')
+        localStorage.removeItem('anonymousProgress')
+        localStorage.removeItem('anonymousLearningSessions')
     },
     reasonSelectionEnded(state) {
         state.showReasonSelection = false
@@ -43,6 +51,9 @@ const mutations = {
     },
     currentLevelSelectionEnded(state) {
         state.showCurrentLevelSelection = false
+    },
+    showingCreateProfile(state) {
+        state.showCreateProfile = true
     },
 }
 

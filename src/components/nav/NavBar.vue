@@ -6,7 +6,9 @@
           test
         </span>
 
-        <button @click="logoutAndGoToLogin">
+        <button @click="logoutAndGoToLogin"
+                v-if="isLoggedIn"
+        >
           Se déconnecter
         </button>
 
@@ -14,9 +16,17 @@
           {{ user.currentSerie || 0 }}
         </span>
 
-        <span v-if="user" class="navbar-text">
+        <span v-if="isLoggedIn" 
+              class="navbar-text"
+        >
           Coucou {{ user.username }}
         </span>
+
+        <button @click="showCreateProfile"
+                v-if="!isLoggedIn"
+        >
+          Créer un profil
+        </button>
       </div>
     </nav>
   </header>
@@ -30,10 +40,11 @@ export default {
   components: {
   },
   computed: {
-    ...mapState('security', ['user']),
+    ...mapState('security', ['user', 'isLoggedIn']),
   },
   methods: {
     ...mapActions('security', ['logout']),
+    ...mapActions('registration', ['showCreateProfile']),
     logoutAndGoToLogin () {
       this.logout()
     },

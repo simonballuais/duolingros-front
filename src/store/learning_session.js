@@ -143,6 +143,23 @@ const actions = {
                     dispatch('security/putUserData', null, {root: true})
                     commit('sessionSubmitted')
                     dispatch('showDailyProgress')
+
+                    let currentlySavedAnonymousLearningSessions =
+                        JSON.parse(localStorage.getItem('anonymousLearningSessions'))
+
+                    if (!currentlySavedAnonymousLearningSessions) {
+                        currentlySavedAnonymousLearningSessions = []
+                    }
+
+                    currentlySavedAnonymousLearningSessions.push({
+                        learningSessionId: state.currentLearningSession.id,
+                        validatedAnswers: state.validatedAnswers
+                    })
+
+                    localStorage.setItem(
+                        'anonymousLearningSessions',
+                        JSON.stringify(currentlySavedAnonymousLearningSessions)
+                    )
                 })
                 .catch(() => commit('sessionSubmitted'))
         }

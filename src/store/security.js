@@ -134,6 +134,7 @@ const mutations = {
         state.status = {}
         state.token = null
         state.user = null
+        state.isLoggedIn = false
         router.push({'name': 'login'})
     },
     anonymousUserInitiated(state, {user}) {
