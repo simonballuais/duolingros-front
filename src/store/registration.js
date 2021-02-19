@@ -1,3 +1,5 @@
+import {registrationService} from '../service'
+
 const state = {
     showReasonSelection: false,
     showIntensitySelection: false,
@@ -27,6 +29,19 @@ const actions = {
     showCreateProfile({commit}) {
         commit('showingCreateProfile')
     },
+    cancelCreateProfile({commit}) {
+        commit('endShowingCreateProfile')
+    },
+    submitRegistration({state, commit}) {
+        registrationService.register(
+            state.profileData.email,
+            state.profileData.username,
+            state.profileData.password,
+            JSON.parse(localStorage.getItem('anonymousLearningSessions'))
+        )
+            .then(() => commit('registrationSubmitted'))
+            .catch((response) => commit('registrationError', response))
+    },
 }
 
 const mutations = {
@@ -54,6 +69,16 @@ const mutations = {
     },
     showingCreateProfile(state) {
         state.showCreateProfile = true
+    },
+    endShowingCreateProfile(state) {
+        state.showCreateProfile = false
+    },
+    registrationSubmitted() {
+        window.console.log('registered')
+    },
+    registrationError(state, response) {
+        window.console.log('registrationerror', response)
+        state
     },
 }
 

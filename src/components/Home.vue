@@ -1,6 +1,9 @@
 <template>
   <transition name="fade-in">
-    <div class="container-home" v-if="show">
+    <div class="container-home" 
+         v-if="show"
+         :class="{blur: showCreateProfile}"
+    >
       <transition name="fade-in">
         <div v-if="bookLessons && progress">
           <BookLessonItem v-for="bookLesson in bookLessons"
@@ -46,6 +49,7 @@ export default {
         'lastUnlockedBookLessonId',
       ]
     ),
+    ...mapState('registration', ['showCreateProfile']),
   },
   methods: {
     ...mapActions(
@@ -82,6 +86,9 @@ div.container-home
   height: calc(var(--vh, 1vh) * 100)
   width: 100%
   background: rgb(247, 248, 250)
+
+  &.blur
+    filter: blur(4px)
 
 main
   min-height: 500px

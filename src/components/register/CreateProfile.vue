@@ -1,18 +1,33 @@
 <template>
-  <div class="intensity-selection">
-    <h1>Créer un profil</h1>
+  <transition name="create-profile-fade">
+  <div class="create-profile" v-if="show">
+    <div class="modale">
+      <button @click="cancelCreateProfile">
+        X
+      </button>
 
-    <TextInput v-model="profileData.email" />
-    <TextInput v-model="profileData.username" />
-    <TextInput v-model="profileData.password" />
+      <h1>Créer un profil</h1>
 
-    <button @click="endIntensitySelection"
-            class="submit"
-            :disabled="!profileData.email || !profileData.password"
-    >
-      Créer le compte
-    </button>
+      <TextInput v-model="profileData.email"
+                 placeholder="Email"
+      />
+      <TextInput v-model="profileData.username"
+                 placeholder="Pseudo (facultatif)"
+      />
+      <TextInput v-model="profileData.password"
+                 placeholder="Choisissez un mot de passe"
+                 type="password"
+      />
+
+      <button @click="submitRegistration"
+                 class="submit"
+                 :disabled="!profileData.email || !profileData.password"
+                 >
+                 Créer le compte
+      </button>
+    </div>
   </div>
+  </transition>
 </template>
 
 <script>
@@ -25,6 +40,12 @@ export default {
     return {
     }
   },
+  props: {
+    show: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     TextInput,
   },
@@ -35,13 +56,18 @@ export default {
         'user',
       ]
     ),
+    ...mapState('registration', ['profileData']),
   },
   methods: {
-    ...mapActions('registration', ['endIntensitySelection']),
+    ...mapActions('registration', ['cancelCreateProfile', 'submitRegistration']),
     handleKeyUp(e) {
       if (e.keyCode === 13) {
         this.submitProfile()
       }
+      if (e.keyCode === 27) {
+        this.cancelCreateProfile()
+      }
+    },
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)
@@ -50,25 +76,26 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-div.intensity-selection
-  position: absolute
+.create-profile
+  position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
+  z-index: 1400
+  padding: 2vh
 
-button
-  width: 80%
-  margin-left: 10%
-  transition: background-color 0.4s ease
-  margin-top: 3vh
+  .modale
+    position: relative
+    width: 90%
+    height: 90%
+    background: pink
+    margin: auto
 
-  &.submit
-    position: absolute
-    bottom: 5vh
-    left: 10%
-    margin: 0
-
-  &.selected
-    background-color: green
+.create-profile-fade-enter-active, .create-profile-fade-leave-active
+  transition: all .3s ease
+.create-profile-fade-enter
+  opacity: 0
+.create-profile-fade-leave-to
+  opacity: 0
 </style>

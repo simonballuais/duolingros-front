@@ -3,6 +3,9 @@
     <ProgressPanel :show="showProgressPanel"
                    @closeMe="showProgressPanel = false"
     />
+
+    <CreateProfile :show="showCreateProfile" />
+
     <nav class="bottom-navbar">
       <div class="menu">
         <a v-if="user">
@@ -25,6 +28,7 @@
 import {mapState} from 'vuex'
 
 import ProgressPanel from './../ProgressPanel.vue'
+import CreateProfile from '../register/CreateProfile.vue'
 
 export default {
   name: 'BottomNavBar',
@@ -35,9 +39,11 @@ export default {
   },
   components: {
     ProgressPanel,
+    CreateProfile,
   },
   computed: {
     ...mapState('security', ['user']),
+    ...mapState('registration', ['showCreateProfile']),
   },
 }
 </script>
