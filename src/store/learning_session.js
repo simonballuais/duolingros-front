@@ -25,7 +25,7 @@ const actions = {
     startLearningSession({commit, rootState, dispatch}, {lessonId, difficulty}) {
         commit('startingNewLearningLesson')
 
-        if (rootState.isLoggedIn) {
+        if (rootState.security.isLoggedIn) {
             dispatch('startRegularLesson', {lessonId, difficulty})
         } else {
             dispatch('startAnonymousLesson', {lessonId, difficulty})

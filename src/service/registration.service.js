@@ -8,6 +8,9 @@ function register(
     email,
     username,
     password,
+    reason,
+    currentLevel,
+    dailyObjective,
     anonymousLearningSessions,
 ) {
     return new Promise((resolve, reject) => {
@@ -18,6 +21,9 @@ function register(
                     email,
                     username,
                     password,
+                    reason,
+                    currentLevel,
+                    dailyObjective,
                     anonymousLearningSessions
                 }
             ).then((response) => {

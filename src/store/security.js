@@ -19,7 +19,7 @@ const actions = {
         userService.login(username, password)
             .then(
                 ({user, token}) => {
-                    commit('loginSuccess', {user, token})
+                    commit('toginSuccess', {user, token})
                 }
             ).catch(
                 () => {
@@ -126,6 +126,7 @@ const mutations = {
         }
     },
     loginFailure(state) {
+        window.console.log('login failure')
         state.status = {
             invalidCredentials: true
         }

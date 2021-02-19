@@ -33,10 +33,14 @@ const actions = {
         commit('endShowingCreateProfile')
     },
     submitRegistration({state, commit}) {
+        const anonymousUser = JSON.parse(localStorage.getItem('anonymousUser'))
         registrationService.register(
             state.profileData.email,
             state.profileData.username,
             state.profileData.password,
+            anonymousUser.reason,
+            anonymousUser.currentLevel,
+            anonymousUser.dailyObjective,
             JSON.parse(localStorage.getItem('anonymousLearningSessions'))
         )
             .then(() => commit('registrationSubmitted'))
