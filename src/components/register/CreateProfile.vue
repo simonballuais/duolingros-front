@@ -6,17 +6,25 @@
         X
       </button>
 
+      <Spinner v-if="submittingProfile"
+               :big="true"
+               :center="true"
+               ></Spinner>
+
       <h1>Créer un profil</h1>
 
       <TextInput v-model="profileData.email"
                  placeholder="Email"
+                 :disabled="submittingProfile"
       />
       <TextInput v-model="profileData.username"
                  placeholder="Pseudo (facultatif)"
+                 :disabled="submittingProfile"
       />
       <TextInput v-model="profileData.password"
                  placeholder="Choisissez un mot de passe"
                  type="password"
+                 :disabled="submittingProfile"
       />
 
       <button @click="submitRegistration"
@@ -33,6 +41,7 @@
 <script>
 import {mapState, mapActions} from 'vuex'
 import TextInput from '../form/TextInput'
+import Spinner from './../misc/Spinner'
 
 export default {
   name: 'IntensitySelection',
@@ -48,6 +57,7 @@ export default {
   },
   components: {
     TextInput,
+    Spinner,
   },
   computed: {
     ...mapState(
@@ -56,18 +66,23 @@ export default {
         'user',
       ]
     ),
-    ...mapState('registration', ['profileData']),
+    ...mapState('registration', ['profileData', 'submittingProfile']),
   },
   methods: {
     ...mapActions('registration', ['cancelCreateProfile', 'submitRegistration']),
     handleKeyUp(e) {
-      if (e.keyCode === 13) {
-        this.submitProfile()
+      if (e.keyCode === 13 && this.profileData.email && this.profileData.password) {
+        this.submitRegistration()
+        window.removeEventListener('keyup', this.handleKeyUp)
       }
       if (e.keyCode === 27) {
         this.cancelCreateProfile()
+        window.removeEventListener('keyup', this.handleKeyUp)
       }
     },
+  },
+  created() {
+    window.addEventListener('keyup', this.handleKeyUp)
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)

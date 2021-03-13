@@ -63,7 +63,7 @@ function createAnonymousForBookLesson(bookLesson) {
         "difficulty": 1,
         "completed": false,
         "cycleProgression": 0,
-        "currentLessonId": bookLesson.lessonList.shift().id,
+        "currentLessonId": bookLesson.lessonList[0].id,
         "totalLessonCount": 4,
         "bookLessonId": bookLesson.id,
     }

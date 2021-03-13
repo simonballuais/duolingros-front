@@ -8,6 +8,8 @@ const state = {
     firstLearningSession: null,
     anonymousProgress: null,
     profileData: {},
+    submittingProfile: false,
+    showingProfileCreated: false,
 }
 
 const actions = {
@@ -32,7 +34,11 @@ const actions = {
     cancelCreateProfile({commit}) {
         commit('endShowingCreateProfile')
     },
+    endShowingCreatedProfile({commit}) {
+        commit('endShowingCreatedProfile')
+    },
     submitRegistration({state, commit}) {
+        commit('submittingProfile')
         const anonymousUser = JSON.parse(localStorage.getItem('anonymousUser'))
         registrationService.register(
             state.profileData.email,
@@ -43,7 +49,10 @@ const actions = {
             anonymousUser.dailyObjective,
             JSON.parse(localStorage.getItem('anonymousLearningSessions'))
         )
-            .then(() => commit('registrationSubmitted'))
+            .then(({user, token}) => {
+                commit('registrationSubmitted')
+                commit('security/loginSuccess', {user, token}, {root: true})
+            })
             .catch((response) => commit('registrationError', response))
     },
 }
@@ -53,6 +62,7 @@ const mutations = {
         state.userInfos = userInfos
     },
     registrationStarted(state) {
+        window.console.log('starting registration')
         state.showReasonSelection = true
         state.showIntensitySelection = false
         state.showCurrentLevelSelection = false
@@ -77,8 +87,15 @@ const mutations = {
     endShowingCreateProfile(state) {
         state.showCreateProfile = false
     },
-    registrationSubmitted() {
-        window.console.log('registered')
+    submittingProfile(state) {
+        state.submittingProfile = true
+    },
+    registrationSubmitted(state) {
+        state.showCreateProfile = false
+        setTimeout(() => state.showingProfileCreated = true, 500)
+    },
+    endShowingCreatedProfile(state) {
+        state.showingProfileCreated = false
     },
     registrationError(state, response) {
         window.console.log('registrationerror', response)

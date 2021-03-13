@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions('registration', ['endReasonSelection']),
     handleKeyUp(e) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && this.user.reason) {
         this.endReasonSelection()
       }
       if (e.keyCode === 49) {

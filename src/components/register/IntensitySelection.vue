@@ -63,7 +63,7 @@ export default {
   methods: {
     ...mapActions('registration', ['endIntensitySelection']),
     handleKeyUp(e) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && this.user.dailyObjective) {
         this.endIntensitySelection()
       }
       if (e.keyCode === 49) {

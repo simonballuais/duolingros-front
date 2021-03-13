@@ -63,7 +63,6 @@ div.current-exercise
   width: 100%
 
 .exercise-fade-enter-active, .exercise-fade-leave-active
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0)
   transition: all .3s ease
 .exercise-fade-enter
   transform: translateX(100vw)

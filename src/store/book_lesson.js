@@ -38,7 +38,7 @@ const actions = {
         const completeBookLesson = state.bookLessons.filter((bl) => bl.id === bookLesson.id).shift()
         let nextLessonIndex = 0
         let sortedLessonList = completeBookLesson.lessonList.sort(
-            (a, b) => a.order < b ? -1 : 1
+            (a, b) => a.order < b.order ? -1 : 1
         )
 
         sortedLessonList.every(

@@ -19,7 +19,7 @@ const actions = {
         userService.login(username, password)
             .then(
                 ({user, token}) => {
-                    commit('toginSuccess', {user, token})
+                    commit('loginSuccess', {user, token})
                 }
             ).catch(
                 () => {

@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions('registration', ['endCurrentLevelSelection']),
     handleKeyUp(e) {
-      if (e.keyCode === 13) {
+      if (e.keyCode === 13 && this.user.currentLevel) {
         this.endCurrentLevelSelection()
       }
       if (e.keyCode === 49) {
