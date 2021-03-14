@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <NavBar v-if="$route.name == 'home'"></NavBar>
+      <NavBar v-if="$route.name == 'home' || $route.name == 'confirm-email'"></NavBar>
     </transition>
 
     <transition name="fade">
@@ -9,8 +9,14 @@
     </transition>
 
     <transition name="fade">
-      <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>
+      <BottomNavBar v-if="$route.name == 'home' || $route.name == 'confirm-email'"></BottomNavBar>
     </transition>
+
+    <notifications group="default"
+                   position="bottom center"
+                   classes="vue-notification"
+                   width="80%"
+    />
   </div>
 </template>
 
@@ -48,4 +54,28 @@ button
   opacity: 0
 .fade-leave-to
   opacity: 0
+</style>
+
+<style lang="sass">
+.vue-notification
+  padding: 10px
+  margin: 0 5px 5px
+  font-size: 18px
+  color: #ffffff
+  background: #44A4FC
+  border-left: 5px solid #187FE7
+  width: 80vw ! important
+  margin-bottom: 10vh
+
+  &.warn
+    background: #ffb648
+    border-left-color: #f48a06
+
+  &.error
+    background: #E54D42
+    border-left-color: #B82E24
+
+  &.success
+    background: #68CD86
+    border-left-color: #42A85F
 </style>

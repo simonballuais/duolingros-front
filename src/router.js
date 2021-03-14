@@ -29,6 +29,12 @@ let router = new VueRouter({
             component: Registration,
             props: true,
         },
+        {
+            name: 'confirm-email',
+            path: '/confirm-email',
+            component: Home,
+            props: true,
+        },
     ],
 })
 
@@ -37,6 +43,7 @@ let noSecurityRoutes = [
     'registration',
     'home',
     'learning-session',
+    'confirm-email',
 ]
 
 router.beforeEach((to, from, next) => {

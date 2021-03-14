@@ -13,6 +13,7 @@ const urls = {
     'user': 'users/{id}',
     'last_seven_days_graph': 'last-seven-days-graph',
     'submit_profile': 'submit-profile',
+    'confirm_email_code': 'confirm-email/{code}',
 }
 
 const axiosConfigured = axios.create({

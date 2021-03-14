@@ -5,6 +5,7 @@ export const userService = {
     logout,
     get,
     put,
+    confirmEmailCode,
     saveAnonymous,
     getAnonymous,
 }
@@ -47,6 +48,19 @@ function put(user) {
             ).then((response) => {
                 resolve(response.data)
             }).catch((data) => {
+                reject(data)
+            })
+    });
+}
+
+function confirmEmailCode(emailCode) {
+    return new Promise((resolve, reject) => {
+        Urls.getAxios()
+            .post(Urls.get('confirm_email_code', {code: emailCode}))
+            .then(() => {
+                resolve()
+            })
+            .catch((data) => {
                 reject(data)
             })
     });

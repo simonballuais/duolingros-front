@@ -12,6 +12,8 @@ const state = {
     'token': token,
     puttingUserData: false,
     putUserDataError: false,
+    confirmingEmailCode: false,
+    confirmEmailError: false,
 }
 
 const actions = {
@@ -100,6 +102,21 @@ const actions = {
         state.user.learningSessionCountThatDay += 1
         dispatch('putUserData')
     },
+    confirmEmailCode({commit}, emailCode) {
+        return new Promise((resolve, reject) => {
+            commit('confirmingEmailCode')
+
+            userService.confirmEmailCode(emailCode)
+                .then(() => {
+                    commit('emailCodeConfirmed')
+                    resolve()
+                })
+                .catch(() => {
+                    commit('emailCodeConfirmError')
+                    reject()
+                })
+        })
+    },
 }
 
 const mutations = {
@@ -154,6 +171,18 @@ const mutations = {
     putUserDataSuccess(state) {
         state.puttingUserData = false
         state.putUserDataError = false
+    },
+    confirmingEmailCode(state) {
+        state.confirmingEmailCode = true
+        state.confirmEmailError = false
+    },
+    emailCodeConfirmed(state) {
+        state.confirmingEmailCode = false
+        state.confirmEmailError = false
+    },
+    emailCodeConfirmError(state) {
+        state.confirmingEmailCode = false
+        state.confirmEmailError = true
     },
 }
 

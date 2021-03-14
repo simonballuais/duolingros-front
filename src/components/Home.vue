@@ -1,6 +1,6 @@
 <template>
   <transition name="fade-in">
-    <div class="container-home" 
+    <div class="container-home"
          v-if="show"
          :class="{blur: showCreateProfile}"
     >
@@ -14,7 +14,7 @@
         </div>
       </transition>
 
-      <Spinner v-if="!bookLessons || !progress"
+      <Spinner v-if="!bookLessons || !progress || confirmingEmailCode"
                :big="true"
                :center="true"
                ></Spinner>
@@ -30,7 +30,9 @@ import Spinner from './misc/Spinner'
 
 export default {
   name: 'Home',
-  props: [],
+  props: [
+    't',
+  ],
   data() {
     return {
       show: false,
@@ -50,6 +52,7 @@ export default {
       ]
     ),
     ...mapState('registration', ['showCreateProfile']),
+    ...mapState('security', ['confirmingEmailCode']),
   },
   methods: {
     ...mapActions(
@@ -63,6 +66,7 @@ export default {
       'security',
       [
         'reloadUserData',
+        'confirmEmailCode',
       ]
     ),
   },
@@ -71,6 +75,29 @@ export default {
     this.loadProgress()
     this.reloadUserData()
     setTimeout(() => this.show = true, 100)
+
+    const confirmationCode = this.$route.query.t
+    this.$router.push({ name: 'home' });
+
+    if (confirmationCode) {
+      this.confirmEmailCode(confirmationCode)
+          .then(() =>
+              this.$notify({
+                group: 'default',
+                type: 'success',
+                title: 'Adresse confirmée !',
+                text: 'Votre adresse email a été confirmée avec succès',
+              })
+          )
+          .catch(() =>
+              this.$notify({
+                group: 'default',
+                type: 'error',
+                title: 'Impossible de confirmer votre email',
+                text: 'Vous pouvez réessayer en demandant un nouveau code de confirmation',
+              })
+          )
+    }
   },
   watch: {
   }
