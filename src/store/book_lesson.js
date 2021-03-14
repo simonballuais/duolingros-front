@@ -50,6 +50,8 @@ const actions = {
 
         progress.cycleProgression += 1
 
+        window.console.log('UPPUPUUPP')
+
         if (nextLessonIndex >= sortedLessonList.length) {
             nextLessonIndex = 0
             progress.cycleProgression = 0

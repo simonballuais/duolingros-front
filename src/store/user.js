@@ -2,6 +2,8 @@ import { userService, progressService } from '../service'
 
 const state = {
     'currentUser': null,
+    savingProfile: false,
+    profileSaveError: false,
 }
 
 const actions = {
@@ -23,6 +25,15 @@ const actions = {
             })
             .catch(() => {
                 commit('progressUpdateError')
+            })
+    },
+    saveProfile({commit}, user) {
+        userService.put(user)
+            .then((progress) => {
+                commit('profileSaved')
+            })
+            .catch(() => {
+                commit('profileSaveError')
             })
     },
 }
@@ -60,7 +71,18 @@ const mutations = {
 
             return true
         })
-    }
+    },
+    savingProfile({state}) {
+        state.savingProfile = true
+        state.profileSaveError = false
+    },
+    profileSaved({state}) {
+        state.savingProfile = false
+    },
+    profileSaveError({state}) {
+        state.savingProfile = false
+        state.profileSaveError = true
+    },
 }
 
 export const bookLesson = {

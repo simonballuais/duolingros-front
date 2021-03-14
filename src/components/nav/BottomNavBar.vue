@@ -7,20 +7,19 @@
     <CreateProfile :show="showCreateProfile" />
     <ProfileCreated :show="showingProfileCreated" />
 
+    <ProfilePanel :show="showProfilePanel"
+                 @closeMe="showProfilePanel = false"
+    />
+
     <nav class="bottom-navbar">
       <div class="menu">
-        <a v-if="user">
+        <a v-if="isLoggedIn" @click="showProfilePanel = !showProfilePanel">
           Profil
         </a>
-        <a v-if="user">
-          ding dong
-        </a>
-        <a v-if="user" @click="showProgressPanel = !showProgressPanel">
+        <a v-if="isLoggedIn" @click="showProgressPanel = !showProgressPanel">
           pouet pouet
         </a>
       </div>
-
-
     </nav>
   </div>
 </template>
@@ -29,6 +28,7 @@
 import {mapState} from 'vuex'
 
 import ProgressPanel from './../ProgressPanel.vue'
+import ProfilePanel from './../ProfilePanel.vue'
 import CreateProfile from '../register/CreateProfile.vue'
 import ProfileCreated from '../register/ProfileCreated.vue'
 
@@ -37,15 +37,17 @@ export default {
   data() {
     return {
       showProgressPanel: false,
+      showProfilePanel: false,
     }
   },
   components: {
     ProgressPanel,
+    ProfilePanel,
     CreateProfile,
     ProfileCreated,
   },
   computed: {
-    ...mapState('security', ['user']),
+    ...mapState('security', ['isLoggedIn']),
     ...mapState('registration', ['showCreateProfile', 'showingProfileCreated']),
   },
 }

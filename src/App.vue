@@ -4,7 +4,9 @@
       <NavBar v-if="$route.name == 'home'"></NavBar>
     </transition>
 
-    <router-view></router-view>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
 
     <transition name="fade">
       <BottomNavBar v-if="$route.name == 'home'"></BottomNavBar>

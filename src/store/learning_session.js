@@ -96,7 +96,7 @@ const actions = {
         } else if (user.learningSessionCountThatDay <= 1) {
             dispatch('showSerieProgress')
         } else {
-            commit('sessionEnded')
+            dispatch('endSession')
         }
     },
     showEndOfDifficulty({commit}) {
@@ -108,41 +108,44 @@ const actions = {
         if (rootState.security.user.learningSessionCountThatDay <= 1) {
             dispatch('showSerieProgress')
         } else {
-            commit('sessionEnded')
+            dispatch('endSession')
         }
     },
     showSerieProgress({commit}) {
         commit('serieProgressShowed')
     },
-    endSerieProgress({commit}) {
+    endSerieProgress({dispatch}) {
+        dispatch('endSession')
+    },
+    endSession({commit}) {
         commit('sessionEnded')
     },
     submitSession({commit, state, rootState, dispatch}) {
         commit('submittingSession')
 
-        if (rootState.security.isLoggedIn) {
-            learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
-                .then(() => {
-                    commit('sessionSubmitted')
-                    dispatch('showDailyProgress')
-                    dispatch('security/reloadUserData', null, {root: true})
-                })
+            if (rootState.security.isLoggedIn) {
+                learningSessionService.submit(state.currentLearningSession.id, state.validatedAnswers)
+                    .then(() => {
+                        commit('sessionSubmitted')
+                        dispatch('showDailyProgress')
+                        dispatch('security/reloadUserData', null, {root: true})
+                    })
                 .catch(() => commit('sessionSubmitted'))
-        } else {
-            learningSessionService.submitAnonymous(
-                state.currentLearningSession.id,
-                state.validatedAnswers
-            )
-                .then(() => {
-                    dispatch(
-                        'bookLesson/moveAnonymousProgressForward',
-                        {bookLesson: state.currentLearningSession.bookLesson},
-                        {root: true}
-                    )
+            } else {
+                learningSessionService.submitAnonymous(
+                        state.currentLearningSession.id,
+                        state.validatedAnswers
+                        )
+                    .then(() => {
+                        dispatch(
+                            'bookLesson/moveAnonymousProgressForward',
+                            {bookLesson: state.currentLearningSession.bookLesson},
+                            {root: true}
+                        )
 
-                    dispatch('security/putUserData', null, {root: true})
-                    commit('sessionSubmitted')
-                    dispatch('showDailyProgress')
+                        dispatch('security/putUserData', null, {root: true})
+                        commit('sessionSubmitted')
+                        dispatch('showDailyProgress')
 
                     let currentlySavedAnonymousLearningSessions =
                         JSON.parse(localStorage.getItem('anonymousLearningSessions'))

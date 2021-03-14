@@ -1,7 +1,7 @@
 <template>
   <transition :name="transitionName">
   <div class="spinner-container"
-       :class="{ big, center }"
+       :class="{ big, center, inline }"
        >
     <div class="spinner-border"
          role="status"
@@ -20,6 +20,7 @@ export default {
   props: [
     'big',
     'center',
+    'inline',
     'fade',
   ],
   computed: {
@@ -49,6 +50,9 @@ export default {
     width: 128px
     height: 128px
     font-size: 24px
+
+  &.inline
+    display: inline-block
 
 .spinner-border
   z-index: 2000

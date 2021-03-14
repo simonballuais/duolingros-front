@@ -104,7 +104,7 @@ button
 
 div.progress-container
   left: 15%
-  top: 10%
+  top: 20%
   width: 75%
   background: gray
   height: 5vh

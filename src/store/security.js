@@ -10,6 +10,8 @@ const state = {
     'user': user,
     isLoggedIn: !!(user && token),
     'token': token,
+    puttingUserData: false,
+    putUserDataError: false,
 }
 
 const actions = {
@@ -53,18 +55,18 @@ const actions = {
             commit('userDataUpdated', {user: anonymousUser})
         }
     },
-    putUserData({dispatch, state}, user) {
-        window.console.log('puttinguserdata')
+    putUserData({dispatch, state, commit}, user) {
+        commit('puttingUserData')
+
         if (state.isLoggedIn) {
             userService.put(user)
-                .then(
-                        () => {
-                            dispatch('reloadUserData')
-                        }
-                     ).catch(
-                         () => {
-                         }
-                         )
+                .then(() => {
+                    dispatch('reloadUserData')
+                    commit('putUserDataSuccess')
+                })
+                .catch(() => {
+                    commit('putUserDataError')
+                })
         } else {
             userService.saveAnonymous(state.user)
         }
@@ -140,6 +142,18 @@ const mutations = {
     },
     anonymousUserInitiated(state, {user}) {
         state.user = user
+    },
+    puttingUserData(state) {
+        state.putUserDataError = false
+        state.puttingUserData = true
+    },
+    putUserDataError(state) {
+        state.puttingUserData = false
+        state.putUserDataError = true
+    },
+    putUserDataSuccess(state) {
+        state.puttingUserData = false
+        state.putUserDataError = false
     },
 }
 
