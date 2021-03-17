@@ -35,6 +35,12 @@ let router = new VueRouter({
             component: Home,
             props: true,
         },
+        {
+            name: 'reset-password',
+            path: '/reset-password',
+            component: Login,
+            props: true,
+        },
     ],
 })
 
@@ -44,6 +50,7 @@ let noSecurityRoutes = [
     'home',
     'learning-session',
     'confirm-email',
+    'reset-password',
 ]
 
 router.beforeEach((to, from, next) => {

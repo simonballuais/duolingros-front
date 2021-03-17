@@ -5,6 +5,8 @@ export const userService = {
     logout,
     get,
     put,
+    sendResetPasswordRequest,
+    sendPasswordChange,
     confirmEmailCode,
     saveAnonymous,
     getAnonymous,
@@ -48,6 +50,38 @@ function put(user) {
             ).then((response) => {
                 resolve(response.data)
             }).catch((data) => {
+                reject(data)
+            })
+    });
+}
+
+function sendResetPasswordRequest(email) {
+    return new Promise((resolve, reject) => {
+        Urls.getAxios()
+            .post(
+                Urls.get('send_reset_password_request'),
+                JSON.stringify({email})
+            )
+            .then(() => {
+                resolve()
+            })
+            .catch((data) => {
+                reject(data)
+            })
+    });
+}
+
+function sendPasswordChange(password, token) {
+    return new Promise((resolve, reject) => {
+        Urls.getAxios()
+            .post(
+                Urls.get('send_change_password', {token}),
+                JSON.stringify({password})
+            )
+            .then(() => {
+                resolve()
+            })
+            .catch((data) => {
                 reject(data)
             })
     });

@@ -13,6 +13,8 @@ const urls = {
     'user': 'users/{id}',
     'last_seven_days_graph': 'last-seven-days-graph',
     'submit_profile': 'submit-profile',
+    'send_reset_password_request': 'password-reset-request',
+    'send_change_password': 'password-change/{token}',
     'confirm_email_code': 'confirm-email/{code}',
 }
 

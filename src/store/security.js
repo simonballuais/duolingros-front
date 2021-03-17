@@ -14,22 +14,29 @@ const state = {
     putUserDataError: false,
     confirmingEmailCode: false,
     confirmEmailError: false,
+    sendingPasswordResetRequest: false,
+    sendingPasswordChange: false,
 }
 
 const actions = {
     login({commit}, {username, password}) {
-        commit('loginRequest');
+        return new Promise((resolve, reject) => {
+            commit('loginRequest');
 
-        userService.login(username, password)
-            .then(
-                ({user, token}) => {
-                    commit('loginSuccess', {user, token})
-                }
-            ).catch(
-                () => {
-                    commit('loginFailure')
-                }
-            )
+            userService.login(username, password)
+                .then(
+                    ({user, token}) => {
+                        window.console.log(user)
+                        commit('loginSuccess', {user, token})
+                        resolve()
+                    }
+                ).catch(
+                    () => {
+                        commit('loginFailure')
+                        reject()
+                    }
+                )
+        })
     },
     loadAnonymousUserDataIfNecessary({dispatch, state}) {
         if (!state.user && !state.isLoggedIn) {
@@ -38,7 +45,7 @@ const actions = {
     },
     reloadUserData({commit, state}) {
         if (state.isLoggedIn) {
-            userService.get(user.id)
+            userService.get(state.user.id)
                 .then(
                     (user) => {
                         commit('userDataUpdated', {user})
@@ -117,6 +124,36 @@ const actions = {
                 })
         })
     },
+    sendResetPasswordRequest({commit}, email) {
+        return new Promise((resolve, reject) => {
+            commit('sendingPasswordResetRequest')
+
+            userService.sendResetPasswordRequest(email)
+                .then(() => {
+                    commit('passwordResetRequestSent')
+                    resolve()
+                })
+                .catch(() => {
+                    commit('passwordResetRequestSent')
+                    reject()
+                })
+        })
+    },
+    sendPasswordChange({commit}, {password, token}) {
+        return new Promise((resolve, reject) => {
+            commit('sendingPasswordChange')
+
+            userService.sendPasswordChange(password, token)
+                .then(() => {
+                    commit('passwordChangeSent')
+                    resolve()
+                })
+                .catch(() => {
+                    commit('passwordChangeError')
+                    reject()
+                })
+        })
+    },
 }
 
 const mutations = {
@@ -183,6 +220,22 @@ const mutations = {
     emailCodeConfirmError(state) {
         state.confirmingEmailCode = false
         state.confirmEmailError = true
+    },
+    sendingPasswordResetRequest(state) {
+        state.sendingPasswordResetRequest = true
+    },
+    passwordResetRequestSent(state) {
+        state.sendingPasswordResetRequest = false
+        state.passwordResetRequestSent = true
+    },
+    sendingPasswordChange(state) {
+        state.sendingPasswordChange = true
+    },
+    passwordChangeSent(state) {
+        state.sendingPasswordChange = false
+    },
+    passwordChangeError(state) {
+        state.sendingPasswordChange = false
     },
 }
 
