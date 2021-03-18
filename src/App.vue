@@ -94,4 +94,8 @@ button
   bottom: 10%
   overflow: visible
   z-index: 2000
+
+body
+  margin: 0
 </style>
+

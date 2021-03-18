@@ -3,6 +3,11 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6 offset-sm-3">
+
+    <ProgressBar :progress="kikoo" />
+    <input type="number" v-model="kikoo">
+    {{ kikoo }}
+
           <transition name="fade">
             <div class="transition-container"
                  v-if="showingLogin && !resetPasswordToken"
@@ -96,6 +101,7 @@ import {mapState, mapActions} from 'vuex'
 import InlineForm from './form/InlineForm.vue'
 import TextInput from './form/TextInput.vue'
 import Submit from './form/Submit.vue'
+import ProgressBar from './ProgressBar'
 
 export default {
   name: 'Login',
@@ -107,6 +113,7 @@ export default {
       showingLogin: true,
       showingPasswordReset: false,
       resetPasswordToken: null,
+      kikoo: 40,
     }
   },
   computed: {
@@ -124,6 +131,7 @@ export default {
     InlineForm,
     TextInput,
     Submit,
+    ProgressBar,
   },
   methods: {
     ...mapActions(

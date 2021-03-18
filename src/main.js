@@ -11,8 +11,6 @@ import App from './App'
 import router from './router'
 import {store} from './store'
 
-import './base.scss'
-
 library.add(fas)
 
 Vue.config.productionTip = false
