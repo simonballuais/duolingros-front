@@ -1,5 +1,7 @@
 <template>
-  <div class="progress-container" @click="popop">
+  <div class="progress-container" @click="popop"
+       :style="{width: width, height: height, left: left, top: top}"
+       >
       <div class="progress"
            :style="{width: progress + '%'}"
       ></div>
@@ -33,6 +35,22 @@ export default {
       type: String,
       default: '0',
     },
+    'height': {
+      type: String,
+      default: '5vh',
+    },
+    'width': {
+      type: String,
+      default: '75%',
+    },
+    'left': {
+      type: String,
+      default: '0',
+    },
+    'top': {
+      type: String,
+      default: '0',
+    },
   },
   components: {
   },
@@ -54,14 +72,13 @@ export default {
 
 <style lang="sass" scoped>
 div.progress-container
-  left: 15%
-  top: 20%
   width: 75%
-  background: gray
+  background: $light-gray
   height: 5vh
-  position: absolute
+  position: relative
   overflow: visible
   border-radius: 0.5vh
+  border: 1px solid $gray
 
   .progress
     position: absolute
@@ -75,19 +92,19 @@ div.progress-container
     left: -0.5vh
     top: -0.5vh
     position: absolute
-    background: lightgreen
+    background: $light-green
     width: calc(100% + 1vh)
     height: calc(100% + 1vh)
     border-radius: 1vh
 
   .shine
-    width: 10vh
+    width: 15%
     height: 100%
-    background: red
-    left: -30vh
-    position: absolute
+    background: white
+    left: -15%
+    position: relative
     transform: skew(-45deg)
-    opacity: 0.5
+    opacity: 0.7
 
 .end-circle
   position: absolute
@@ -99,11 +116,10 @@ div.progress-container
   top: 0.5vh
 
 .woosh-leave-active
-  transition: all 0.5s ease
+  transition: all 0.3s ease-in
 
 .woosh-leave-to
-  transform: translate(100px, 0) skew(-45deg)
-  background-color: blue
+  transform: translate(800%, 0) skew(-45deg) ! important
 
 .pop-leave-active
   transition: all 0.5s ease

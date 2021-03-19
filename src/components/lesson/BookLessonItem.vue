@@ -16,13 +16,11 @@
          <span v-if="bookLesson.progress">
             - {{ bookLesson.progress.difficulty }} ({{ bookLesson.progress.currentLessonId }})
          </span>
-         <div class="progress-container">
-           <div class="progress"
-                v-if="bookLesson.progress"
-                :style="{width: 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) + '%'}"
-                >
-           </div>
-         </div>
+
+         <ProgressBar :progress="bookLesson.progress ? 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) : '0'"
+                      width="100%"
+                      height="2vh"
+          />
        </a>
 
        <span v-if="disabled" class="disabled">
@@ -31,19 +29,19 @@
          <span v-if="bookLesson.progress">
             - {{ bookLesson.progress.difficulty }} ({{ bookLesson.progress.currentLessonId }})
          </span>
-         <div class="progress-container">
-           <div class="progress"
-                v-if="bookLesson.progress"
-                :style="{width: 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) + '%'}"
-                >
-           </div>
-         </div>
+
+         <ProgressBar :progress="bookLesson.progress ? 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) : '0'"
+                      width="100%"
+                      height="2vh"
+          />
        </span>
     </router-link>
   </div>
 </template>
 
 <script>
+import ProgressBar from './../ProgressBar'
+
 export default {
   name: 'BookLessonItem',
   props: {
@@ -53,25 +51,15 @@ export default {
       default: false,
     },
   },
+  components: {
+    ProgressBar,
+  },
 }
 </script>
 
 <style lang="sass" scoped>
 div.book-element
   margin-top: 5vh
-
-  div.progress-container
-    display: block
-    width: 100%
-    background: gray
-    height: 5vh
-
-    .progress
-      position: relative
-      background: green
-      width: 10%
-      height: 100%
-      transition: width 0.25s ease-out
 
 .disabled
   color: darkgray

@@ -4,9 +4,6 @@
       <div class="row">
         <div class="col-sm-6 offset-sm-3">
 
-    <ProgressBar :progress="kikoo" />
-    <input type="number" v-model="kikoo">
-    {{ kikoo }}
 
           <transition name="fade">
             <div class="transition-container"
@@ -36,6 +33,9 @@
                   </a>
                 </router-link>
               </div>
+
+    <ProgressBar :progress="kikoo" width="50%" height="2vh" left="25%"/>
+    <input type="number" v-model="kikoo">
               <a href="#" @click="swapForm">Mot de passe oublié ?</a>
               </InlineForm>
             </div>
