@@ -12,6 +12,7 @@
                             :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
                             :expanded="bookLesson.id == selectedBookLessonId"
                             @click="selectBookLessonId(bookLesson.id)"
+                            :progress="bufferedProgresses[bookLesson.id]"
                             />
         </div>
       </transition>
@@ -52,6 +53,7 @@ export default {
         'bookLessons',
         'progress',
         'lastUnlockedBookLessonId',
+        'bufferedProgresses',
       ]
     ),
     ...mapState('registration', ['showCreateProfile']),
@@ -63,6 +65,7 @@ export default {
       [
         'loadAllBookLessons',
         'loadProgress',
+        'updateBufferedProgresses',
       ]
     ),
     ...mapActions(
@@ -84,8 +87,8 @@ export default {
   directives: {
   },
   created() {
-    this.loadAllBookLessons()
-    this.loadProgress()
+    this.loadAllBookLessons().then(this.updateBufferedProgresses)
+    this.loadProgress().then(this.updateBufferedProgresses)
     this.reloadUserData()
     setTimeout(() => this.show = true, 100)
 
@@ -124,6 +127,7 @@ div.book-items-container
   align-items: center
   justify-content: center
   align-content: center
+  margin-top: 2vh
 
 div.container-home
   position: relative

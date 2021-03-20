@@ -1,43 +1,61 @@
 <template>
-  <header>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <b-navbar toggleable="lg" type="dark" variant="info"
+              style=""
+              class="top-navbar"
+      >
       <div class="menu">
-        <span>
-          test
-        </span>
-
-        <button @click="logoutAndGoToLogin"
+        <b-button @click="logoutAndGoToLogin"
                 v-if="isLoggedIn"
+                style="margin-left: 15px"
         >
           Se déconnecter
-        </button>
+        </b-button>
 
-        <span v-if="user">
+        <b-navbar-brand v-if="isLoggedIn">
           {{ user.currentSerie || 0 }}
-        </span>
+        </b-navbar-brand>
 
-        <span v-if="isLoggedIn" 
-              class="navbar-text"
-        >
-          Coucou {{ user.username }}
-        </span>
+        <b-navbar-brand v-if="isLoggedIn">
+            Coucou {{ user.username }}
+        </b-navbar-brand>
 
-        <button @click="showCreateProfile"
+        <b-button @click="showCreateProfile"
                 v-if="!isLoggedIn"
+                variant="primary"
+                style="margin-left: 1vw"
         >
           Créer un profil
-        </button>
+        </b-button>
+
+        <router-link :to="{ name: 'login' }"
+                     v-slot="{href, route, navigate, isActive, isExactActive}"
+                      v-if="!isLoggedIn"
+                     >
+          <b-button :href="href"
+                  variant="primary"
+          >
+            Se connecter
+          </b-button>
+        </router-link>
       </div>
-    </nav>
-  </header>
+    </b-navbar>
 </template>
 
 <script>
+import { BNavbar, BNavbarBrand, BButton } from 'bootstrap-vue'
 import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'NavBar',
   components: {
+    BNavbar,
+    BNavbarBrand,
+    BButton,
+  },
+  directives: {
+    'b-navbar': BNavbar,
+    'b-navbar-brand': BNavbarBrand,
+    'b-button': BButton,
   },
   computed: {
     ...mapState('security', ['user', 'isLoggedIn']),
@@ -69,4 +87,15 @@ nav.navbar
 
     span
       margin: 2vh
+
+.top-navbar
+  min-height: 50px
+  max-height: 7vh
+  position: fixed ! important
+  top: 0
+  width: 100%
+  z-index: 100
+  box-shadow: 0 0 20px gray
+  background-color: $navbar-bg
+  border-bottom: 0.3em solid lighten($navbar-bg, 20%)
 </style>

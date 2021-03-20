@@ -9,7 +9,7 @@
             }"
             >
       <b-card-text>
-        <ProgressBar :progress="bookLesson.progress ? 100 * (bookLesson.progress.cycleProgression / bookLesson.progress.totalLessonCount) : '0'"
+        <ProgressBar :progress="progress"
               width="100%"
               height="2vh"
               />
@@ -22,14 +22,27 @@
               >
         <b-container class="bv-example-row">
           <b-row style="margin-top: 0;">
-            <b-col style="text-align: left; display: flex; align-items: center">
-              <span v-if="bookLesson.progress">
-                {{ bookLesson.progress.totalLessonCount * (bookLesson.progress.difficulty - 1) + bookLesson.progress.cycleProgression }}
+            <b-col style="text-align: left; display: flex; align-items: center"
+                   v-if="bookLesson.progress"
+              >
+              <span>
+                {{ bookLesson.progress.cycleProgression }}
                 /
-                {{ bookLesson.progress.totalLessonCount * 5 }}
+                {{ bookLesson.progress.totalLessonCount }}
                 exercices
               </span>
-              <span v-if="!bookLesson.progress">
+            </b-col>
+            <b-col style="text-align: left; display: flex; align-items: center"
+                   v-if="bookLesson.progress"
+              >
+              <span >
+                Niveau {{ bookLesson.progress.difficulty  }}
+              </span>
+            </b-col>
+            <b-col style="text-align: left; display: flex; align-items: center"
+                   v-if="!bookLesson.progress"
+              >
+              <span>
                 Leçon pas encore commencée
               </span>
             </b-col>
@@ -68,6 +81,10 @@ export default {
     'expanded': {
       type: Boolean,
       default: false,
+    },
+    'progress': {
+      type: Number,
+      default: 0,
     },
   },
   methods: {

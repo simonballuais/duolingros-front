@@ -83,6 +83,7 @@ const actions = {
     logout({commit}) {
         userService.logout()
         commit('logout')
+        commit('bookLesson/logout')
     },
     initAnonymousUserIfNecessary({commit, state}) {
         if (state.user) {

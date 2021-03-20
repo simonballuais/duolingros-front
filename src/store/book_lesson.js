@@ -3,34 +3,43 @@ import { bookLessonService, progressService } from '../service'
 const state = {
     'bookLessons': null,
     'progress': null,
+    'bufferedProgresses': {},
     'lastUnlockedBookLessonId': null,
 }
 
 const actions = {
     loadAllBookLessons({commit}) {
-        bookLessonService.fetchAll()
-            .then((bookLessons) => {
-                commit('bookLessonsUpdated', bookLessons)
-                commit('mergeProgressIntoBookLessonsIfPossible')
-            })
-            .catch(() => {
-                commit('bookLessonsUpdateError')
-            })
-    },
-    loadProgress({commit, rootState}) {
-        if (rootState.security.isLoggedIn) {
-            progressService.get()
-                .then((progress) => {
-                    commit('progressUpdated', progress)
+        return new Promise((resolve, reject) => {
+            bookLessonService.fetchAll()
+                .then((bookLessons) => {
+                    commit('bookLessonsUpdated', bookLessons)
                     commit('mergeProgressIntoBookLessonsIfPossible')
+                    resolve()
                 })
                 .catch(() => {
-                    commit('progressUpdateError')
+                    commit('bookLessonsUpdateError')
+                    reject()
                 })
-        } else {
-            commit('progressUpdated', progressService.getAsArray())
-            commit('mergeProgressIntoBookLessonsIfPossible')
-        }
+        })
+    },
+    loadProgress({commit, rootState}) {
+        return new Promise((resolve, reject) => {
+            if (rootState.security.isLoggedIn) {
+                progressService.get()
+                    .then((progress) => {
+                        commit('progressUpdated', progress)
+                        commit('mergeProgressIntoBookLessonsIfPossible')
+                        resolve()
+                    })
+                    .catch(() => {
+                        commit('progressUpdateError')
+                        reject()
+                    })
+            } else {
+                commit('progressUpdated', progressService.getAsArray())
+                commit('mergeProgressIntoBookLessonsIfPossible')
+            }
+        })
     },
     moveAnonymousProgressForward({commit}, {bookLesson}) {
         let progress = progressService.getAnonymousForBookLessonOrCreateNewOne(bookLesson)
@@ -50,8 +59,6 @@ const actions = {
 
         progress.cycleProgression += 1
 
-        window.console.log('UPPUPUUPP')
-
         if (nextLessonIndex >= sortedLessonList.length) {
             nextLessonIndex = 0
             progress.cycleProgression = 0
@@ -68,6 +75,9 @@ const actions = {
 
         commit('localProgressMovedForward', {progress})
     },
+    updateBufferedProgresses({commit}) {
+        commit('bufferedProgressesUpdated')
+    }
 }
 
 const mutations = {
@@ -106,6 +116,17 @@ const mutations = {
     },
     localProgressMovedForward(state, {progress}) {
         progressService.saveAnonymous(progress)
+    },
+    bufferedProgressesUpdated(state) {
+        state.bufferedProgresses = {}
+        state.bookLessons.forEach(
+            (bl) => state.bufferedProgresses[bl.id] = bl.progress ? bl.progress.cycleProgression / bl.progress.totalLessonCount * 100 : 0
+        )
+
+        window.console.log(state.bufferedProgresses)
+    },
+    logout(state) {
+        state.bufferedProgresses = {}
     }
 }
 

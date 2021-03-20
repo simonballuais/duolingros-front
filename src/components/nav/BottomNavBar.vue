@@ -11,22 +11,29 @@
                  @closeMe="showProfilePanel = false"
     />
 
-    <nav class="bottom-navbar">
+    <b-navbar toggleable="lg" type="dark" variant="info"
+              style=""
+              class="bottom-navbar"
+      >
       <div class="menu">
-        <a v-if="isLoggedIn" @click="showProfilePanel = !showProfilePanel">
+        <b-button style="margin-left: 15px"
+          v-if="isLoggedIn" @click="showProfilePanel = !showProfilePanel"
+          >
           Profil
-        </a>
-        <a v-if="isLoggedIn" @click="showProgressPanel = !showProgressPanel">
-          pouet pouet
-        </a>
+        </b-button>
+        <b-button style="margin-right: 15px"
+          v-if="isLoggedIn" @click="showProgressPanel = !showProgressPanel">
+          Progrès
+        </b-button>
       </div>
-    </nav>
+    </b-navbar>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 
+import { BNavbar, BButton } from 'bootstrap-vue'
 import ProgressPanel from './../ProgressPanel.vue'
 import ProfilePanel from './../ProfilePanel.vue'
 import CreateProfile from '../register/CreateProfile.vue'
@@ -45,6 +52,12 @@ export default {
     ProfilePanel,
     CreateProfile,
     ProfileCreated,
+    BNavbar,
+    BButton,
+  },
+  directives: {
+    'b-navbar': BNavbar,
+    'b-button': BButton,
   },
   computed: {
     ...mapState('security', ['isLoggedIn']),
@@ -73,4 +86,14 @@ nav.bottom-navbar
 
     a
       margin: 2vh
+
+.top-navbar
+  min-height: 50px
+  max-height: 7vh
+  position: fixed ! important
+  bottom: 0
+  width: 100%
+  z-index: 100
+  box-shadow: 0 0 20px gray
+  background-color: $navbar-bg
 </style>
