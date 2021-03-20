@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <b-card :title="bookLesson.title"
+    <b-card title-tag="title"
             style="width: 100%; height: 100%"
             @click="emitClickIfPossible"
             :style="{
@@ -8,7 +8,18 @@
               'border-bottom-right-radius': expanded ? '0' : '0.25rem',
             }"
             >
+      <template #title>
+        <h4>Coucou {{ bookLesson.title }}</h4>
+      </template>
       <b-card-text>
+        <b-row style="margin-top: 0;">
+          <b-col style="text-align: left; display: flex; align-items: center">
+            <h4>Coucou {{ bookLesson.title }}</h4>
+          </b-col>
+          <b-col style="text-align: left; display: flex; align-items: center; flex-flow: row-reverse;">
+            <StarBar :progress="difficulty" />
+          </b-col>
+        </b-row>
         <ProgressBar :progress="progress"
               width="100%"
               height="2vh"
@@ -18,8 +29,7 @@
     </b-card>
 
     <transition name="slide">
-      <footer v-if="expanded"
-              >
+      <footer v-if="expanded">
         <b-container class="bv-example-row">
           <b-row style="margin-top: 0;">
             <b-col style="text-align: left; display: flex; align-items: center"
@@ -68,6 +78,7 @@
 
 <script>
 import ProgressBar from './../ProgressBar'
+import StarBar from './../StarBar'
 import { BCard, BCardText, BButton, BContainer, BRow, BCol } from 'bootstrap-vue'
 
 export default {
@@ -86,9 +97,19 @@ export default {
       type: Number,
       default: 0,
     },
+    'difficulty': {
+      type: Number,
+      default: 0,
+    },
+  },
+  data() {
+    return {
+      coincoin: 2,
+    }
   },
   methods: {
     emitClickIfPossible(e) {
+      this.coincoin++
       if (!this.disabled) {
         this.$emit('click', e)
       }
@@ -96,6 +117,7 @@ export default {
   },
   components: {
     ProgressBar,
+    StarBar,
     BCard,
     BButton,
     BCardText,

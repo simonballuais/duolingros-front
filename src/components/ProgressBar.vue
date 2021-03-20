@@ -1,5 +1,5 @@
 <template>
-  <div class="progress-container" @click="popop"
+  <div class="progress-container"
        :style="{width: width, height: height, left: left, top: top}"
        >
       <div class="progress"

@@ -12,12 +12,13 @@
                             :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
                             :expanded="bookLesson.id == selectedBookLessonId"
                             @click="selectBookLessonId(bookLesson.id)"
-                            :progress="bufferedProgresses[bookLesson.id]"
+                            :progress="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].progress : 0"
+                            :difficulty="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].difficulty : 0"
                             />
         </div>
       </transition>
 
-      <Spinner v-if="!bookLessons || !progress || confirmingEmailCode"
+      <Spinner v-if="!bookLessons || !progress || confirmingEmailCode || !bufferedProgresses"
                :big="true"
                :center="true"
                ></Spinner>

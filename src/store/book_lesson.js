@@ -3,7 +3,7 @@ import { bookLessonService, progressService } from '../service'
 const state = {
     'bookLessons': null,
     'progress': null,
-    'bufferedProgresses': {},
+    'bufferedProgresses': null,
     'lastUnlockedBookLessonId': null,
     bookLessonIdThatJustEnded: null,
 }
@@ -39,6 +39,7 @@ const actions = {
             } else {
                 commit('progressUpdated', progressService.getAsArray())
                 commit('mergeProgressIntoBookLessonsIfPossible')
+                resolve()
             }
         })
     },
@@ -80,7 +81,7 @@ const actions = {
         if (state.bookLessonIdThatJustEnded) {
             setTimeout(
                 () => { commit('bufferedProgressesUpdated') },
-                2000
+                500
             )
         }
 
@@ -133,17 +134,23 @@ const mutations = {
         state.bookLessons.forEach(
             (bl) => {
                 let newProgress = 0
+                let newDifficulty = 0
 
                 if (bl.progress) {
                     if (bl.id === state.bookLessonIdThatJustEnded) {
                         newProgress = 100
+                        newDifficulty = bl.progress.difficulty - 2
                         state.bookLessonIdThatJustEnded = null
                     } else {
                         newProgress = bl.progress.cycleProgression / bl.progress.totalLessonCount * 100
+                        newDifficulty = bl.progress.difficulty - 1
                     }
                 }
 
-                state.bufferedProgresses[bl.id] = newProgress
+                state.bufferedProgresses[bl.id] = {
+                    progress: newProgress,
+                    difficulty: newDifficulty,
+                }
             }
         )
     },
