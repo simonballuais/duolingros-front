@@ -5,6 +5,7 @@ const state = {
     'progress': null,
     'bufferedProgresses': {},
     'lastUnlockedBookLessonId': null,
+    bookLessonIdThatJustEnded: null,
 }
 
 const actions = {
@@ -75,7 +76,14 @@ const actions = {
 
         commit('localProgressMovedForward', {progress})
     },
-    updateBufferedProgresses({commit}) {
+    updateBufferedProgresses({state, commit}) {
+        if (state.bookLessonIdThatJustEnded) {
+            setTimeout(
+                () => { commit('bufferedProgressesUpdated') },
+                2000
+            )
+        }
+
         commit('bufferedProgressesUpdated')
     }
 }
@@ -117,13 +125,27 @@ const mutations = {
     localProgressMovedForward(state, {progress}) {
         progressService.saveAnonymous(progress)
     },
+    difficultyEnded(state, {bookLessonId}) {
+        state.bookLessonIdThatJustEnded = bookLessonId
+    },
     bufferedProgressesUpdated(state) {
         state.bufferedProgresses = {}
         state.bookLessons.forEach(
-            (bl) => state.bufferedProgresses[bl.id] = bl.progress ? bl.progress.cycleProgression / bl.progress.totalLessonCount * 100 : 0
-        )
+            (bl) => {
+                let newProgress = 0
 
-        window.console.log(state.bufferedProgresses)
+                if (bl.progress) {
+                    if (bl.id === state.bookLessonIdThatJustEnded) {
+                        newProgress = 100
+                        state.bookLessonIdThatJustEnded = null
+                    } else {
+                        newProgress = bl.progress.cycleProgression / bl.progress.totalLessonCount * 100
+                    }
+                }
+
+                state.bufferedProgresses[bl.id] = newProgress
+            }
+        )
     },
     logout(state) {
         state.bufferedProgresses = {}

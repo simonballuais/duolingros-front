@@ -83,12 +83,19 @@ export default {
 
       this.selectedBookLessonId = id
     },
+    planUpdateBufferedProgresses() {
+      setTimeout(this.updateBufferedProgresses, 500)
+    },
   },
   directives: {
   },
   created() {
-    this.loadAllBookLessons().then(this.updateBufferedProgresses)
-    this.loadProgress().then(this.updateBufferedProgresses)
+    Promise.all([
+      this.loadAllBookLessons(),
+      this.loadProgress()
+    ])
+      .then(this.planUpdateBufferedProgresses)
+
     this.reloadUserData()
     setTimeout(() => this.show = true, 100)
 

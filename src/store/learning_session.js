@@ -101,6 +101,12 @@ const actions = {
     },
     showEndOfDifficulty({commit}) {
         commit('endOfDifficultyShowed')
+        commit(
+            'bookLesson/difficultyEnded',
+            {bookLessonId: state.currentLearningSession.bookLesson.id},
+            {root: true}
+        )
+        window.console.log('coucoucoucoucoc')
     },
     endEndOfDifficulty({commit, dispatch, rootState}) {
         commit('endOfDifficultyEnded')
