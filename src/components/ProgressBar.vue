@@ -4,11 +4,11 @@
        >
       <div class="progress"
            :style="{width: progress + '%'}"
-      ></div>
-
-      <transition name="woosh">
-        <div class="shine" v-if="pop"></div>
-      </transition>
+      >
+        <transition name="woosh">
+          <div class="shine" v-if="pop"></div>
+        </transition>
+      </div>
 
       <transition name="depop">
         <div class="progress-pop" v-if="pop"></div>
@@ -32,7 +32,6 @@ export default {
   },
   props: {
     'progress': {
-      type: String,
       default: '0',
     },
     'height': {
@@ -104,7 +103,7 @@ div.progress-container
     left: -15%
     position: relative
     transform: skew(-45deg)
-    opacity: 0.7
+    opacity: 0.9
 
 .end-circle
   position: absolute

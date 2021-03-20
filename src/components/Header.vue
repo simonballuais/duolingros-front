@@ -10,16 +10,13 @@
       </router-link>
     </div>
 
-    <div class="progress-container">
-      <div class="progress"
-           :style="{width: progress + '%'}"
-        ></div>
-    </div>
+    <ProgressBar :progress="progress" width="80%" height="2vh" left="10%"/>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import ProgressBar from './ProgressBar'
 
 export default {
   name: 'Header',
@@ -28,6 +25,7 @@ export default {
     }
   },
   components: {
+    ProgressBar,
   },
   computed: {
     ...mapState('learningSession', ['progress']),

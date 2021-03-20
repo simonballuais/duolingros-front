@@ -2,15 +2,7 @@
   <div class="daily-progress">
     <h1>Bravo !</h1>
 
-    <div class="progress-container">
-      <transition name="depop">
-        <div class="progress-pop" v-if="pop"></div>
-      </transition>
-
-      <div class="progress"
-           :style="{width: dailyProgress + '%'}"
-      ></div>
-    </div>
+    <ProgressBar :progress="dailyProgress" width="80%" height="2vh" left="10%"/>
 
     <div>
       Leçons terminées aujourd'hui : {{ user.learningSessionCountThatDay + 1 }}
@@ -28,10 +20,12 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import ProgressBar from './ProgressBar'
 
 export default {
   name: 'DailyProgress',
   components: {
+    ProgressBar,
   },
   data() {
     return {

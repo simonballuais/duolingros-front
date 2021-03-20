@@ -5,12 +5,14 @@
          :class="{blur: showCreateProfile}"
     >
       <transition name="fade-in">
-        <div v-if="bookLessons && progress">
-          <BookLessonItem v-for="bookLesson in bookLessons"
-                          :bookLesson="bookLesson"
-                          :key="bookLesson.id"
-                          :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
-                          />
+      I <div v-if="bookLessons && progress" class="book-items-container">
+            <BookLessonItem v-for="bookLesson in bookLessons"
+                            :bookLesson="bookLesson"
+                            :key="bookLesson.id"
+                            :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
+                            :expanded="bookLesson.id == selectedBookLessonId"
+                            @click="selectBookLessonId(bookLesson.id)"
+                            />
         </div>
       </transition>
 
@@ -36,6 +38,7 @@ export default {
   data() {
     return {
       show: false,
+      selectedBookLessonId: null,
     }
   },
   components: {
@@ -69,6 +72,16 @@ export default {
         'confirmEmailCode',
       ]
     ),
+    selectBookLessonId(id) {
+      if (id === this.selectedBookLessonId) {
+        this.selectedBookLessonId = null
+        return
+      }
+
+      this.selectedBookLessonId = id
+    },
+  },
+  directives: {
   },
   created() {
     this.loadAllBookLessons()
@@ -105,14 +118,22 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+div.book-items-container
+  display: flex
+  flex-flow: row wrap
+  align-items: center
+  justify-content: center
+  align-content: center
+
 div.container-home
-  position: absolute
+  position: relative
+  margin: 0 auto
   margin-top: 8mm
   margin-bottom: 1.5cm
   padding-top: 5mm
   height: calc(var(--vh, 1vh) * 100)
-  width: 100%
-  background: rgb(247, 248, 250)
+  max-width: 1200px
+  overflow: hidden
 
   &.blur
     filter: blur(4px)
