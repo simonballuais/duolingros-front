@@ -12,6 +12,7 @@
           <transition name="pop">
               <font-awesome-icon class="checked" icon="check"
                                  v-if="showingCheck"
+                                 @click="popop"
                 />
           </transition>
 
@@ -64,6 +65,12 @@ export default {
       default: true,
     },
   },
+  methods: {
+    popop() {
+      this.pop = true
+      this.$nextTick(() => this.pop = false)
+    },
+  },
   watch: {
     locked(val) {
       if (!val) {
@@ -72,14 +79,18 @@ export default {
         this.showingCheck = false
       }
 
-      this.pop = true
-      this.$nextTick(() => this.pop = false)
+      this.popop()
     },
   },
   components: {
   },
   directives: {
     'b-tooltip': BTooltip,
+  },
+  created() {
+    if (!this.locked) {
+      this.showingCheck = true
+    }
   },
 }
 </script>

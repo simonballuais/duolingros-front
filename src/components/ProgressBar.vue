@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: 'Header',
+  name: 'ProgressBar',
   data() {
     return {
       pop: false,

@@ -204,7 +204,7 @@ h4
 
 .pop-leave-active
   transition: all 0.8s ease
-  transition-delay: 1s
+  transition-delay: 1.4s
 
 .pop-leave-to
   opacity: 0
