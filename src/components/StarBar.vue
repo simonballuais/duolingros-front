@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'Header',
+  name: 'StarBar',
   data() {
     return {
       pop: false,
@@ -57,4 +57,7 @@ export default {
 .star
   color: orange
   font-size: 24pt
+
+.progress-container
+  margin-bottom: 0.5rem
 </style>

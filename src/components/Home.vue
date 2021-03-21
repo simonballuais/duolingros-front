@@ -5,16 +5,28 @@
          :class="{blur: showCreateProfile}"
     >
       <transition name="fade-in">
-      I <div v-if="bookLessons && progress" class="book-items-container">
-            <BookLessonItem v-for="bookLesson in bookLessons"
-                            :bookLesson="bookLesson"
-                            :key="bookLesson.id"
-                            :disabled="!bookLesson.progress && bookLesson.id != lastUnlockedBookLessonId"
-                            :expanded="bookLesson.id == selectedBookLessonId"
-                            @click="selectBookLessonId(bookLesson.id)"
-                            :progress="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].progress : 0"
-                            :difficulty="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].difficulty : 0"
-                            />
+      <div v-if="courses && progress && bufferedProgresses">
+          <div v-for="(course, i) in courses"
+               :key="course.id"
+               class="course-container"
+          >
+            <CourseSeparator v-if="i !== 0"
+                             :locked="bufferedLockedCourses[course.id]"
+            />
+            <div class="book-items-container">
+              <BookLessonItem v-for="bookLesson in course.bookLessonList"
+                              :bookLesson="bookLesson"
+                              :key="bookLesson.id"
+                              :disabled="!bookLesson.progress && ! (course.order === 1 && bookLesson.order === 1)"
+                              :expanded="bookLesson.id == selectedBookLessonId"
+                              @click="selectBookLessonId(bookLesson.id)"
+                              :progress="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].progress : 0"
+                              :difficulty="bufferedProgresses[bookLesson.id] ? (bufferedProgresses[bookLesson.id].difficulty + (bufferedProgresses[bookLesson.id].completed ? 1 : 0)) : 0"
+                              />
+            </div>
+          </div>
+
+        <div class="spacer"> </div>
         </div>
       </transition>
 
@@ -30,6 +42,7 @@
 import {mapState, mapActions} from 'vuex'
 
 import BookLessonItem from './lesson/BookLessonItem'
+import CourseSeparator from './CourseSeparator'
 import Spinner from './misc/Spinner'
 
 export default {
@@ -46,15 +59,17 @@ export default {
   components: {
     BookLessonItem,
     Spinner,
+    CourseSeparator,
   },
   computed: {
     ...mapState(
       'bookLesson',
       [
         'bookLessons',
+        'courses',
         'progress',
-        'lastUnlockedBookLessonId',
         'bufferedProgresses',
+        'bufferedLockedCourses',
       ]
     ),
     ...mapState('registration', ['showCreateProfile']),
@@ -135,7 +150,6 @@ div.book-items-container
   align-items: center
   justify-content: center
   align-content: center
-  margin-top: 2vh
 
 div.container-home
   position: relative
@@ -145,7 +159,6 @@ div.container-home
   padding-top: 5mm
   height: calc(var(--vh, 1vh) * 100)
   max-width: 1200px
-  overflow: hidden
 
   &.blur
     filter: blur(4px)

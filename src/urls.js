@@ -5,6 +5,7 @@ const urls = {
     'login': 'login',
     'logout': 'logout',
     'book_lessons': 'book_lessons',
+    'courses': 'courses',
     'start_learning_session': 'learning-sessions/start-lesson/{lesson}/{difficulty}',
     'submit_learning_session': 'learning-sessions/{learningSession}/submit',
     'start_anonymous_learning_session': 'anonymous-learning-sessions/start-lesson/{lesson}/{difficulty}',

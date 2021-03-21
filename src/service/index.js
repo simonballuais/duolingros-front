@@ -1,5 +1,6 @@
 export * from './user.service'
 export * from './book_lesson.service'
+export * from './course.service'
 export * from './progress.service'
 export * from './learning_session.service'
 export * from './question_corrector.service'

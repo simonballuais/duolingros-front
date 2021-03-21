@@ -9,12 +9,12 @@
             }"
             >
       <template #title>
-        <h4>Coucou {{ bookLesson.title }}</h4>
+        <h4>{{ bookLesson.title }}</h4>
       </template>
-      <b-card-text>
+      <b-card-text style="margin-bottom: 0">
         <b-row style="margin-top: 0;">
           <b-col style="text-align: left; display: flex; align-items: center">
-            <h4>Coucou {{ bookLesson.title }}</h4>
+            <h4>{{ bookLesson.title }}</h4>
           </b-col>
           <b-col style="text-align: left; display: flex; align-items: center; flex-flow: row-reverse;">
             <StarBar :progress="difficulty" />
@@ -25,7 +25,10 @@
               height="2vh"
               />
       </b-card-text>
-      <div class="disabler" v-if="disabled"></div>
+
+      <transition name="pop">
+        <div class="disabler" v-if="disabled"></div>
+      </transition>
     </b-card>
 
     <transition name="slide">
@@ -45,8 +48,8 @@
             <b-col style="text-align: left; display: flex; align-items: center"
                    v-if="bookLesson.progress"
               >
-              <span >
-                Niveau {{ bookLesson.progress.difficulty  }}
+              <span v-if="bookLesson.progress.difficulty > 1">
+                Niveau {{ bookLesson.progress.difficulty - 1 + bookLesson.progress.completed  }}
               </span>
             </b-col>
             <b-col style="text-align: left; display: flex; align-items: center"
@@ -66,7 +69,20 @@
                     }"
                   v-slot="{href, route, navigate, isActive, isExactActive}"
                 >
-                  <b-button :href="href" variant="primary">Commencer</b-button>
+                  <b-button :href="href"
+                            variant="primary"
+                            v-if="!bookLesson.progress || !bookLesson.progress.completed"
+                            >
+                    Commencer
+                  </b-button>
+
+                  <b-button :href="href"
+                            variant="secondary"
+                            v-if="bookLesson.progress && bookLesson.progress.completed"
+                            disabled
+                            >
+                    Réviser
+                  </b-button>
               </router-link>
             </b-col>
           </b-row>
@@ -181,4 +197,16 @@ footer
   background-color: rgba(0, 0, 0, 0.03)
   border-top: 0
   border-radius: 0 0 calc(0.25rem - 1px) calc(0.25rem - 1px)
+
+h4
+  font-weight: normal
+  color: $dark-gray
+
+.pop-leave-active
+  transition: all 0.8s ease
+  transition-delay: 1s
+
+.pop-leave-to
+  opacity: 0
+  transform: scale(2, 2)
 </style>

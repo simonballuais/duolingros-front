@@ -1,19 +1,20 @@
-import { bookLessonService, progressService } from '../service'
+import { progressService, courseService } from '../service'
 
 const state = {
     'bookLessons': null,
+    'courses': null,
     'progress': null,
     'bufferedProgresses': null,
-    'lastUnlockedBookLessonId': null,
+    'bufferedLockedCourses': null,
     bookLessonIdThatJustEnded: null,
 }
 
 const actions = {
     loadAllBookLessons({commit}) {
         return new Promise((resolve, reject) => {
-            bookLessonService.fetchAll()
-                .then((bookLessons) => {
-                    commit('bookLessonsUpdated', bookLessons)
+            courseService.fetchAll()
+                .then((courses) => {
+                    commit('bookLessonsUpdated', courses)
                     commit('mergeProgressIntoBookLessonsIfPossible')
                     resolve()
                 })
@@ -90,8 +91,16 @@ const actions = {
 }
 
 const mutations = {
-    bookLessonsUpdated(state, bookLessons) {
-        state.bookLessons = bookLessons
+    bookLessonsUpdated(state, courses) {
+        state.courses = courses
+        state.bookLessons = []
+
+        courses.forEach((c) => {
+            c.bookLessonList.forEach((bl) => {
+                bl.courseId = c.id
+                state.bookLessons.push(bl)
+            })
+        })
     },
     bookLessonsUpdateError(state) {
         state.bookLessons = []
@@ -113,15 +122,6 @@ const mutations = {
                 bl.progress = correspondingProgress
             }
         })
-
-        state.bookLessons.every((b) => {
-            if (!b.progress) {
-                state.lastUnlockedBookLessonId = b.id
-                return false
-            }
-
-            return true
-        })
     },
     localProgressMovedForward(state, {progress}) {
         progressService.saveAnonymous(progress)
@@ -131,12 +131,17 @@ const mutations = {
     },
     bufferedProgressesUpdated(state) {
         state.bufferedProgresses = {}
+        state.bufferedLockedCourses = {}
+        state.courses.forEach((c) => state.bufferedLockedCourses[c.id] = true)
+
         state.bookLessons.forEach(
             (bl) => {
                 let newProgress = 0
                 let newDifficulty = 0
 
                 if (bl.progress) {
+                    state.bufferedLockedCourses[bl.courseId] = false
+
                     if (bl.id === state.bookLessonIdThatJustEnded) {
                         newProgress = 100
                         newDifficulty = bl.progress.difficulty - 2
@@ -144,6 +149,10 @@ const mutations = {
                     } else {
                         newProgress = bl.progress.cycleProgression / bl.progress.totalLessonCount * 100
                         newDifficulty = bl.progress.difficulty - 1
+                    }
+
+                    if (bl.progress.completed) {
+                        newDifficulty++
                     }
                 }
 
