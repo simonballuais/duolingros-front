@@ -51,12 +51,9 @@
               <span v-if="bookLesson.progress.difficulty > 1">
                 Niveau {{ bookLesson.progress.difficulty - 1 + bookLesson.progress.completed  }}
               </span>
-            </b-col>
-            <b-col style="text-align: left; display: flex; align-items: center"
-                   v-if="!bookLesson.progress"
-              >
-              <span>
-                Leçon pas encore commencée
+              <span v-if="bookLesson.progress.cycleProgression === 0 && bookLesson.progress.difficulty === 1"
+                    >
+                Pas commencé
               </span>
             </b-col>
             <b-col style="text-align: right">
@@ -73,12 +70,13 @@
                             variant="primary"
                             v-if="!bookLesson.progress || !bookLesson.progress.completed"
                             >
-                    Commencer
+                    {{ bookLesson.progress.cycleProgression === 0 && bookLesson.progress.difficulty === 1 ? "Commencer" : "Continuer" }}
                   </b-button>
 
                   <b-button :href="href"
                             variant="secondary"
                             v-if="bookLesson.progress && bookLesson.progress.completed"
+                            id="revision"
                             disabled
                             >
                     Réviser
@@ -89,13 +87,17 @@
         </b-container>
       </footer>
     </transition>
+
+    <b-tooltip target="revision" placement="top">
+      <span>Bientôt :)</span>
+    </b-tooltip>
   </div>
 </template>
 
 <script>
 import ProgressBar from './../ProgressBar'
 import StarBar from './../StarBar'
-import { BCard, BCardText, BButton, BContainer, BRow, BCol } from 'bootstrap-vue'
+import { BCard, BCardText, BButton, BContainer, BRow, BCol, BTooltip } from 'bootstrap-vue'
 
 export default {
   name: 'BookLessonItem',
@@ -142,13 +144,14 @@ export default {
     BCol,
   },
   directives: {
-  'b-card': BCard ,
-  'b-card-text': BCardText,
-  'b-button': BButton,
-  'b-container': BContainer,
-  'b-row': BRow,
-  'b-col': BCol,
-}
+    'b-card': BCard ,
+    'b-card-text': BCardText,
+    'b-button': BButton,
+    'b-container': BContainer,
+    'b-row': BRow,
+    'b-col': BCol,
+    'b-tooltip': BTooltip,
+  }
 }
 </script>
 

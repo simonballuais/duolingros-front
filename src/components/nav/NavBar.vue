@@ -11,9 +11,43 @@
           Se déconnecter
         </b-button>
 
-        <b-navbar-brand v-if="isLoggedIn">
+        <b-navbar-brand v-if="isLoggedIn" id="current-serie">
           {{ user.currentSerie || 0 }}
+          <font-awesome-icon class="fire" icon="fire" style="color: white"/>
         </b-navbar-brand>
+
+        <b-tooltip target="current-serie" placement="bottom" triggers="hover">
+          <div class="tooltip-content">
+            <h1 v-if="user.currentSerie">
+              <font-awesome-icon class="fire" icon="fire" style="color: white"/>
+            </h1>
+            <span v-if="user.currentSerie">
+              Vous avez étudié pendant {{ user.currentSerie }} {{ user.currentSerie >= 2 ? "jours" : "jour" }} d'affilé !
+            </span>
+            <span v-if="!user.currentSerie">
+              Vous n'avez pas encore commencé de série
+            </span>
+          </div>
+        </b-tooltip>
+
+        <b-navbar-brand v-if="isLoggedIn" id="total-levels">
+          {{ user.totalLevels }}
+          <font-awesome-icon class="star" icon="star" style="color: white"/>
+        </b-navbar-brand>
+
+        <b-tooltip target="total-levels" placement="bottom" triggers="hover">
+          <div class="tooltip-content">
+            <h1 v-if="user.totalLevels">
+              <font-awesome-icon class="star" icon="star" style="color: white"/>
+            </h1>
+            <span v-if="user.totalLevels">
+              Vous avez terminé un total de {{ user.totalLevels }} {{ user.totalLevels >= 2 ? "niveaux" : "niveau" }} !
+            </span>
+            <span v-if="!user.totalLevels">
+              Vous n'avez pas encore terminé de niveau
+            </span>
+          </div>
+        </b-tooltip>
 
         <b-navbar-brand v-if="isLoggedIn">
             Coucou {{ user.username }}
@@ -42,7 +76,7 @@
 </template>
 
 <script>
-import { BNavbar, BNavbarBrand, BButton } from 'bootstrap-vue'
+import { BNavbar, BNavbarBrand, BButton, BTooltip } from 'bootstrap-vue'
 import {mapState, mapActions} from 'vuex'
 
 export default {
@@ -56,6 +90,7 @@ export default {
     'b-navbar': BNavbar,
     'b-navbar-brand': BNavbarBrand,
     'b-button': BButton,
+    'b-tooltip': BTooltip,
   },
   computed: {
     ...mapState('security', ['user', 'isLoggedIn']),
@@ -97,5 +132,21 @@ nav.navbar
   z-index: 100
   box-shadow: 0 0 20px gray
   background-color: $navbar-bg
-  border-bottom: 0.3em solid lighten($navbar-bg, 20%)
+
+.tooltip-content
+  font-size: 14pt
+  display: flex
+  align-items: center
+  align-contents: center
+
+  h1
+    margin-right: 8%
+    margin-left: 8%
+
+#current-serie, #total-levels
+  font-size: 18pt
+  transition: all 0.15s ease
+
+  &:hover
+    transform: scale(1.2, 1.2)
 </style>
