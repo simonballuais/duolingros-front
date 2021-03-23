@@ -88,7 +88,7 @@
       </footer>
     </transition>
 
-    <b-tooltip target="revision" placement="top">
+    <b-tooltip target="revision" placement="top" triggers="hover">
       <span>Bientôt :)</span>
     </b-tooltip>
   </div>

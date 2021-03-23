@@ -56,11 +56,15 @@ export default {
 
 <style lang="sass" scoped>
 div.current-exercise
-  position: absolute
-  top: 10%
+  position: relative
+  margin: 0 auto
+  top: 0
+  left: 0
+  overflow: hidden
   left: 0
   height: 90%
-  width: 100%
+  max-width: 700px
+  padding: 3%
 
 .exercise-fade-enter-active, .exercise-fade-leave-active
   transition: all .3s ease

@@ -109,7 +109,6 @@ div.learning-lesson
   height: calc(var(--vh, 1vh) * 100)
   width: 100%
   overflow: hidden
-  background: yellow
 
 .page-transition-enter-active, .page-transition-leave-active
   transition: all .3s ease

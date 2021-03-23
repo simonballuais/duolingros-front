@@ -22,7 +22,7 @@
               <font-awesome-icon class="fire" icon="fire" style="color: white"/>
             </h1>
             <span v-if="user.currentSerie">
-              Vous avez étudié pendant {{ user.currentSerie }} {{ user.currentSerie >= 2 ? "jours" : "jour" }} d'affilé !
+              Vous avez étudié pendant <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} d'affilé !
             </span>
             <span v-if="!user.currentSerie">
               Vous n'avez pas encore commencé de série
@@ -41,7 +41,7 @@
               <font-awesome-icon class="star" icon="star" style="color: white"/>
             </h1>
             <span v-if="user.totalLevels">
-              Vous avez terminé un total de {{ user.totalLevels }} {{ user.totalLevels >= 2 ? "niveaux" : "niveau" }} !
+              Vous avez terminé <strong>{{ user.totalLevels }}</strong> {{ user.totalLevels >= 2 ? "niveaux" : "niveau" }} au total !
             </span>
             <span v-if="!user.totalLevels">
               Vous n'avez pas encore terminé de niveau

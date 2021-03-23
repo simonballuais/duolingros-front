@@ -1,16 +1,25 @@
 <template>
-  <div class="header">
-    <div class="exit-container">
-      <router-link :to="{ name: 'home'}"
-                   v-slot="{href, route, navigate, isActive, isExactActive}"
-        >
-        <a :href="href">
-          X
-        </a>
-      </router-link>
-    </div>
+  <div class="header-container">
+    <div class="header">
+      <div class="exit-container">
+        <router-link :to="{ name: 'home'}"
+                     v-slot="{href, route, navigate, isActive, isExactActive}"
+          >
+          <a :href="href">
+            <font-awesome-icon class="times" icon="times" />
+          </a>
+        </router-link>
+      </div>
 
-    <ProgressBar :progress="progress" width="80%" height="2vh" left="10%"/>
+      <ProgressBar
+          :progress="progress"
+          width="85%"
+          height="1.5em"
+          position="relative"
+          borderRadius="0.75em"
+          background="white"
+          />
+    </div>
   </div>
 </template>
 
@@ -39,42 +48,35 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-div.header
-  position: absolute
-  height: 10%
-  top: 0
-  left: 0
+div.header-container
   width: 100%
-  background: red
+  min-height: 50px
+  max-height: 7vh
+  background-color: $navbar-bg
+  box-shadow: 0 0 20px gray
 
-div.progress-container
-  position: absolute
-  left: 15%
-  width: 75%
-  top: 35%
-  background: gray
-  height: 30%
-
-  .progress
+  div.header
     position: relative
-    background: green
-    width: 10%
     height: 100%
-    transition: width 0.25s ease-out
+    margin: 0 auto
+    max-width: 1000px
+    display: flex
+    align-items: center
+    align-content: center
+    justify-content: space-evenly
+
 
 div.exit-container
-  position: absolute
+  position: relative
   display: flex
   left: 0
   top: 0
-  width: 15%
   height: 100%
-  background: light-gray
   align-items: center
   justify-content: center
 
   a
-    color: black
+    color: white
     text-decoration: none
-    font-size: 5vh
+    font-size: 2.2em
 </style>

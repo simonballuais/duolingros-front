@@ -4,31 +4,33 @@
          v-if="currentCorrection" 
          :class="{wrong: !currentCorrection.isCorrect}"
       >
-      <h2 v-if="currentCorrection && currentCorrection.isCorrect">
-        Correct !
-      </h2>
+      <div class="correction-content">
+        <h2 v-if="currentCorrection && currentCorrection.isCorrect">
+          Correct !
+        </h2>
 
-      <h2 v-if="currentCorrection && currentCorrection.isCorrect && currentCorrection.remark"
-          v-html="currentCorrection.remark"
+        <h3 v-if="currentCorrection && currentCorrection.isCorrect && currentCorrection.remark"
+            v-html="currentCorrection.remark"
+            >
+        </h3>
+
+        <h2 v-if="currentCorrection && !currentCorrection.isCorrect">
+          Bonne réponse :
+        </h2>
+
+        <h3 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswer"
+            >
+            Un gros kiki qui fait la course avec une abeille mais il n'a pas de jambe alors il se secoue pour essayer d'avancer
+        </h3>
+
+        <button class="end-correction"
+                type="button"
+                @click="endCorrection"
+                v-if="currentCorrection"
           >
-      </h2>
-
-      <h2 v-if="currentCorrection && !currentCorrection.isCorrect">
-        Réponse :
-      </h2>
-
-      <h2 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswer"
-          v-html="currentCorrection.correctAnswer"
-          >
-      </h2>
-
-      <button class="end-correction"
-              type="button"
-              @click="endCorrection"
-              v-if="currentCorrection"
-        >
-        Continuer
-      </button>
+          Continuer
+        </button>
+      </div>
     </div>
   </transition>
 </template>
@@ -57,6 +59,17 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h2
+  font-size: 1.8rem
+  font-weight: bold
+
+h3
+  font-size: 1.3rem
+  font-weight: normal
+
 div.current-correction
   position: fixed
   z-index: 1000
@@ -64,16 +77,38 @@ div.current-correction
   left: 0
   height: 20%
   width: 100%
-  background: lightgreen
+  background: $green
+  max-height: 220px
+  color: white
 
   &.wrong
-    background: red
+    background: $red
 
-  button
-    position: absolute
-    width: 80%
-    margin-left: 10%
-    bottom: 5vh
+    .correction-content button
+      color: $red
+
+  .correction-content
+    margin: 0 auto
+    max-width: 700px
+    padding-left: 3%
+    padding-right: 3%
+    padding-top: 2vh
+
+    button
+      position: absolute
+      display: block
+      width: 100%
+      max-width: 400px
+      transition: background-color 0.35s
+      margin: 0 auto
+      background-color: white
+      border: 0
+      left: 50%
+      transform: translate(-50%, 0)
+      color: $green
+      height: 50px
+      border-radius: 25px
+      bottom: 2vh
 
 .correction-fade-enter-active, .correction-fade-leave-active
   transition: all .2s ease
@@ -82,4 +117,12 @@ div.current-correction
 .correction-fade-leave-to
   transform: translateX(-100vw)
   opacity: 0
+
+@media screen and (max-width: 800px)
+  div.current-correction
+    height: 30vh
+    max-height: 30vh
+
+    .correction-content button
+      bottom: 4vh
 </style>

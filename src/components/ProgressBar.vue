@@ -1,9 +1,9 @@
 <template>
   <div class="progress-container"
-       :style="{width: width, height: height, left: left, top: top}"
+       :style="{width: width, height: height, left: left, top: top, 'margin-top': marginTop, position: position, 'border-radius': borderRadius, 'background': background}"
        >
       <div class="progress"
-           :style="{width: progress + '%'}"
+           :style="{width: progress + '%', 'border-radius': borderRadius}"
       >
         <transition name="woosh">
           <div class="shine" v-if="pop"></div>
@@ -34,13 +34,29 @@ export default {
     'progress': {
       default: '0',
     },
+    'borderRadius': {
+      type: String,
+      default: '0',
+    },
+    'marginTop': {
+      type: String,
+      default: '0',
+    },
     'height': {
       type: String,
       default: '5vh',
     },
+    'position': {
+      type: String,
+      default: '',
+    },
     'width': {
       type: String,
       default: '75%',
+    },
+    'background': {
+      type: String,
+      default: '#DDD',
     },
     'left': {
       type: String,
@@ -77,7 +93,7 @@ div.progress-container
   position: relative
   overflow: visible
   border-radius: 0.5vh
-  border: 1px solid $gray
+  border: 0
 
   .progress
     position: absolute
