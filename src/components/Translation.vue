@@ -139,9 +139,13 @@ button
   font-family: 'Ubuntu', sans-serif
   border: 0.05em solid $textarea-border
   border-radius: 0
+  outline: none
 
   &:focus
-    background: $textarea-bg
     border: 0.05em solid $textarea-border
+    border-radius: 0
+    box-shadow: none ! important
+    background: $textarea-bg
     outline: none
+
 </style>
