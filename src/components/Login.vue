@@ -34,7 +34,15 @@
                 </router-link>
               </div>
 
-    <ProgressBar :progress="kikoo" width="50%" height="2vh" left="25%"/>
+    <ProgressBar
+        :progress="kikoo"
+        width="90%"
+        left="10%"
+        position="relative"
+        height="3rem"
+        border-radius="1.5rem"
+        color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
+    />
     <input type="number" v-model="kikoo">
               <a href="#" @click="swapForm">Mot de passe oublié ?</a>
               </InlineForm>

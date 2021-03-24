@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <b-card title-tag="title"
-            style="width: 100%; height: 100%"
+            style="width: 100%; height: 100%; border-radius: 0"
             @click="emitClickIfPossible"
             :style="{
               'border-bottom-left-radius': expanded ? '0' : '0.25rem',
@@ -12,18 +12,20 @@
         <h4>{{ bookLesson.title }}</h4>
       </template>
       <b-card-text style="margin-bottom: 0">
-        <b-row style="margin-top: 0;">
-          <b-col style="text-align: left; display: flex; align-items: center">
+        <div style="display: flex; justify-content: space-between">
+          <div style="text-align: left; display: flex; align-items: center">
             <h4>{{ bookLesson.title }}</h4>
-          </b-col>
-          <b-col style="text-align: left; display: flex; align-items: center; flex-flow: row-reverse;">
+          </div>
+          <div style="text-align: left; display: flex; align-items: center; flex-flow: row-reverse;">
             <StarBar :progress="difficulty" />
-          </b-col>
-        </b-row>
+          </div>
+        </div>
         <ProgressBar :progress="progress"
               width="100%"
               height="2vh"
-              />
+              border-radius="0.5vh"
+              color="linear-gradient(50deg, #36B37E 0, #32de4f 100%)"
+        />
       </b-card-text>
 
       <transition name="pop">
@@ -212,4 +214,8 @@ h4
 .pop-leave-to
   opacity: 0
   transform: scale(2, 2)
+
+@media screen and (max-width: 800px)
+  h4
+    font-size: 15pt
 </style>

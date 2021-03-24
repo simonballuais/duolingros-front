@@ -62,16 +62,49 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.serie-progress
-  height: 100%
+div.serie-progress
+  position: relative
+  margin: 0 auto
+  top: 0
+  left: 0
+  overflow: hidden
+  left: 0
+  height: 90%
+  max-width: 700px
+  padding: 3%
+
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+
+h2
+  font-size: 1.3rem
+  font-weight: normal
+  margin-bottom: 3rem
 
 button
-  width: 80%
-  margin-left: 10%
   position: absolute
+  display: block
+  width: 90%
+  max-width: 400px
+  transition: background-color 0.35s
+  margin: 0 auto
+  background-color: $green
+  border: 0
+  left: 50%
+  transform: translate(-50%, 0)
+  color: white
+  height: 50px
+  border-radius: 25px
   bottom: 5vh
 
 .serie-count
+  font-family: 'Ubuntu', sans-serif
   top: 20%
   width: 100%
   position: absolute

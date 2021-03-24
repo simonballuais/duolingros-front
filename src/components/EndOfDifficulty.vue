@@ -1,17 +1,25 @@
 <template>
-  <div class="daily-progress">
-    <h1>Bravo !</h1>
+  <div class="end-of-difficulty">
+    <h1>Bravo</h1>
 
-    <div>
-      Todo : blabla cap de difficulté passé
+    <h2>
+      Vous avez terminé un niveau !
+    </h2>
+
+    <div class="star-container">
+      <transition name="pop">
+        <font-awesome-icon v-if="showingStar"
+            class="star" icon="star"
+        />
+      </transition>
     </div>
 
     <button class="submit"
             type="button"
             v-if="showingEndOfDifficulty"
             @click="endEndOfDifficulty"
-            >
-            Continuer
+    >
+      Continuer
     </button>
   </div>
 </template>
@@ -25,6 +33,7 @@ export default {
   },
   data() {
     return {
+      showingStar: false,
     }
   },
   computed: {
@@ -33,6 +42,8 @@ export default {
   },
   created() {
     window.addEventListener('keyup', this.handleKeyUp)
+
+    setTimeout(() => this.showingStar = true, 500)
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)
@@ -49,13 +60,50 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.daily-progress
-  height: 100%
+.star-container
+  display: flex
+  align-items: center
+  justify-content: center
+
+div.end-of-difficulty
+  position: relative
+  margin: 0 auto
+  top: 0
+  left: 0
+  overflow: hidden
+  left: 0
+  height: 90%
+  max-width: 700px
+  padding: 3%
+
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+
+h2
+  font-size: 1.3rem
+  font-weight: normal
+  margin-bottom: 3rem
 
 button
-  width: 80%
-  margin-left: 10%
   position: absolute
+  display: block
+  width: 90%
+  max-width: 400px
+  transition: background-color 0.35s
+  margin: 0 auto
+  background-color: $green
+  border: 0
+  left: 50%
+  transform: translate(-50%, 0)
+  color: white
+  height: 50px
+  border-radius: 25px
   bottom: 5vh
 
 div.progress-container
@@ -70,4 +118,15 @@ div.progress-container
     width: 10%
     height: 100%
     transition: width 0.5s ease-in
+
+.pop-enter-active
+  transition: all 0.8s ease
+
+.pop-enter
+  opacity: 0
+  transform: scale(3, 3)
+
+.star
+  color: $yellow
+  font-size: 80pt
 </style>

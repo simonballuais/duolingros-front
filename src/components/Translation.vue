@@ -99,7 +99,7 @@ h1
 h2
   font-size: 1.3rem
   font-weight: normal
-  margin-bottom: 3rem
+  margin-bottom: 1.5rem
 
 div
   width: 100%

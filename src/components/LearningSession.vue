@@ -1,6 +1,6 @@
 <template>
   <div class="learning-lesson">
-    <Header v-if="exercisesToDo && exercisesToDo.length > 0" />
+    <Header  />
 
     <CurrentExercise v-for="exercise in exercisesToDo"
                     :key="'' + exercise.type + exercise.id"

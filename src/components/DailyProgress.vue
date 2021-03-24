@@ -1,19 +1,34 @@
 <template>
   <div class="daily-progress">
-    <h1>Bravo !</h1>
+    <h1>
+      {{ user.learningSessionCountThatDay >= 2 ? "Exercices" : "Exercice" }} terminés aujourd'hui : {{ user.learningSessionCountThatDay + 1 }}
+    </h1>
 
-    <ProgressBar :progress="dailyProgress" width="80%" height="2vh" left="10%"/>
+    <ProgressBar
+        :progress="dailyProgress"
+        width="90%"
+        left="5%"
+        position="relative"
+        height="3rem"
+        border-radius="1.5rem"
+        color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
+    />
 
-    <div>
-      Leçons terminées aujourd'hui : {{ user.learningSessionCountThatDay + 1 }}
-    </div>
+    <transition name="fade">
+      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay < user.dailyObjective">
+        Bravo, vous avez atteint votre objectif quotidien !
+      </h2>
+      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay >= user.dailyObjective">
+        Vous dépassez votre objectif quotidien !
+      </h2>
+    </transition>
 
     <button class="submit"
             type="button"
             v-if="showingDailyProgress"
             @click="endDailyProgress"
             >
-            Continuer
+      Continuer
     </button>
   </div>
 </template>
@@ -31,6 +46,7 @@ export default {
     return {
       dailyProgress: 0,
       pop: false,
+      showObjectiveReached: false,
     }
   },
   computed: {
@@ -57,13 +73,10 @@ export default {
       () => {
         this.dailyProgress = percentage
 
-        if (previousPercentage < 100 && this.dailyProgress >= 100) {
+        if (this.user.learningSessionCountThatDay >= this.user.dailyObjective - 1) {
           setTimeout(
-            () => {
-              this.pop = true
-              this.$nextTick(() => this.pop = false)
-            },
-            500
+            () => this.showObjectiveReached = true,
+            1000
           )
         }
       },
@@ -87,13 +100,50 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+div.daily-progress
+  position: relative
+  margin: 0 auto
+  top: 0
+  left: 0
+  overflow: visible
+  left: 0
+  height: 90%
+  max-width: 700px
+  padding: 3%
+
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+
+h2
+  font-size: 1.3rem
+  font-weight: normal
+  margin-bottom: 3rem
+  margin-top: 1em
+  text-align: center
+
 .daily-progress
   height: 100%
 
 button
-  width: 80%
-  margin-left: 10%
   position: absolute
+  display: block
+  width: 90%
+  max-width: 400px
+  transition: background-color 0.35s
+  margin: 0 auto
+  background-color: $green
+  border: 0
+  left: 50%
+  transform: translate(-50%, 0)
+  color: white
+  height: 50px
+  border-radius: 25px
   bottom: 5vh
 
 div.progress-container
@@ -119,9 +169,10 @@ div.progress-container
     width: calc(100% + 4vh)
     height: calc(100% + 4vh)
 
-.depop-leave-active
-  transition: opacity 0.5s linear
+.fade-enter-active
+  transition: all 0.3s ease
 
-.depop-leave-to
+.fade-enter
   opacity: 0
+  transform: scale(1.3, 1.3)
 </style>

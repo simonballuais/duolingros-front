@@ -55,9 +55,14 @@ export default {
   transform: scale(7, 7)
 
 .star
-  color: orange
+  color: $yellow
   font-size: 24pt
 
 .progress-container
   margin-bottom: 0.5rem
+
+@media screen and (max-width: 800px)
+  h4
+    .star
+      font-size: 20pt
 </style>

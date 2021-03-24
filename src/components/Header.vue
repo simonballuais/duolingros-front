@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="header">
-      <div class="exit-container">
+      <div class="exit-container" v-if="exercisesToDo && exercisesToDo.length > 0">
         <router-link :to="{ name: 'home'}"
                      v-slot="{href, route, navigate, isActive, isExactActive}"
           >
@@ -12,13 +12,15 @@
       </div>
 
       <ProgressBar
+          v-if="exercisesToDo && exercisesToDo.length > 0"
           :progress="progress"
           width="85%"
           height="1.5em"
           position="relative"
-          borderRadius="0.75em"
+          borderRadius="0.35em"
           background="white"
-          />
+          color="linear-gradient(50deg, #36B37E 0, #32de4f 100%)"
+      />
     </div>
   </div>
 </template>
@@ -37,7 +39,7 @@ export default {
     ProgressBar,
   },
   computed: {
-    ...mapState('learningSession', ['progress']),
+    ...mapState('learningSession', ['progress', 'exercisesToDo']),
   },
   methods: {
     ...mapActions('learningSession', ['startLearningSession']),

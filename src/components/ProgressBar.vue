@@ -1,24 +1,24 @@
 <template>
   <div class="progress-container"
        :style="{width: width, height: height, left: left, top: top, 'margin-top': marginTop, position: position, 'border-radius': borderRadius, 'background': background}"
+       @click="popop"
        >
-      <div class="progress"
-           :style="{width: progress + '%', 'border-radius': borderRadius}"
-      >
-        <transition name="woosh">
-          <div class="shine" v-if="pop"></div>
-        </transition>
-      </div>
-
-      <transition name="depop">
-        <div class="progress-pop" v-if="pop"></div>
-      </transition>
-
-      <transition name="pop">
-        <div class="end-circle" v-if="pop">
-      </div>
+    <div class="progress"
+         :style="{width: progress + '%', 'border-radius': borderRadius, 'background': color, 'border-radius': borderRadius}"
+    >
+      <transition name="woosh">
+        <div class="shine" v-if="pop"></div>
       </transition>
     </div>
+
+    <transition name="depop">
+      <div class="progress-pop" :style="{background: color, 'border-radius': borderRadius}" v-if="pop"></div>
+    </transition>
+
+    <transition name="pop">
+      <div class="end-circle" v-if="pop"> </div>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -53,6 +53,10 @@ export default {
     'width': {
       type: String,
       default: '75%',
+    },
+    'color': {
+      type: String,
+      default: '#00c759',
     },
     'background': {
       type: String,
@@ -97,7 +101,6 @@ div.progress-container
 
   .progress
     position: absolute
-    background: $green
     width: 10%
     height: 100%
     transition: width 0.5s ease
@@ -107,7 +110,6 @@ div.progress-container
     left: -0.5vh
     top: -0.5vh
     position: absolute
-    background: $light-green
     width: calc(100% + 1vh)
     height: calc(100% + 1vh)
     border-radius: 1vh
