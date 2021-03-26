@@ -83,6 +83,10 @@
                             >
                     Réviser
                   </b-button>
+
+                  <b-tooltip target="revision" placement="top" triggers="hover">
+                    <span>Bientôt :)</span>
+                  </b-tooltip>
               </router-link>
             </b-col>
           </b-row>
@@ -90,9 +94,6 @@
       </footer>
     </transition>
 
-    <b-tooltip target="revision" placement="top" triggers="hover">
-      <span>Bientôt :)</span>
-    </b-tooltip>
   </div>
 </template>
 

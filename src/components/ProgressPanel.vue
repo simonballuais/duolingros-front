@@ -1,57 +1,57 @@
 <template>
   <transition name="progress-panel-fade">
   <div class="progress-panel" v-if="show">
-    <button @click="$emit('closeMe')">
-      X
-    </button>
-
-    <div>
-      Série de jouns consécutifs : {{ user.currentSerie }}
-    </div>
-
-    <div class="progress-container">
-      <div class="progress"
-           :style="{width: dailyProgress + '%'}"
-        ></div>
-    </div>
-
-    <div>
-      Objectif quotidien : {{ user.learningSessionCountThatDay }} / {{ user.dailyObjective }}
-    </div>
-
-    <div class="objective-selector">
-      <div>
-        <input type="radio" id="one" value="1" v-model="user.dailyObjective" @click="handleChange">
-        <label for="one">1</label>
+    <div class="content">
+      <div class="band">
+        <h2>
+          <font-awesome-icon class="fire" icon="fire" />
+          Série de <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} consécutifs {{ user.currentSerie > 4 ? "!" : "" }}
+        </h2>
       </div>
-      <div>
-        <input type="radio" id="two" value="2" v-model="user.dailyObjective" @click="handleChange">
-        <label for="two">2</label>
+
+      <div class="band">
+        <ProgressBar
+            :progress="dailyProgress"
+            width="90%"
+            left="5%"
+            position="relative"
+            height="3rem"
+            border-radius="1.5rem"
+            color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
+        />
+
+        <h2 style="text-align: center; margin-top: 1em;">
+          Objectif quotidien : {{ user.learningSessionCountThatDay }} / {{ user.dailyObjective }}
+          <font-awesome-icon class="smile" icon="smile" v-if="dailyProgress >= 100"/>
+        </h2>
       </div>
-      <div>
-        <input type="radio" id="three" value="3" v-model="user.dailyObjective" @click="handleChange">
-        <label for="three">3</label>
+
+      <h2 style="margin-left: 10%; margin-bottom: -1em;">
+        Suivi des derniers jours
+      </h2>
+
+      <div class="graph-container">
+        <LastSevenDaysGraph />
       </div>
-      <div>
-        <input type="radio" id="four" value="4" v-model="user.dailyObjective" @click="handleChange">
-        <label for="four">4</label>
-      </div>
-      <div>
-        <input type="radio" id="five" value="5" v-model="user.dailyObjective" @click="handleChange">
-        <label for="five">5</label>
-    </div>
     </div>
 
-    <LastSevenDaysGraph />
+    <div class="header">
+      <div @click="$emit('closeMe')" class="close-icon">
+        <font-awesome-icon class="times" icon="times"/>
+      </div>
+
+      <h1>
+        Progrès
+      </h1>
+    </div>
   </div>
   </transition>
 </template>
 
 <script>
-import _ from 'lodash'
-
 import {mapState, mapActions} from 'vuex'
 import LastSevenDaysGraph from './LastSevenDaysGraph.vue'
+import ProgressBar from './ProgressBar'
 
 export default {
   name: 'ProgressPanel',
@@ -63,6 +63,7 @@ export default {
   },
   components: {
     LastSevenDaysGraph,
+    ProgressBar,
   },
   computed: {
     ...mapState('security', ['user']),
@@ -90,7 +91,6 @@ export default {
     window.removeEventListener('keyup', this.handleKeyUp)
   },
   methods: {
-    ...mapActions('security', ['putUserData']),
     convertPopStateToClose() {
       if (!this.show) {
         return
@@ -99,10 +99,6 @@ export default {
       history.pushState(null, null, null);
       this.$emit('closeMe')
     },
-    handleChange: _.debounce(function () {
-      this.user.dailyObjective = parseInt(this.user.dailyObjective)
-      this.putUserData(this.user)
-    }, 1500),
     handleKeyUp(e) {
       if (e.keyCode === 27) {
         this.$emit('closeMe')
@@ -113,15 +109,78 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+  margin-left: 2em
+
+h2
+  font-size: 1.5rem
+  margin: 0
+
 .progress-panel
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
-  background: pink
+  background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
   z-index: 1400
   padding: 2vh
+
+.content
+  display: flex
+  flex-flow: column nowrap
+  align-items: normal
+  justify-content: space-around
+  position: absolute
+  bottom: 0
+  top: 10%
+  left: 0
+  right: 0
+  background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
+
+  .band
+    border-top: 1px solid $gray
+    border-bottom: 1px solid $gray
+    width: 100%
+    padding-top: 1em
+    padding-bottom: 1em
+    padding-left: 5%
+    padding-right: 5%
+    box-shadow: 0 0 25px $light-shadow-gray
+
+  .graph-container
+    height: 50%
+
+.header
+  box-shadow: 0 0 20px gray
+  position: absolute
+  left: 0
+  right: 0
+  top: 0
+  height: 10%
+  background: $navbar-bg
+  color: white
+  display: flex
+  align-content: center
+  align-items: center
+
+  .close-icon
+    cursor: pointer
+    margin-left: 2em
+    color: white
+
+    svg
+      font-size: 24pt
+
+.fire, .smile
+  color: $yellow
 
 .progress-panel-fade-enter-active, .progress-panel-fade-leave-active
   transition: all .3s ease
@@ -137,16 +196,9 @@ input[type=radio]
 label
   margin-left: 2vh
 
-div.progress-container
-  left: 15%
-  width: 75%
-  background: gray
-  height: 5vh
-
-  .progress
-    position: relative
-    background: green
-    width: 10%
-    height: 100%
-    transition: width 0.25s ease-out
+@media screen and (max-width: 800px)
+  h1
+    font-size: 1.5rem
+  h2
+    font-size: 1.3rem
 </style>

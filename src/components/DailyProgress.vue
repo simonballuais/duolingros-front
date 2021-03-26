@@ -15,10 +15,10 @@
     />
 
     <transition name="fade">
-      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay < user.dailyObjective">
+      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay <= user.dailyObjective">
         Bravo, vous avez atteint votre objectif quotidien !
       </h2>
-      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay >= user.dailyObjective">
+      <h2 v-if="showObjectiveReached && user.learningSessionCountThatDay > user.dailyObjective">
         Vous dépassez votre objectif quotidien !
       </h2>
     </transition>

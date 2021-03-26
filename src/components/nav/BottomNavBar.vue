@@ -16,15 +16,26 @@
               class="bottom-navbar"
       >
       <div class="menu">
-        <b-button style="margin-left: 15px"
-          v-if="isLoggedIn" @click="showProfilePanel = !showProfilePanel"
+        <div class="icon"
+             v-if="isLoggedIn"
+             @click="toggleProfile"
           >
-          Profil
-        </b-button>
-        <b-button style="margin-right: 15px"
-          v-if="isLoggedIn" @click="showProgressPanel = !showProgressPanel">
-          Progrès
-        </b-button>
+          <font-awesome-icon class="user-circle" icon="user-circle" />
+          <span>
+            Profil
+          </span>
+        </div>
+
+        <div class="icon"
+             v-if="isLoggedIn"
+             @click="toggleProgress"
+          >
+          <font-awesome-icon class="chart-bar" icon="chart-bar" />
+
+          <span>
+            Progrès
+          </span>
+        </div>
       </div>
     </b-navbar>
   </div>
@@ -33,7 +44,7 @@
 <script>
 import {mapState} from 'vuex'
 
-import { BNavbar, BButton } from 'bootstrap-vue'
+import { BNavbar } from 'bootstrap-vue'
 import ProgressPanel from './../ProgressPanel.vue'
 import ProfilePanel from './../ProfilePanel.vue'
 import CreateProfile from '../register/CreateProfile.vue'
@@ -53,15 +64,23 @@ export default {
     CreateProfile,
     ProfileCreated,
     BNavbar,
-    BButton,
   },
   directives: {
     'b-navbar': BNavbar,
-    'b-button': BButton,
   },
   computed: {
     ...mapState('security', ['isLoggedIn']),
     ...mapState('registration', ['showCreateProfile', 'showingProfileCreated']),
+  },
+  methods: {
+    toggleProfile() {
+      this.showProfilePanel = !this.showProfilePanel
+      this.showProgressPanel = false
+    },
+    toggleProgress() {
+      this.showProgressPanel = !this.showProgressPanel
+      this.showProfilePanel = false
+    },
   },
 }
 </script>
@@ -80,7 +99,7 @@ nav.bottom-navbar
     width: 100%
     height: 100%
     flex-flow: row nowrap
-    justify-content: space-between
+    justify-content: space-around
     align-items: center
     color: white
 
@@ -96,4 +115,16 @@ nav.bottom-navbar
   z-index: 100
   box-shadow: 0 0 20px gray
   background-color: $navbar-bg
+
+.icon
+  color: white
+  font-size: 18pt
+  cursor: pointer
+
+  span
+    user-select: none
+
+@media screen and (max-width: 800px)
+  .icon span
+    display: none
 </style>

@@ -1,17 +1,15 @@
 <template>
+  <div>
+    <Settings :show="showSettings"
+              @closeMe="showSettings = false"
+    />
+
     <b-navbar toggleable="lg" type="dark" variant="info"
               style=""
               class="top-navbar"
       >
       <div class="menu">
-        <b-button @click="logoutAndGoToLogin"
-                v-if="isLoggedIn"
-                style="margin-left: 15px"
-        >
-          Se déconnecter
-        </b-button>
-
-        <b-navbar-brand v-if="isLoggedIn" id="current-serie">
+        <b-navbar-brand v-if="isLoggedIn" id="current-serie" style="user-select: none;">
           {{ user.currentSerie || 0 }}
           <font-awesome-icon class="fire" icon="fire" style="color: white"/>
         </b-navbar-brand>
@@ -22,7 +20,7 @@
               <font-awesome-icon class="fire" icon="fire" style="color: white"/>
             </h1>
             <span v-if="user.currentSerie">
-              Vous avez étudié pendant <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} d'affilé !
+              Vous avez étudié pendant <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} d'affilé&nbsp;!
             </span>
             <span v-if="!user.currentSerie">
               Vous n'avez pas encore commencé de série
@@ -30,7 +28,7 @@
           </div>
         </b-tooltip>
 
-        <b-navbar-brand v-if="isLoggedIn" id="total-levels">
+        <b-navbar-brand v-if="isLoggedIn" id="total-levels" style="user-select: none">
           {{ user.totalLevels }}
           <font-awesome-icon class="star" icon="star" style="color: white"/>
         </b-navbar-brand>
@@ -41,7 +39,7 @@
               <font-awesome-icon class="star" icon="star" style="color: white"/>
             </h1>
             <span v-if="user.totalLevels">
-              Vous avez terminé <strong>{{ user.totalLevels }}</strong> {{ user.totalLevels >= 2 ? "niveaux" : "niveau" }} au total !
+              Vous avez terminé <strong>{{ user.totalLevels }}</strong> {{ user.totalLevels >= 2 ? "niveaux" : "niveau" }} au total&nbsp;!
             </span>
             <span v-if="!user.totalLevels">
               Vous n'avez pas encore terminé de niveau
@@ -49,17 +47,12 @@
           </div>
         </b-tooltip>
 
-        <b-navbar-brand v-if="isLoggedIn">
-            Coucou {{ user.username }}
+        <b-navbar-brand v-if="isLoggedIn" @click="showSettings = !showSettings" class="settings-icon">
+          <font-awesome-icon class="cog" icon="cog" />
+          <span>
+            {{ user.username | capitalize }}
+          </span>
         </b-navbar-brand>
-
-        <b-button @click="showCreateProfile"
-                v-if="!isLoggedIn"
-                variant="primary"
-                style="margin-left: 1vw"
-        >
-          Créer un profil
-        </b-button>
 
         <router-link :to="{ name: 'login' }"
                      v-slot="{href, route, navigate, isActive, isExactActive}"
@@ -71,13 +64,23 @@
             Se connecter
           </b-button>
         </router-link>
+
+        <b-button @click="showCreateProfile"
+                v-if="!isLoggedIn"
+                variant="primary"
+                style="margin-left: 1vw"
+        >
+          Créer un profil
+        </b-button>
       </div>
     </b-navbar>
+  </div>
 </template>
 
 <script>
 import { BNavbar, BNavbarBrand, BButton, BTooltip } from 'bootstrap-vue'
 import {mapState, mapActions} from 'vuex'
+import Settings from './../Settings.vue'
 
 export default {
   name: 'NavBar',
@@ -85,6 +88,12 @@ export default {
     BNavbar,
     BNavbarBrand,
     BButton,
+    Settings,
+  },
+  data() {
+    return {
+      showSettings: false,
+    }
   },
   directives: {
     'b-navbar': BNavbar,
@@ -92,15 +101,18 @@ export default {
     'b-button': BButton,
     'b-tooltip': BTooltip,
   },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  },
   computed: {
     ...mapState('security', ['user', 'isLoggedIn']),
   },
   methods: {
-    ...mapActions('security', ['logout']),
     ...mapActions('registration', ['showCreateProfile']),
-    logoutAndGoToLogin () {
-      this.logout()
-    },
   },
 }
 </script>
@@ -116,7 +128,7 @@ nav.navbar
     width: 100%
     height: 100%
     flex-flow: row nowrap
-    justify-content: space-between
+    justify-content: space-around
     align-items: center
     color: white
 
@@ -149,4 +161,19 @@ nav.navbar
 
   &:hover
     transform: scale(1.2, 1.2)
+
+.settings-icon
+  display: flex ! important
+  align-items: center
+  cursor: pointer
+
+  svg
+    font-size: 18pt
+
+  span
+    user-select: none
+
+@media screen and (max-width: 800px)
+  .settings-icon span
+    display: none
 </style>

@@ -115,8 +115,7 @@ export default {
 <style lang="sass" scoped>
 .main-container
   position: absolute
-  left: 5%
-  width: 90%
+  width: 98%
   display: flex
   flex-flow: row wrap
   height: 35vh
@@ -126,15 +125,14 @@ export default {
     display: flex
     width: 2em
     height: 30vh
-    background: pink
 
     .label
       position: absolute
       right: 10%
 
   .graph-container, .date-labels-container
-    border-left: 2px solid gray
-    border-bottom: 2px solid gray
+    border-left: 2px solid $gray
+    border-bottom: 2px solid $gray
     position: absolute
     display: flex
     height: 30vh
@@ -147,13 +145,15 @@ export default {
     .graph-bar
       z-index: 500
       display: flex
-      background: green
+      background: $green
       width: 13%
       transition: all 0.5s cubic-bezier(.77,0,.18,1)
+      border-top-left-radius: 3px
+      border-top-right-radius: 3px
 
     .horizontal-line
       position: absolute
-      border-bottom: 1px solid lightgray
+      border-bottom: 1px dashed lightgray
       height: 1px
       width: 100%
 

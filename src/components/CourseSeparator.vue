@@ -124,7 +124,7 @@ export default {
     overflow: hidden
 
     &.checked
-      background-color: $green
+      background: linear-gradient(50deg, #36B37E 0, #32de4f 100%)
 
     svg
       transition: all 0.15s ease

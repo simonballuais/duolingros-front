@@ -1,7 +1,6 @@
 <template>
   <div class="progress-container"
        :style="{width: width, height: height, left: left, top: top, 'margin-top': marginTop, position: position, 'border-radius': borderRadius, 'background': background}"
-       @click="popop"
        >
     <div class="progress"
          :style="{width: progress + '%', 'border-radius': borderRadius, 'background': color, 'border-radius': borderRadius}"
