@@ -1,32 +1,41 @@
 <template>
-  <div class="current-level-selection">
-    <h1>Avez vous déjà commencé à apprendre le malgache ?</h1>
+    <transition :name="transitionName">
+    <div class="registration" v-if="show">
+      <div class="registration-content">
+        <h1>
+          <font-awesome-icon class="arrow-left" icon="arrow-left"
+                             @click="back"
+            />
+          Avez vous déjà commencé à apprendre le malgache ?
+        </h1>
 
-    <button @click="user.currentLevel = 1"
-            :class="{selected: user.currentLevel == 1}"
-    >
-      Pas du tout
-    </button>
+        <button @click="user.currentLevel = 1"
+                :class="{selected: user.currentLevel == 1}"
+        >
+          Pas du tout
+        </button>
 
-    <button @click="user.currentLevel = 2"
-            :class="{selected: user.currentLevel == 2}"
-    >
-      Un petit peu
-    </button>
+        <button @click="user.currentLevel = 2"
+                :class="{selected: user.currentLevel == 2}"
+        >
+          Un petit peu
+        </button>
 
-    <button @click="user.currentLevel = 3"
-            :class="{selected: user.currentLevel == 3}"
-    >
-      J'ai déjà un certain niveau
-    </button>
+        <button @click="user.currentLevel = 3"
+                :class="{selected: user.currentLevel == 3}"
+        >
+          J'ai déjà un certain niveau
+        </button>
 
-    <button @click="endCurrentLevelSelection"
-            class="submit"
-            :disabled="!user.currentLevel"
-    >
-      Confirmer
-    </button>
-  </div>
+        <button @click="goToNextPosition"
+                class="submit"
+                :disabled="!user.currentLevel"
+        >
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -38,8 +47,10 @@ export default {
     return {
     }
   },
-  components: {
-  },
+  props: [
+    'show',
+    'transitionName',
+  ],
   computed: {
     ...mapState(
       'security',
@@ -49,10 +60,10 @@ export default {
     ),
   },
   methods: {
-    ...mapActions('registration', ['endCurrentLevelSelection']),
+    ...mapActions('registration', ['goToNextPosition', 'goToPreviousPosition' ]),
     handleKeyUp(e) {
       if (e.keyCode === 13 && this.user.currentLevel) {
-        this.endCurrentLevelSelection()
+        this.goToNextPosition()
       }
       if (e.keyCode === 49) {
         this.user.currentLevel = 1
@@ -70,6 +81,9 @@ export default {
         this.user.currentLevel = 5
       }
     },
+    back() {
+      this.$nextTick(() => this.goToPreviousPosition())
+    },
   },
   created() {
     window.addEventListener('keyup', this.handleKeyUp)
@@ -79,27 +93,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-div.current-level-selection
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-
-button
-  width: 80%
-  margin-left: 10%
-  transition: background-color 0.4s ease
-  margin-top: 3vh
-
-  &.submit
-    position: absolute
-    bottom: 5vh
-    left: 10%
-    margin: 0
-
-  &.selected
-    background-color: green
-</style>

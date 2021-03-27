@@ -59,6 +59,7 @@ const actions = {
             const anonymousUser = userService.getAnonymous()
 
             if (!anonymousUser) {
+                window.console.log('hop hop hop')
                 return router.push({'name': 'login'})
             }
 
@@ -84,13 +85,9 @@ const actions = {
     logout({commit}) {
         userService.logout()
         commit('logout')
-        commit('bookLesson/logout')
+        commit('bookLesson/logout', null, {root: true})
     },
-    initAnonymousUserIfNecessary({commit, state}) {
-        if (state.user) {
-            return
-        }
-
+    initAnonymousUser({commit}) {
         const user = {
             reason: null,
             dailyObjective: null,

@@ -1,6 +1,6 @@
 <template>
   <transition name="settings-modale-fade">
-  <div class="settings-modale" v-if="show">
+  <div class="settings-modale" v-if="show" @click="handleClick">
     <div class="modale">
       <div class="header">
         <div @click="$emit('closeMe')" class="close-icon">
@@ -82,6 +82,9 @@ export default {
   methods: {
     ...mapActions('registration', ['cancelCreateProfile', 'submitRegistration']),
     ...mapActions('security', ['logout', 'putUserData']),
+    handleClick() {
+      window.console.log('COUCO')
+    },
     handleChange: _.debounce(function () {
       this.putUserData(this.user)
     }, 500),

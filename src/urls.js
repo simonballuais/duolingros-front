@@ -34,6 +34,7 @@ axiosConfigured.interceptors.response.use(
     },
     function (error) {
         if (error.response.status === 401) {
+            window.console.log('pout pouet redirect')
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             router.push({'name': 'login', query: {it: true}})

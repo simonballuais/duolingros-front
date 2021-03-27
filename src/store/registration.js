@@ -1,32 +1,24 @@
 import {registrationService} from '../service'
 
 const state = {
-    showReasonSelection: false,
-    showIntensitySelection: false,
-    showCurrentLevelSelection: false,
     showCreateProfile: false,
     firstLearningSession: null,
     anonymousProgress: null,
     profileData: {},
     submittingProfile: false,
     showingProfileCreated: false,
+    workflowPosition: 1,
+    workflowDirection: 'forward',
 }
 
 const actions = {
     startRegistration({commit, dispatch}) {
-        dispatch('security/initAnonymousUserIfNecessary', null, {root: true})
+        localStorage.removeItem('anonymousUser')
+        localStorage.removeItem('anonymousProgress')
+        localStorage.removeItem('anonymousLearningSessions')
+        dispatch('security/initAnonymousUser', null, {root: true})
         dispatch('security/reloadUserData', null, {root: true})
         commit('registrationStarted')
-    },
-    endReasonSelection({commit}) {
-        commit('reasonSelectionEnded')
-    },
-    endIntensitySelection({commit}) {
-        commit('intensitySelectionEnded')
-    },
-    endCurrentLevelSelection({commit, dispatch}) {
-        commit('currentLevelSelectionEnded')
-        dispatch('security/putUserData', null, {root: true})
     },
     showCreateProfile({commit}) {
         commit('showingCreateProfile')
@@ -36,6 +28,21 @@ const actions = {
     },
     endShowingCreatedProfile({commit}) {
         commit('endShowingCreatedProfile')
+    },
+    goToNextPosition({state, commit, dispatch}) {
+        if (state.workflowPosition >= 3) {
+            commit('allQuestionsAnswered')
+            dispatch('security/putUserData', null, {root: true})
+        } else {
+            commit('goingToNextPosition')
+        }
+    },
+    goToPreviousPosition({state, commit}) {
+        if (state.workflowPosition <= 1) {
+            commit('registrationCancelled')
+        } else {
+            commit('goingToPreviousPosition')
+        }
     },
     submitRegistration({state, commit}) {
         commit('submittingProfile')
@@ -62,23 +69,9 @@ const mutations = {
         state.userInfos = userInfos
     },
     registrationStarted(state) {
-        window.console.log('starting registration')
-        state.showReasonSelection = true
-        state.showIntensitySelection = false
-        state.showCurrentLevelSelection = false
-        localStorage.removeItem('anonymousUser')
-        localStorage.removeItem('anonymousProgress')
-        localStorage.removeItem('anonymousLearningSessions')
+        state.workflowPosition = 1
     },
-    reasonSelectionEnded(state) {
-        state.showReasonSelection = false
-        state.showIntensitySelection = true
-    },
-    intensitySelectionEnded(state) {
-        state.showIntensitySelection = false
-        state.showCurrentLevelSelection = true
-    },
-    currentLevelSelectionEnded(state) {
+    allQuestionsAnswered(state) {
         state.showCurrentLevelSelection = false
     },
     showingCreateProfile(state) {
@@ -98,9 +91,19 @@ const mutations = {
         state.showingProfileCreated = false
     },
     registrationError(state, response) {
-        window.console.log('registrationerror', response)
-        state
+        window.console.log(response)
     },
+    goingToNextPosition(state) {
+        state.workflowPosition ++
+        state.workflowDirection = 'forward'
+    },
+    goingToPreviousPosition(state) {
+        state.workflowPosition --
+        state.workflowDirection = 'backward'
+    },
+    registrationCancelled(state) {
+        state.workflowPosition = 1
+    }
 }
 
 export const registration = {

@@ -1,44 +1,53 @@
 <template>
-  <div class="reason-selection">
-    <h1>Pourquoi voulez-vous apprendre le malgache ?</h1>
+    <transition :name="transitionName">
+    <div class="registration" v-if="show">
+      <div class="registration-content">
+        <h1>
+          <font-awesome-icon class="arrow-left" icon="arrow-left"
+                             @click="back"
+          />
+          Pourquoi voulez-vous apprendre le malgache&nbsp;?
+        </h1>
 
-    <button @click="user.reason = 1"
-            :class="{selected: user.reason == 1}"
-    >
-      Pour y voyager
-    </button>
+        <button @click="user.reason = 1"
+                :class="{selected: user.reason == 1}"
+        >
+          Pour y voyager
+        </button>
 
-    <button @click="user.reason = 2"
-            :class="{selected: user.reason == 2}"
-    >
-      Pour la culture
-    </button>
+        <button @click="user.reason = 2"
+                :class="{selected: user.reason == 2}"
+        >
+          Pour la culture
+        </button>
 
-    <button @click="user.reason = 3"
-            :class="{selected: user.reason == 3}"
-    >
-      Pour le plaisir d'apprendre
-    </button>
+        <button @click="user.reason = 3"
+                :class="{selected: user.reason == 3}"
+        >
+          Pour le plaisir d'apprendre
+        </button>
 
-    <button @click="user.reason = 4"
-            :class="{selected: user.reason == 4}"
-    >
-      Pour pour
-    </button>
+        <button @click="user.reason = 4"
+                :class="{selected: user.reason == 4}"
+        >
+          Pour pour
+        </button>
 
-    <button @click="user.reason = 5"
-            :class="{selected: user.reason == 5}"
-    >
-      Autre
-    </button>
+        <button @click="user.reason = 5"
+                :class="{selected: user.reason == 5}"
+        >
+          Autre
+        </button>
 
-    <button @click="endReasonSelection"
-            class="submit"
-            :disabled="!user.reason"
-    >
-      Confirmer
-    </button>
-  </div>
+        <button @click="goToNextPosition"
+                class="submit"
+                :disabled="!user.reason"
+        >
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -50,8 +59,10 @@ export default {
     return {
     }
   },
-  components: {
-  },
+  props: [
+    'show',
+    'transitionName',
+  ],
   computed: {
     ...mapState(
       'security',
@@ -61,10 +72,10 @@ export default {
     ),
   },
   methods: {
-    ...mapActions('registration', ['endReasonSelection']),
+    ...mapActions('registration', ['goToNextPosition', 'goToPreviousPosition']),
     handleKeyUp(e) {
       if (e.keyCode === 13 && this.user.reason) {
-        this.endReasonSelection()
+        this.goToNextPosition()
       }
       if (e.keyCode === 49) {
         this.user.reason = 1
@@ -82,6 +93,9 @@ export default {
         this.user.reason = 5
       }
     },
+    back() {
+      this.$nextTick(() => this.goToPreviousPosition())
+    },
   },
   created() {
     window.addEventListener('keyup', this.handleKeyUp)
@@ -91,27 +105,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-div.reason-selection
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
-
-button
-  width: 80%
-  margin-left: 10%
-  transition: background-color 0.4s ease
-  margin-top: 3vh
-
-  &.submit
-    position: absolute
-    bottom: 5vh
-    left: 10%
-    margin: 0
-
-  &.selected
-    background-color: green
-</style>
