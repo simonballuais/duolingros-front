@@ -12,6 +12,7 @@ const state = {
     'token': token,
     puttingUserData: false,
     putUserDataError: false,
+    putUserDataSuccess: false,
     confirmingEmailCode: false,
     confirmEmailError: false,
     sendingPasswordResetRequest: false,
@@ -199,16 +200,19 @@ const mutations = {
         state.user = user
     },
     puttingUserData(state) {
+        state.putUserDataSuccess = false
         state.putUserDataError = false
         state.puttingUserData = true
     },
     putUserDataError(state) {
         state.puttingUserData = false
         state.putUserDataError = true
+        state.putUserDataSuccess = false
     },
     putUserDataSuccess(state) {
         state.puttingUserData = false
         state.putUserDataError = false
+        state.putUserDataSuccess = true
     },
     confirmingEmailCode(state) {
         state.confirmingEmailCode = true

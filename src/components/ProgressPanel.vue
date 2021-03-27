@@ -1,55 +1,57 @@
 <template>
   <transition name="progress-panel-fade">
   <div class="progress-panel" v-if="show">
-    <div class="content">
-      <div class="band">
-        <h2>
-          <font-awesome-icon class="fire" icon="fire" />
-          Série de <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} consécutifs {{ user.currentSerie > 4 ? "!" : "" }}
+    <div class="modale">
+      <div class="content">
+        <div class="band">
+          <h2>
+            <font-awesome-icon class="fire" icon="fire" />
+            Série de <strong>{{ user.currentSerie }}</strong> {{ user.currentSerie >= 2 ? "jours" : "jour" }} consécutifs {{ user.currentSerie > 4 ? "!" : "" }}
+          </h2>
+        </div>
+
+        <div class="band">
+          <ProgressBar
+              :progress="dailyProgress"
+              width="90%"
+              left="5%"
+              position="relative"
+              height="3rem"
+              border-radius="1.5rem"
+              color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
+          />
+
+          <h2 style="text-align: center; margin-top: 1em;">
+            Objectif quotidien : {{ user.learningSessionCountThatDay }} / {{ user.dailyObjective }}
+            <font-awesome-icon class="smile" icon="smile" v-if="dailyProgress >= 100"/>
+          </h2>
+        </div>
+
+        <h2 style="margin-left: 10%; margin-bottom: -1em;">
+          Suivi des derniers jours&nbsp;:
         </h2>
+
+        <div class="graph-container">
+          <LastSevenDaysGraph />
+        </div>
       </div>
 
-      <div class="band">
-        <ProgressBar
-            :progress="dailyProgress"
-            width="90%"
-            left="5%"
-            position="relative"
-            height="3rem"
-            border-radius="1.5rem"
-            color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
-        />
+      <div class="header">
+        <div @click="$emit('closeMe')" class="close-icon">
+          <font-awesome-icon class="times" icon="times"/>
+        </div>
 
-        <h2 style="text-align: center; margin-top: 1em;">
-          Objectif quotidien : {{ user.learningSessionCountThatDay }} / {{ user.dailyObjective }}
-          <font-awesome-icon class="smile" icon="smile" v-if="dailyProgress >= 100"/>
-        </h2>
+        <h1>
+          Progrès
+        </h1>
       </div>
-
-      <h2 style="margin-left: 10%; margin-bottom: -1em;">
-        Suivi des derniers jours
-      </h2>
-
-      <div class="graph-container">
-        <LastSevenDaysGraph />
-      </div>
-    </div>
-
-    <div class="header">
-      <div @click="$emit('closeMe')" class="close-icon">
-        <font-awesome-icon class="times" icon="times"/>
-      </div>
-
-      <h1>
-        Progrès
-      </h1>
     </div>
   </div>
   </transition>
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState } from 'vuex'
 import LastSevenDaysGraph from './LastSevenDaysGraph.vue'
 import ProgressBar from './ProgressBar'
 
@@ -129,55 +131,66 @@ h2
   left: 0
   width: 100%
   height: 100%
-  background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
   z-index: 1400
   padding: 2vh
 
-.content
-  display: flex
-  flex-flow: column nowrap
-  align-items: normal
-  justify-content: space-around
-  position: absolute
-  bottom: 0
-  top: 10%
-  left: 0
-  right: 0
-  background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
+  .modale
+    position: relative
+    width: 90%
+    height: 90%
+    background: pink
+    margin: auto
+    max-width: 600px
+    background: white
+    border: 1px solid rgba(0, 0, 0, 0.125)
+    padding: 5%
+    border-radius: 5px
+    box-shadow: 0 0 150px $shadow-gray
 
-  .band
-    border-top: 1px solid $gray
-    border-bottom: 1px solid $gray
-    width: 100%
-    padding-top: 1em
-    padding-bottom: 1em
-    padding-left: 5%
-    padding-right: 5%
-    box-shadow: 0 0 25px $light-shadow-gray
+  .content
+    display: flex
+    flex-flow: column nowrap
+    align-items: normal
+    justify-content: space-around
+    position: absolute
+    bottom: 0
+    top: 10%
+    left: 0
+    right: 0
+    background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
 
-  .graph-container
-    height: 50%
+    .band
+      width: 100%
+      padding-top: 1em
+      padding-bottom: 1em
+      padding-left: 5%
+      padding-right: 5%
 
-.header
-  box-shadow: 0 0 20px gray
-  position: absolute
-  left: 0
-  right: 0
-  top: 0
-  height: 10%
-  background: $navbar-bg
-  color: white
-  display: flex
-  align-content: center
-  align-items: center
+    .graph-container
+      height: 50%
 
-  .close-icon
-    cursor: pointer
-    margin-left: 2em
+  .header
+    box-shadow: 0 0 20px gray
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    height: 10%
+    background: $navbar-bg
     color: white
+    display: flex
+    align-content: center
+    align-items: center
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
 
-    svg
-      font-size: 24pt
+    .close-icon
+      cursor: pointer
+      margin-left: 2em
+      color: white
+
+      svg
+        font-size: 24pt
 
 .fire, .smile
   color: $yellow
@@ -185,9 +198,8 @@ h2
 .progress-panel-fade-enter-active, .progress-panel-fade-leave-active
   transition: all .3s ease
 .progress-panel-fade-enter
-  transform: translateY(100vh)
+  opacity: 0
 .progress-panel-fade-leave-to
-  transform: translateY(100vh)
   opacity: 0
 
 input[type=radio]
@@ -201,4 +213,42 @@ label
     font-size: 1.5rem
   h2
     font-size: 1.3rem
+
+  .progress-panel-fade-enter
+    opacity: 0
+    transform: translateY(100vh)
+  .progress-panel-fade-leave-to
+    opacity: 0
+    transform: translateY(100vh)
+
+  .progress-panel
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    z-index: 1400
+    padding: 0
+    margin: 0
+
+    .modale
+      width: 100%
+      margin: 0
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      border: 0
+      padding: 5%
+      border-radius: 0
+      box-shadow: none
+
+      .header
+        border-radius: 0 ! important
+
+      .band
+        border-top: 1px solid $gray
+        border-bottom: 1px solid $gray
+        box-shadow: 0 0 25px $light-shadow-gray
 </style>

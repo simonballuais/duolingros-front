@@ -1,37 +1,54 @@
 <template>
-  <transition name="progress-panel-fade">
-  <div class="progress-panel" v-if="show">
-    <button @click="$emit('closeMe')">
-      X
-    </button>
+  <transition name="profile-panel-fade">
+    <div class="profile-panel" v-if="show">
+      <div class="modale">
+        <div class="content">
+          <div class="band">
+            <h2>Adresse email :</h2>
+            <TextInput v-model="user.email"
+                       placeholder="Email"
+                       @keyup="handleChange($event)"
+            />
 
-    <button @click="putUserData(user)">
-      Sauvegarder les modifications
-      <Spinner v-if="puttingUserData" :inline="true"></Spinner>
-    </button>
+            <h2>Nom d'utilisateur :</h2>
+            <TextInput v-model="user.nickname"
+                       placeholder="Nom d'utilisateur"
+                       @keyup="handleChange($event)"
+            />
+          </div>
+        </div>
 
-    <h1>
-      Profil
-    </h1>
+        <div class="header">
+          <div @click="$emit('closeMe')" class="close-icon">
+            <font-awesome-icon class="times" icon="times"/>
+          </div>
 
-    <TextInput v-model="user.email"
-               placeholder="Email"
-    />
+          <h1>
+            Profil
+          </h1>
+        </div>
 
-    <TextInput v-model="user.nickname"
-               placeholder="Nom d'utilisateur"
-    />
-  </div>
+        <div class="footer">
+          <b-button @click="saveUserData(user)">
+            Sauvegarder
+            <Spinner inline="true" small="true" v-if="puttingUserData" />
+            <font-awesome-icon class="save" icon="save" v-if="formModified" />
+            <font-awesome-icon class="check" icon="check" v-if="putUserDataSuccess && !formModified" />
+          </b-button>
+        </div>
+      </div>
+    </div>
   </transition>
 </template>
 
 <script>
+import { BButton } from 'bootstrap-vue'
 import {mapState, mapActions} from 'vuex'
-import Spinner from './misc/Spinner'
 import TextInput from './form/TextInput'
+import Spinner from './misc/Spinner'
 
 export default {
-  name: 'ProgressPanel',
+  name: 'ProfilePanel',
   props: {
     show: {
       type: Boolean,
@@ -39,11 +56,19 @@ export default {
     },
   },
   components: {
-    Spinner,
     TextInput,
+    Spinner,
   },
   computed: {
-    ...mapState('security', ['user', 'puttingUserData', 'putUserDataError']),
+    ...mapState(
+      'security',
+      [
+        'user',
+        'puttingUserData',
+        'putUserDataError',
+        'putUserDataSuccess',
+      ]
+    ),
   },
   created() {
     history.pushState(null, null, null);
@@ -54,8 +79,20 @@ export default {
     window.removeEventListener('keyup', this.convertPopStateToClose)
     window.removeEventListener('keyup', this.handleKeyUp)
   },
+  directives: {
+    'b-button': BButton,
+  },
+  data() {
+    return {
+      formModified: false,
+    }
+  },
   methods: {
     ...mapActions('security', ['putUserData']),
+    saveUserData() {
+      this.formModified = false
+      this.putUserData(this.user)
+    },
     convertPopStateToClose() {
       if (!this.show) {
         return
@@ -63,6 +100,13 @@ export default {
 
       history.pushState(null, null, null);
       this.$emit('closeMe')
+    },
+    handleChange(e) {
+      this.formModified = true
+
+      if (e.keyCode === 13) {
+        this.saveUserData()
+      }
     },
     handleKeyUp(e) {
       if (e.keyCode === 27) {
@@ -74,40 +118,165 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.progress-panel
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+  margin-left: 2em
+
+h2
+  font-size: 1.3rem
+
+.profile-panel
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
-  background: pink
   z-index: 1400
   padding: 2vh
 
-.progress-panel-fade-enter-active, .progress-panel-fade-leave-active
+  .modale
+    position: relative
+    width: 90%
+    height: 90%
+    background: pink
+    margin: auto
+    max-width: 600px
+    background: white
+    border: 1px solid rgba(0, 0, 0, 0.125)
+    padding: 5%
+    border-radius: 5px
+    box-shadow: 0 0 150px $shadow-gray
+
+    .content
+      display: flex
+      flex-flow: column nowrap
+      align-items: normal
+      position: absolute
+      bottom: 0
+      top: 10%
+      left: 0
+      right: 0
+      background: linear-gradient( to bottom left, #FFF 50%, #F5F5F5 100% )
+
+      .band
+        width: 100%
+        padding-top: 1em
+        padding-bottom: 1em
+        padding-left: 5%
+        padding-right: 5%
+
+      input
+        margin-bottom: 1.2em
+
+    .graph-container
+      height: 50%
+
+  .footer
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+    left: 0
+    right: 0
+    bottom: 0
+    height: 10%
+
+  button
+    display: block
+    width: 90%
+    max-width: 200px
+    transition: background-color 0.35s
+    background-color: $green
+    border: 0
+    color: white
+    height: 50px
+    border-radius: 25px
+    cursor: pointer
+
+    &:hover
+      background-color: darken($green, 5%)
+
+  .header
+    box-shadow: 0 0 20px gray
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    height: 10%
+    background: $navbar-bg
+    color: white
+    display: flex
+    align-content: center
+    align-items: center
+    border-top-left-radius: 5px
+    border-top-right-radius: 5px
+
+    .close-icon
+      cursor: pointer
+      margin-left: 2em
+      color: white
+
+      svg
+        font-size: 24pt
+
+.fire, .smile
+  color: $yellow
+
+.profile-panel-fade-enter-active, .profile-panel-fade-leave-active
   transition: all .3s ease
-.progress-panel-fade-enter
-  transform: translateY(100vh)
-.progress-panel-fade-leave-to
-  transform: translateY(100vh)
+.profile-panel-fade-enter
+  opacity: 0
+.profile-panel-fade-leave-to
   opacity: 0
 
-input[type=radio]
-  border: 0px
-  height: 2em
-label
-  margin-left: 2vh
+@media screen and (max-width: 800px)
+  h1
+    font-size: 1.5rem
+  h2
+    font-size: 1.1rem
 
-div.progress-container
-  left: 15%
-  width: 75%
-  background: gray
-  height: 5vh
+  .profile-panel-fade-enter
+    opacity: 0
+    transform: translateY(100vh)
+  .profile-panel-fade-leave-to
+    opacity: 0
+    transform: translateY(100vh)
 
-  .progress
-    position: relative
-    background: green
-    width: 10%
+  .profile-panel
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
     height: 100%
-    transition: width 0.25s ease-out
+    z-index: 1400
+    padding: 0
+    margin: 0
+
+    .modale
+      width: 100%
+      margin: 0
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      border: 0
+      padding: 5%
+      border-radius: 0
+      box-shadow: none
+
+      .header
+        border-radius: 0 ! important
+
+      .band
+        margin-top: 1em
+        border-top: 1px solid $gray
+        border-bottom: 1px solid $gray
+        box-shadow: 0 0 25px $light-shadow-gray
 </style>

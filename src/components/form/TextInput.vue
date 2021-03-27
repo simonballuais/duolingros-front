@@ -5,7 +5,7 @@
          :aria-label="placeholder"
          :value="storedInputValue"
          @input="updateInputValue($event.target.value)"
-         @keyup="$emit('keyup', value)"
+         @keyup="$emit('keyup', $event)"
          @paste="$emit('paste', $event)"
          :class="{ big, small, bold }"
          >
