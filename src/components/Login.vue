@@ -205,6 +205,11 @@ export default {
   },
   created() {
     this.resetPasswordToken = this.$route.query.t
+    const invalidToken = this.$route.query.it
+
+    if (invalidToken) {
+      this.logout()
+    }
 
     if (this.isLoggedIn) {
         this.$router.push({name: 'home'})

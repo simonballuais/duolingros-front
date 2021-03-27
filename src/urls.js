@@ -36,7 +36,7 @@ axiosConfigured.interceptors.response.use(
         if (error.response.status === 401) {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
-            router.push({'name': 'login'})
+            router.push({'name': 'login', query: {it: true}})
         }
 
         return Promise.reject(error)
