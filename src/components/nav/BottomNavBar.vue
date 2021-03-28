@@ -5,7 +5,6 @@
     />
 
     <CreateProfile :show="showCreateProfile" />
-    <ProfileCreated :show="showingProfileCreated" />
 
     <ProfilePanel :show="showProfilePanel"
                  @closeMe="showProfilePanel = false"
@@ -48,7 +47,6 @@ import { BNavbar } from 'bootstrap-vue'
 import ProgressPanel from './../ProgressPanel.vue'
 import ProfilePanel from './../ProfilePanel.vue'
 import CreateProfile from '../register/CreateProfile.vue'
-import ProfileCreated from '../register/ProfileCreated.vue'
 
 export default {
   name: 'BottomNavBar',
@@ -62,7 +60,6 @@ export default {
     ProgressPanel,
     ProfilePanel,
     CreateProfile,
-    ProfileCreated,
     BNavbar,
   },
   directives: {
@@ -70,7 +67,7 @@ export default {
   },
   computed: {
     ...mapState('security', ['isLoggedIn']),
-    ...mapState('registration', ['showCreateProfile', 'showingProfileCreated']),
+    ...mapState('registration', ['showCreateProfile']),
   },
   methods: {
     toggleProfile() {

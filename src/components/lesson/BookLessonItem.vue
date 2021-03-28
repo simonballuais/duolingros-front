@@ -70,6 +70,7 @@
                 >
                   <b-button :href="href"
                             variant="primary"
+                            class="start-lesson"
                             v-if="!bookLesson.progress || !bookLesson.progress.completed"
                             >
                     {{ bookLesson.progress.cycleProgression === 0 && bookLesson.progress.difficulty === 1 ? "Commencer" : "Continuer" }}
@@ -195,6 +196,9 @@ a:hover
   margin-top: 1vh
   cursor: pointer
 
+  &:last-child
+    margin-bottom: 5em
+
 footer
   height: 4em
   overflow: hidden
@@ -215,6 +219,20 @@ h4
 .pop-leave-to
   opacity: 0
   transform: scale(2, 2)
+
+.start-lesson
+  height: 40px
+  border-radius: 20px
+  background-color: $green
+  color: white
+  display: flex
+  align-items: center
+  align-content: center
+  border: 0
+
+  &:hover
+    background-color: darken($green, 10%)
+    border: 0
 
 @media screen and (max-width: 800px)
   h4

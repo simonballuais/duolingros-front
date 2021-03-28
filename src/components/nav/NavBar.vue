@@ -50,7 +50,7 @@
         <b-navbar-brand v-if="isLoggedIn" @click="showSettings = !showSettings" class="settings-icon">
           <font-awesome-icon class="cog" icon="cog" />
           <span>
-            {{ user.username | capitalize }}
+            {{ user.nickname | capitalize }}
           </span>
         </b-navbar-brand>
 
@@ -60,6 +60,7 @@
                      >
           <b-button :href="href"
                   variant="primary"
+                  class="anonymous-button"
           >
             Se connecter
           </b-button>
@@ -68,7 +69,7 @@
         <b-button @click="showCreateProfile"
                 v-if="!isLoggedIn"
                 variant="primary"
-                style="margin-left: 1vw"
+                class="anonymous-button"
         >
           Créer un profil
         </b-button>
@@ -117,7 +118,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 nav.navbar
   height: 8mm
   font-size: 3mm
@@ -172,6 +173,17 @@ nav.navbar
 
   span
     user-select: none
+
+.anonymous-button
+  height: 40px
+  border-radius: 20px
+  background: white
+  color: $navbar-bg
+  cursor: pointer
+
+  &:hover
+    background: white
+    color: $navbar-bg
 
 @media screen and (max-width: 800px)
   .settings-icon span

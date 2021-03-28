@@ -1,47 +1,47 @@
 <template>
   <transition name="settings-modale-fade">
-  <div class="settings-modale" v-if="show" @click="handleClick">
-    <div class="modale">
-      <div class="header">
-        <div @click="$emit('closeMe')" class="close-icon">
-          <font-awesome-icon class="times" icon="times"/>
+    <div class="settings-modale" v-if="show" @click="handleClick">
+      <div class="modale">
+        <div class="header">
+          <div @click="$emit('closeMe')" class="close-icon">
+            <font-awesome-icon class="times" icon="times"/>
+          </div>
+
+          <h1>
+            Réglages
+          </h1>
         </div>
 
-        <h1>
-          Réglages
-        </h1>
-      </div>
 
+        <div class="content">
+          <div class="band">
+            <h2>Objectif quotidien :</h2>
 
-      <div class="content">
-        <div class="band">
-          <h2>Objectif quotidien :</h2>
-
-          <b-form-radio-group
-            id="btn-radios-3"
-            v-model="user.dailyObjective"
-            :options="[1, 2, 3, 4, 5]"
-            name="radio-btn-stacked"
-            size="lg"
-            @change="handleChange"
-            style="text-align: center; width: 100%;"
-            buttons
-           ></b-form-radio-group>
+            <b-form-radio-group
+              id="btn-radios-3"
+              v-model="user.dailyObjective"
+              :options="[1, 2, 3, 4, 5]"
+              name="radio-btn-stacked"
+              size="lg"
+              @change="handleChange"
+              style="text-align: center; width: 100%;"
+              buttons
+             ></b-form-radio-group>
+          </div>
         </div>
-      </div>
 
-      <div class="footer">
-        <b-button @click="logout"
-                  v-if="isLoggedIn"
-                  style="margin-left: 15px"
-                  id="logout"
-        >
-          Se déconnecter
-          <font-awesome-icon class="sign-out-alt" icon="sign-out-alt"/>
-        </b-button>
+        <div class="footer">
+          <b-button @click="logout"
+                    v-if="isLoggedIn"
+                    style="margin-left: 15px"
+                    id="logout"
+          >
+            Se déconnecter
+            <font-awesome-icon class="sign-out-alt" icon="sign-out-alt"/>
+          </b-button>
+        </div>
       </div>
     </div>
-  </div>
   </transition>
 </template>
 
@@ -64,6 +64,7 @@ export default {
   },
   components: {
     BFormRadioGroup,
+    BButton,
   },
   computed: {
     ...mapState(

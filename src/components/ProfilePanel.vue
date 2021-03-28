@@ -279,4 +279,5 @@ h2
         border-top: 1px solid $gray
         border-bottom: 1px solid $gray
         box-shadow: 0 0 25px $light-shadow-gray
+
 </style>

@@ -6,7 +6,6 @@ const state = {
     anonymousProgress: null,
     profileData: {},
     submittingProfile: false,
-    showingProfileCreated: false,
     workflowPosition: 1,
     workflowDirection: 'forward',
 }
@@ -45,22 +44,28 @@ const actions = {
         }
     },
     submitRegistration({state, commit}) {
-        commit('submittingProfile')
-        const anonymousUser = JSON.parse(localStorage.getItem('anonymousUser'))
-        registrationService.register(
-            state.profileData.email,
-            state.profileData.username,
-            state.profileData.password,
-            anonymousUser.reason,
-            anonymousUser.currentLevel,
-            anonymousUser.dailyObjective,
-            JSON.parse(localStorage.getItem('anonymousLearningSessions'))
-        )
-            .then(({user, token}) => {
-                commit('registrationSubmitted')
-                commit('security/loginSuccess', {user, token}, {root: true})
-            })
-            .catch((response) => commit('registrationError', response))
+        return new Promise((resolve, reject) => {
+            commit('submittingProfile')
+            const anonymousUser = JSON.parse(localStorage.getItem('anonymousUser'))
+            registrationService.register(
+                state.profileData.email,
+                state.profileData.username,
+                state.profileData.password,
+                anonymousUser.reason,
+                anonymousUser.currentLevel,
+                anonymousUser.dailyObjective,
+                JSON.parse(localStorage.getItem('anonymousLearningSessions'))
+            )
+                .then(({user, token}) => {
+                    resolve()
+                    commit('registrationSubmitted')
+                    commit('security/loginSuccess', {user, token}, {root: true})
+                })
+                .catch((response) => {
+                    commit('registrationError', response)
+                    reject()
+                })
+        })
     },
 }
 
@@ -85,10 +90,6 @@ const mutations = {
     },
     registrationSubmitted(state) {
         state.showCreateProfile = false
-        setTimeout(() => state.showingProfileCreated = true, 500)
-    },
-    endShowingCreatedProfile(state) {
-        state.showingProfileCreated = false
     },
     registrationError(state, response) {
         window.console.log(response)
