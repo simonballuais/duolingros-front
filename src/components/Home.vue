@@ -116,9 +116,10 @@ export default {
     setTimeout(() => this.show = true, 100)
 
     const confirmationCode = this.$route.query.t
-    this.$router.push({ name: 'home' });
 
     if (confirmationCode) {
+      this.$router.push({ name: 'home' })
+
       this.confirmEmailCode(confirmationCode)
           .then(() =>
               this.$notify({

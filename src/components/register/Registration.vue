@@ -1,8 +1,8 @@
 <template>
   <div>
-      <ReasonSelection :show="workflowPosition === 1" :transitionName="transitionName"/>
-      <IntensitySelection :show="workflowPosition === 2" :transitionName="transitionName"/>
-      <CurrentLevelSelection :show="workflowPosition === 3" :transitionName="transitionName"/>
+      <ReasonSelection :show="delayedWorkflowPosition === 1" :transitionName="transitionName"/>
+      <IntensitySelection :show="delayedWorkflowPosition === 2" :transitionName="transitionName"/>
+      <CurrentLevelSelection :show="delayedWorkflowPosition === 3" :transitionName="transitionName"/>
   </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
   data() {
     return {
       destroyRedirectSubscription: null,
+      delayedWorkflowPosition: 1,
     }
   },
   components: {
@@ -40,6 +41,11 @@ export default {
 
       return 'page-transition'
     }
+  },
+  watch: {
+    workflowPosition(val) {
+      this.$nextTick(() => this.delayedWorkflowPosition = val)
+    },
   },
   methods: {
     ...mapActions('registration', ['startRegistration', 'cancelRegistration']),
@@ -109,7 +115,7 @@ div.registration
     left: 0
     overflow: hidden
     left: 0
-    height: 90%
+    height: 100%
     max-width: 1000px
     padding: 3%
     display: flex
@@ -148,6 +154,7 @@ div.registration
         background-color: $green
         left: 50%
         color: white
+        margin: 0
 
       &:disabled
         background: white
@@ -157,4 +164,15 @@ div.registration
       &.selected
         color: white
         background: $violet
+        border: 0
+
+      .button-icon
+        margin-right: 1em
+
+@media screen and (max-width: 800px)
+  button.submit
+    bottom: 2vh
+
+  div.registration div.registration-content h1
+    font-size: 1.3rem
 </style>

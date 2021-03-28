@@ -57,10 +57,19 @@ const actions = {
                 )
         } else {
             const anonymousUser = userService.getAnonymous()
+            window.console.log('pouet pouet')
+            window.console.log(anonymousUser)
 
             if (!anonymousUser) {
-                window.console.log('hop hop hop')
+                commit('isNoLongerLoggedIn')
                 return router.push({'name': 'login'})
+            }
+
+            const isRegistrationIncomplete = anonymousUser.reason === null || anonymousUser.dailyObjective == null || anonymousUser.currentLevel == null
+
+            if (isRegistrationIncomplete) {
+                commit('isNoLongerLoggedIn')
+                return router.push({'name': 'registration'})
             }
 
             commit('userDataUpdated', {user: anonymousUser})
@@ -238,6 +247,9 @@ const mutations = {
     },
     passwordChangeError(state) {
         state.sendingPasswordChange = false
+    },
+    isNoLongerLoggedIn(state) {
+        state.isLoggedIn = false
     },
 }
 

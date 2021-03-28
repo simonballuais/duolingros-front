@@ -12,25 +12,22 @@
         <button @click="user.reason = 1"
                 :class="{selected: user.reason == 1}"
         >
-          Pour y voyager
+          <font-awesome-icon class="button-icon" icon="plane" />
+          Pour voyager
         </button>
 
         <button @click="user.reason = 2"
                 :class="{selected: user.reason == 2}"
         >
-          Pour la culture
+          <font-awesome-icon class="button-icon" icon="book" />
+          Pour me cultiver
         </button>
 
         <button @click="user.reason = 3"
                 :class="{selected: user.reason == 3}"
         >
+          <font-awesome-icon class="button-icon" icon="lightbulb" />
           Pour le plaisir d'apprendre
-        </button>
-
-        <button @click="user.reason = 4"
-                :class="{selected: user.reason == 4}"
-        >
-          Pour pour
         </button>
 
         <button @click="user.reason = 5"
