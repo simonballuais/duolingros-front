@@ -60,42 +60,5 @@ button
   opacity: 0
 .fade-leave-to
   opacity: 0
-.vue-notification
-  padding: 10px
-  margin: 0 5px 5px
-  font-size: 18px
-  color: #ffffff
-  background: #44A4FC
-  border-left: 5px solid #187FE7
-  width: 80vw ! important
-  margin-bottom: 1.5vh
-
-  &.warn
-    background: #ffb648
-    border-left-color: #f48a06
-
-  &.error
-    background: #E54D42
-    border-left-color: #B82E24
-
-  &.success
-    background: #68CD86
-    border-left-color: #42A85F
-
-.vue-notification-wrapper
-  overflow: visible
-
-.vue-notification-template
-  box-shadow: 0 0 2vh black
-
-.notification-container
-  width: 100%
-  position: fixed
-  bottom: 10%
-  overflow: visible
-  z-index: 2000
-
-body
-  margin: 0
 </style>
 

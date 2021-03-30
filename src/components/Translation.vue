@@ -106,19 +106,13 @@ div
   height: 100%
 
 button
-  position: absolute
-  display: block
   width: 90%
   max-width: 400px
-  transition: background-color 0.35s
   margin: 0 auto
   background-color: $green
-  border: 0
   left: 50%
   transform: translate(-50%, 0)
   color: white
-  height: 50px
-  border-radius: 25px
 
   &:disabled
     background: $gray

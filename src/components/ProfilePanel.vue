@@ -188,16 +188,11 @@ h2
     height: 10%
 
   button
-    display: block
     width: 90%
     max-width: 200px
     transition: background-color 0.35s
     background-color: $green
-    border: 0
     color: white
-    height: 50px
-    border-radius: 25px
-    cursor: pointer
 
     &:hover
       background-color: darken($green, 5%)

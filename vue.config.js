@@ -12,6 +12,7 @@ module.exports = {
             sass: {
                 prependData: `
                     @import "@/sass/variables.sass"
+                    @import "@/sass/base.sass"
                 `,
             }
         },

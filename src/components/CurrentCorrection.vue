@@ -95,19 +95,13 @@ div.current-correction
     padding-top: 2vh
 
     button
-      position: absolute
-      display: block
       width: 100%
       max-width: 400px
-      transition: background-color 0.35s
       margin: 0 auto
       background-color: white
-      border: 0
       left: 50%
       transform: translate(-50%, 0)
       color: $green
-      height: 50px
-      border-radius: 25px
       bottom: 2vh
 
 .correction-fade-enter-active, .correction-fade-leave-active
