@@ -22,7 +22,7 @@
             'with-picture': !question.noPictures,
          }"
       >
-      <button v-for="proposition in question.propositions"
+      <button v-for="(proposition, i) in question.propositions"
               type="button"
               :key="proposition.id"
               :class="{
@@ -41,9 +41,14 @@
              :src="proposition.image"
           />
 
-        <span>
-          {{ proposition.text }}
-        </span>
+        <div class="text-container">
+          <span class="shortcut-indicator">
+            {{ i + 1 }}
+          </span>
+          <span class="text">
+            {{ proposition.text }}
+          </span>
+        </div>
       </button>
     </div>
 
@@ -190,12 +195,41 @@ div.main-container
         width: 95%
         max-width: 95%
 
+        div.text-container
+          display: flex
+          width: 100%
+
+          span.shortcut-indicator
+            margin-left: 1em
+            border: 1px solid $gray
+            border-radius: 5px
+            padding-left: 10px
+            padding-right: 10px
+            width: 32px
+            height: 32px
+            display: flex
+            align-items: center
+            align-content: center
+            justify-content: center
+
+          span.text
+            width: 100%
+            align-items: center
+            justify-content: center
+
         &.with-picture
           max-width: 95%
           width: 45%
           margin: 2.5%
           height: auto
-          padding: 0.5em
+          padding: 1.5em
+
+          div.text-container
+            margin-top: 0.5em
+            width: 100%
+
+            span.shortcut-indicator
+              margin-left: 0
 
           img
             border-radius: 5%
@@ -268,8 +302,8 @@ div.proposition-container
       background-color: green
     img
       display: flex
-      width: 80%
-      height: 80%
+      width: 100%
+      height: 100%
     span
       display: flex
 
@@ -279,5 +313,12 @@ div.proposition-container
       width: 35vw
       height: 35vw
       margin: 2vw
+
+@media screen and (max-width: 800px)
+  span.shortcut-indicator
+    display: none ! important
+
+  .proposition.with-picture
+    padding: 0.8em ! important
 </style>
 

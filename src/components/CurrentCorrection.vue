@@ -18,9 +18,10 @@
           Bonne réponse :
         </h2>
 
-        <h3 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswer"
+        <h3 v-if="currentCorrection && !currentCorrection.isCorrect && (currentCorrection.correctAnswer || currentCorrection.correctAnswerText)"
             >
             {{ currentCorrection.remark }}
+            {{ currentCorrection.correctAnswerText }}
         </h3>
 
         <button class="end-correction"
@@ -122,6 +123,12 @@ div.current-correction
   div.current-correction
     height: 30vh
     max-height: 30vh
+
+    h2
+      font-size: 1.5
+
+    h3
+      font-size: 1.1rem
 
     .correction-content button
       bottom: 4vh

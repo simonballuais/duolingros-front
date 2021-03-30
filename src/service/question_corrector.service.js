@@ -8,8 +8,8 @@ function correct(question, proposedAnswer) {
         id: question.id,
         isCorrect: question.answer.id === proposedAnswer,
         correctAnswer: question.answer.id,
+        correctAnswerText: question.answer.text,
         proposedAnswer: proposedAnswer,
-        remark: question.answer.text,
     }
 }
 
