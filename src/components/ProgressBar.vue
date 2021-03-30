@@ -1,21 +1,22 @@
 <template>
   <div class="progress-container"
+       @click="popop"
        :style="{width: width, height: height, left: left, top: top, 'margin-top': marginTop, position: position, 'border-radius': borderRadius, 'background': background}"
        >
     <div class="progress"
          :style="{width: progress + '%', 'border-radius': borderRadius, 'background': color, 'border-radius': borderRadius}"
     >
       <transition name="woosh">
-        <div class="shine" v-if="pop"></div>
+        <div class="shine" v-if="woo"></div>
       </transition>
     </div>
 
-    <transition name="depop">
-      <div class="progress-pop" :style="{background: color, 'border-radius': borderRadius}" v-if="pop"></div>
+    <transition name="pop">
+    <div class="end-circle" v-if="pop" :style="{left: (progress - 3) + '%'}"> </div>
     </transition>
 
-    <transition name="pop">
-      <div class="end-circle" v-if="pop"> </div>
+    <transition name="depop">
+      <div class="progress-pop" :style="{background: color, 'border-radius': borderRadius}" v-if="woo"></div>
     </transition>
   </div>
 </template>
@@ -26,6 +27,7 @@ export default {
   data() {
     return {
       pop: false,
+      woo: false,
       storedValue: null,
     }
   },
@@ -69,12 +71,19 @@ export default {
       type: String,
       default: '0',
     },
+    'popper': {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
   },
   watch: {
     progress(val) {
       if (val >= 100) {
+        setTimeout(() => { this.popop(); this.woosh() }, 500)
+      }
+      if (this.popper) {
         setTimeout(this.popop, 500)
       }
     },
@@ -83,6 +92,10 @@ export default {
     popop() {
       this.pop = !this.pop
       this.$nextTick(() => this.pop = !this.pop)
+    },
+    woosh() {
+      this.woo = !this.woo
+      this.$nextTick(() => this.woo = !this.woo)
     },
   },
 }
@@ -123,13 +136,13 @@ div.progress-container
     opacity: 0.9
 
 .end-circle
-  position: absolute
+  position: relative
   border-radius: 50%
   height: 2vh
   width: 2vh
   border: 1vh solid yellow
   right: -1.5vh
-  top: 0.5vh
+  top: calc(50% - 1vh)
 
 .woosh-leave-active
   transition: all 0.3s ease-in
@@ -150,4 +163,8 @@ div.progress-container
 
 .depop-leave-to
   opacity: 0
+
+@media screen and (max-width: 800px)
+  .end-circle
+    border: 2vh solid yellow
 </style>

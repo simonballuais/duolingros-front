@@ -41,6 +41,7 @@
         position="relative"
         height="3rem"
         border-radius="1.5rem"
+        popper="true"
         color="linear-gradient(50deg, #6e00ff 0, #bb00ff 100%)"
     />
     <input type="number" v-model="kikoo">
