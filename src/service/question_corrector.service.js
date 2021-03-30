@@ -9,6 +9,7 @@ function correct(question, proposedAnswer) {
         isCorrect: question.answer.id === proposedAnswer,
         correctAnswer: question.answer.id,
         proposedAnswer: proposedAnswer,
+        remark: question.answer.text,
     }
 }
 

@@ -1,16 +1,25 @@
 <template>
   <div class="main-container">
-    <h1>
+    <div class="question-content">
+    <h1 v-if="question.noPictures">
       Choisissez la bonne traduction
     </h1>
 
-    <h2>
-      {{ question.text }}
+    <h2 v-if="!question.noPictures && !question.direction">
+      Comment dit-on «&nbsp;{{ question.text }}&nbsp;»&nbsp;?
+    </h2>
+
+    <h2 v-if="!question.noPictures && question.direction">
+      Quelle est la traduction de «&nbsp;{{ question.text }}&nbsp;»&nbsp;?
+    </h2>
+
+    <h2 v-if="question.noPictures">
+      «&nbsp;{{ question.text }}&nbsp;»
     </h2>
 
     <div class="proposition-container"
          :class="{
-            'with-picture': !question.isNoPictures,
+            'with-picture': !question.noPictures,
          }"
       >
       <button v-for="proposition in question.propositions"
@@ -27,7 +36,7 @@
               class="proposition"
         >
 
-        <img v-if="!question.isNoPictures"
+        <img v-if="!question.noPictures"
              :src="proposition.image"
           />
 
@@ -44,6 +53,7 @@
       >
       Valider
     </button>
+    </div>
   </div>
 </template>
 
@@ -120,26 +130,101 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-div
+h1, h2
+  font-family: 'Ubuntu', sans-serif
+
+h1
+  font-size: 1.8rem
+  font-weight: bold
+  margin-top: 1.5rem
+  margin-bottom: 1.5rem
+
+h2
+  font-size: 1.3rem
+  font-weight: normal
+  margin-bottom: 1.5rem
+
+div.main-container
+  position: absolute
+  top: 0
+  left: 0
+  height: calc(var(--vh, 1vh) * 100)
   width: 100%
   height: 100%
+  overflow: hidden
 
-button
-  transition: background-color 0.35s
-  width: 80%
-  margin-left: 10%
+  div.question-content
+    position: relative
+    margin: 0 auto
+    top: 0
+    left: 0
+    overflow: hidden
+    left: 0
+    height: 100%
+    max-width: 1000px
+    padding: 3%
+    display: flex
+    flex-flow: column nowrap
+    align-items: center
 
-  &.submit,&.end-correction
-    position: absolute
-    bottom: 5vh
+    button
+      display: block
+      transition: background 0.3s ease
+      width: 100%
+      max-width: 400px
+      transition: background 0.35s, color 0.50s
+      background: white
+      color: $dark-gray
+      height: 50px
+      border-radius: 25px
+      margin: 1em
+      border: 1px solid $light-gray
+      background: white
+
+      &.proposition
+        padding: 1em
+        margin: 0.5em
+        border: 1px solid $gray
+        display: flex
+        align-items: center
+        width: 95%
+        max-width: 95%
+
+        &.right-answer
+          background: $green
+          color: white
+
+        &.wrong-answer
+          background: $red
+          color: white
+
+      &.submit
+        position: absolute
+        transform: translate(-50%, 0)
+        bottom: 5vh
+        background-color: $green
+        left: 50%
+        color: white
+        margin: 0
+
+      &:disabled
+        background: white
+        border: 1px $light-gray
+        color: $gray
+
+      &:active
+        background: white ! important
+
+      &.selected
+        color: white
+        background: $violet
+        border: 0
 
 div.proposition-container
   display: flex
   flex-flow: column nowrap
   align-content: flex-start
-  width: 80%
-  height: 10%
-  margin-left: 10%
+  width: 100%
   justify-content: center
 
   button.proposition
@@ -170,3 +255,4 @@ div.proposition-container
       height: 35vw
       margin: 2vw
 </style>
+
