@@ -29,6 +29,7 @@
                 selected: proposition.id === selectedPropositionId,
                 'right-answer': currentCorrection && proposition.id === currentCorrection.correctAnswer,
                 'wrong-answer': currentCorrection && proposition.id === selectedPropositionId && currentCorrection.correctAnswer !== selectedPropositionId,
+                'with-picture': !question.noPictures,
               }"
               :disabled="currentCorrection"
               @focus="resetButtonFocus"
@@ -169,10 +170,9 @@ div.main-container
 
     button
       display: block
-      transition: background 0.3s ease
       width: 100%
       max-width: 400px
-      transition: background 0.35s, color 0.50s
+      transition: background 0.35s, color 0.50s, border 0.35s
       background: white
       color: $dark-gray
       height: 50px
@@ -189,6 +189,31 @@ div.main-container
         align-items: center
         width: 95%
         max-width: 95%
+
+        &.with-picture
+          max-width: 95%
+          width: 45%
+          margin: 2.5%
+          height: auto
+          padding: 0.5em
+
+          img
+            border-radius: 5%
+
+          &.selected
+            color: $dark-gray
+            background: lighten($violet, 40%)
+            border: 0.3em solid $violet
+
+          &.right-answer
+            background: $green
+            color: white
+            border: 0.3em solid $green
+
+          &.wrong-answer
+            background: $red
+            color: white
+            border: 0.3em solid $red
 
         &.right-answer
           background: $green
