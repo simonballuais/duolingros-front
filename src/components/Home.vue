@@ -26,7 +26,11 @@
             </div>
           </div>
 
-        <div class="spacer"> </div>
+          <div class="spacer">
+            <br>
+            <br>
+            <br>
+          </div>
         </div>
       </transition>
 
@@ -156,9 +160,8 @@ div.container-home
   position: relative
   margin: 0 auto
   margin-top: 8mm
-  margin-bottom: 1.5cm
   padding-top: 5mm
-  height: calc(var(--vh, 1vh) * 100)
+  height: calc(var(--vh, 1vh) * 100 - 8mm)
   max-width: 1200px
 
   &.blur

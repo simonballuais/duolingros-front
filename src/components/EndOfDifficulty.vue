@@ -1,6 +1,6 @@
 <template>
   <div class="end-of-difficulty">
-    <h1>Bravo</h1>
+    <h1>Bravo !</h1>
 
     <h2>
       Vous avez terminé un niveau !

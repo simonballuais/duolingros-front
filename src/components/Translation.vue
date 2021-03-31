@@ -6,7 +6,6 @@
 
     <h2>
       {{ translation.text }}
-      Une grosse courgette court très fort entre les deux couleurs, plus qu'un téton
     </h2>
 
     <b-form-textarea

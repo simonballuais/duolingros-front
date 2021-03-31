@@ -24,19 +24,19 @@
         <button @click="user.dailyObjective = 3"
                 :class="{selected: user.dailyObjective == 3}"
         >
-          20 minutes
+          15 minutes
         </button>
 
         <button @click="user.dailyObjective = 4"
                 :class="{selected: user.dailyObjective == 4}"
         >
-          30 minutes
+          20 minutes
         </button>
 
         <button @click="user.dailyObjective = 5"
                 :class="{selected: user.dailyObjective == 5}"
         >
-          Une heure
+          25 minutes
         </button>
 
         <button @click="goToNextPosition"

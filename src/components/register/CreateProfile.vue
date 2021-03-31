@@ -13,6 +13,10 @@
         </div>
 
         <div class="content">
+          <h2>
+            En créant un profil, vous pourrez conserver vos progrès et débloquer les leçons suivantes.<br>
+            Créer un compte ne vous engage à rien.
+          </h2>
           <Spinner v-if="submittingProfile"
                    :big="true"
                    :center="true"
@@ -85,18 +89,38 @@ export default {
     ...mapState('registration', ['profileData', 'submittingProfile']),
   },
   methods: {
-    ...mapActions('registration', ['cancelCreateProfile', 'submitRegistration']),
+    ...mapActions(
+      'registration',
+      [
+        'cancelCreateProfile',
+        'submitRegistration'
+      ]
+    ),
+    ...mapActions(
+      'bookLesson',
+      [
+        'loadAllBookLessons',
+        'loadProgress',
+        'updateBufferedProgresses',
+      ]
+    ),
     handleKeyUp(e) {
       if (e.keyCode === 13 && this.profileData.email && this.profileData.password) {
         this.submitRegistration()
-          .then(() =>
+          .then(() => {
+              Promise.all([
+                this.loadAllBookLessons(),
+                this.loadProgress()
+              ])
+                .then(this.planUpdateBufferedProgresses)
+
               this.$notify({
                 group: 'default',
                 type: 'success',
                 title: 'Profil créé avec succès !',
                 text: 'Un email vous a été envoyé pour confirmer votre adresse',
               })
-          )
+          })
           .catch(() =>
               this.$notify({
                 group: 'default',
@@ -111,6 +135,9 @@ export default {
         this.cancelCreateProfile()
         window.removeEventListener('keyup', this.handleKeyUp)
       }
+    },
+    planUpdateBufferedProgresses() {
+      setTimeout(this.updateBufferedProgresses, 500)
     },
   },
   created() {
@@ -135,6 +162,7 @@ h1
 
 h2
   font-size: 1.3rem
+  margin: 1em
 
 .create-profile
   position: fixed
@@ -258,6 +286,7 @@ h2
     font-size: 1.5rem
   h2
     font-size: 1.1rem
+    margin: 1em
 
   .create-profile-fade-enter
     opacity: 0
@@ -279,6 +308,7 @@ h2
     .modale
       width: 100%
       margin: 0
+      max-width: 800px
       position: absolute
       top: 0
       left: 0

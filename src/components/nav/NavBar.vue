@@ -49,8 +49,11 @@
 
         <b-navbar-brand v-if="isLoggedIn" @click="showSettings = !showSettings" class="settings-icon">
           <font-awesome-icon class="cog" icon="cog" />
-          <span>
+          <span v-if="user.nickname">
             {{ user.nickname | capitalize }}
+          </span>
+          <span v-if="!user.nickname">
+            {{ user.email }}
           </span>
         </b-navbar-brand>
 

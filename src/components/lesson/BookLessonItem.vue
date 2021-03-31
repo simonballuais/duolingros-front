@@ -29,8 +29,17 @@
       </b-card-text>
 
       <transition name="pop">
-        <div class="disabler" v-if="disabled"></div>
+        <div class="disabler" v-if="disabled" :id="'disabler-' + bookLesson.id"
+                              :class="{'anonymous-disabler': !isLoggedIn}"
+                              @click="showCreateProfileIfAnonymous"
+          ></div>
       </transition>
+
+      <b-tooltip :target="'disabler-' + bookLesson.id" placement="top" triggers="hover"
+                  v-if="!isLoggedIn"
+        >
+        <span>Créez un profil pour débloquer les leçons suivantes !</span>
+      </b-tooltip>
     </b-card>
 
     <transition name="slide">
@@ -102,6 +111,7 @@
 <script>
 import ProgressBar from './../ProgressBar'
 import StarBar from './../StarBar'
+import { mapState, mapActions } from 'vuex'
 import { BCard, BCardText, BButton, BContainer, BRow, BCol, BTooltip } from 'bootstrap-vue'
 
 export default {
@@ -130,7 +140,16 @@ export default {
       coincoin: 2,
     }
   },
+  computed: {
+    ...mapState('security', ['user', 'isLoggedIn']),
+  },
   methods: {
+    ...mapActions('registration', ['showCreateProfile']),
+    showCreateProfileIfAnonymous() {
+      if (!this.isLoggedIn) {
+        this.showCreateProfile()
+      }
+    },
     emitClickIfPossible(e) {
       this.coincoin++
       if (!this.disabled) {
@@ -189,6 +208,9 @@ a:hover
   height: 100%
   cursor: initial
 
+  &.anonymous-disabler
+    cursor: pointer
+
 .main-container
   max-width: 550px
   display: block
@@ -196,9 +218,6 @@ a:hover
   margin: auto
   margin-top: 1vh
   cursor: pointer
-
-  &:last-child
-    margin-bottom: 5em
 
 footer
   height: 4em
