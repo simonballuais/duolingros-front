@@ -4,7 +4,7 @@
       Traduisez cette phrase
     </h1>
 
-    <h2>
+    <h2 id="sentence">
       {{ translation.text }}
     </h2>
 
@@ -29,16 +29,26 @@
       >
       Valider
     </button>
+
+    <b-popover target="sentence" placement="bottom" :show.sync="showTranslationHelp"
+      >
+      <template #title>Traduction</template>
+      Vous pouvez voir la traduction d'un mot en cliquant dessus !
+      <b-button @click="closeTranslationHelp">
+        Ok
+      </b-button>
+    </b-popover>
   </div>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
-import { BFormTextarea } from 'bootstrap-vue'
+import { BFormTextarea, BPopover, BButton } from 'bootstrap-vue'
 
 export default {
   computed: {
     ...mapState('learningSession', ['currentCorrection']),
+    ...mapState('security', ['user', 'isLoggedIn']),
   },
   components: {
     BFormTextarea,
@@ -46,10 +56,13 @@ export default {
   data() {
     return {
       proposedAnswer: '',
+      showTranslationHelp: false,
     }
   },
   directives: {
     'b-form-textarea': BFormTextarea,
+    'b-popover': BPopover,
+    'b-button': BButton,
   },
   props: [
     'translation',
@@ -62,6 +75,12 @@ export default {
         'endCorrection',
       ]
     ),
+    ...mapActions(
+      'security',
+      [
+        'putUserData',
+      ]
+    ),
     submitOrNext() {
       this.proposedAnswer = this.proposedAnswer.replace(/\n/, '')
 
@@ -72,12 +91,23 @@ export default {
         this.proposedAnswer = null
       }
     },
+    closeTranslationHelp() {
+      this.showTranslationHelp = false
+      this.user.translationHelpShown = true
+      this.putUserData()
+    }
   },
   created() {
     window.addEventListener('keyup', this.handleEnterKey)
   },
   mounted () {
     setTimeout(() => this.$refs['answer-input'].focus(), 500)
+
+    if (!this.isLoggedIn && !this.user.translationHelpShown) {
+      setTimeout(() => {
+        this.showTranslationHelp = true
+      }, 1000)
+    }
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleEnterKey)
@@ -98,11 +128,7 @@ h1
 h2
   font-size: 1.3rem
   font-weight: normal
-  margin-bottom: 1.5rem
-
-div
-  width: 100%
-  height: 100%
+  display: inline-block
 
 button
   width: 90%
@@ -119,6 +145,16 @@ button
   &.submit,&.end-correction
     position: fixed
     bottom: 5vh
+
+.popover
+  border: 1px solid $light-gray
+
+  button
+    height: 30px
+    border-radius: 15px
+    font-size: 1.1em
+    transform: none ! important
+    margin-top: 1em
 
 .answer
   width: 100%

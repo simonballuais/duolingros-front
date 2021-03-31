@@ -31,7 +31,7 @@
           >
           <font-awesome-icon class="chart-bar" icon="chart-bar" />
 
-          <span>
+          <span id="progress-button">
             Progrès
           </span>
         </div>

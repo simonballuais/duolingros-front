@@ -22,6 +22,7 @@
                               @click="selectBookLessonId(bookLesson.id)"
                               :progress="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].progress : 0"
                               :difficulty="bufferedProgresses[bookLesson.id] ? (bufferedProgresses[bookLesson.id].difficulty + (bufferedProgresses[bookLesson.id].completed ? 1 : 0)) : 0"
+                              :id="'book-lesson-' + bookLesson.id"
                               />
             </div>
           </div>
@@ -38,12 +39,32 @@
                :big="true"
                :center="true"
                ></Spinner>
+
+      <b-popover target="book-lesson-1" placement="bottom" :show.sync="showLessonHelp"
+        >
+        <template #title>Leçons</template>
+        Vous avez terminé votre premier exercice !
+        Vous pouvez cliquer ici pour passer au suivant et continuer la première leçon
+        <b-button @click="closeLessonHelp">
+          Ok
+        </b-button>
+      </b-popover>
+
+      <b-popover target="book-lesson-2" placement="bottom" :show.sync="showSecondLessonHelp"
+        >
+        <template #title>Leçons suivantes</template>
+        Vous débloquerez la leçon suivant lorsque vous atteindrez le niveau 1 à la première leçon
+        <b-button @click="closeSecondLessonHelp">
+          Ok
+        </b-button>
+      </b-popover>
     </div>
   </transition>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import { BPopover, BButton } from 'bootstrap-vue'
 
 import BookLessonItem from './lesson/BookLessonItem'
 import CourseSeparator from './CourseSeparator'
@@ -58,7 +79,13 @@ export default {
     return {
       show: false,
       selectedBookLessonId: null,
+      showLessonHelp: false,
+      showSecondLessonHelp: false,
     }
+  },
+  directives: {
+    'b-popover': BPopover,
+    'b-button': BButton,
   },
   components: {
     BookLessonItem,
@@ -77,7 +104,7 @@ export default {
       ]
     ),
     ...mapState('registration', ['showCreateProfile']),
-    ...mapState('security', ['confirmingEmailCode']),
+    ...mapState('security', ['confirmingEmailCode', 'isLoggedIn', 'user']),
   },
   methods: {
     ...mapActions(
@@ -93,8 +120,29 @@ export default {
       [
         'reloadUserData',
         'confirmEmailCode',
+        'putUserData',
       ]
     ),
+    closeLessonHelp() {
+      this.showLessonHelp = false
+      this.user.lessonHelpShown = true
+      this.putUserData()
+
+      if (this.isLoggedIn) {
+        return
+      }
+
+      setTimeout(() => this.showSecondLessonHelp = true, 1000)
+    },
+    closeSecondLessonHelp() {
+      this.showSecondLessonHelp = false
+      this.user.secondLessonHelpShown = true
+      this.putUserData()
+
+      if (this.isLoggedIn) {
+        return
+      }
+    },
     selectBookLessonId(id) {
       if (id === this.selectedBookLessonId) {
         this.selectedBookLessonId = null
@@ -106,8 +154,6 @@ export default {
     planUpdateBufferedProgresses() {
       setTimeout(this.updateBufferedProgresses, 500)
     },
-  },
-  directives: {
   },
   created() {
     Promise.all([
@@ -143,6 +189,13 @@ export default {
           )
     }
   },
+  mounted () {
+    if (!this.isLoggedIn && !this.user.lessonHelpShown) {
+      setTimeout(() => {
+        this.showLessonHelp = true
+      }, 1000)
+    }
+  },
   watch: {
   }
 }
@@ -166,6 +219,17 @@ div.container-home
 
   &.blur
     filter: blur(4px)
+
+.popover
+  border: 1px solid $light-gray
+
+  button
+    height: 30px
+    border-radius: 15px
+    font-size: 1.1em
+    transform: none ! important
+    margin: auto
+    margin-top: 1em
 
 main
   min-height: 500px
