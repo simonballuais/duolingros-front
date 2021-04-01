@@ -23,8 +23,15 @@ Vue.use(VueRouter)
 Vue.use(Notifications)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-new Vue({
+const vueApp = new Vue({
   store,
   router,
   render: h => h(App),
-}).$mount('#app')
+  mounted () {
+      document.dispatchEvent(new Event('render-event'))
+  }
+})
+
+
+
+vueApp.$mount('#app')

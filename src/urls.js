@@ -20,7 +20,7 @@ const urls = {
 }
 
 const axiosConfigured = axios.create({
-    baseURL: 'api',
+    baseURL: '/api/',
 });
 
 axiosConfigured.defaults.headers.common['Accept'] = 'application/json'

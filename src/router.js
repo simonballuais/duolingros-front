@@ -6,6 +6,7 @@ import LearningSession from './components/LearningSession.vue'
 import Registration from './components/register/Registration.vue'
 
 let router = new VueRouter({
+    mode: 'history',
     routes: [
         {
             name: 'login',
