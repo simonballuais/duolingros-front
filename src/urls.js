@@ -19,8 +19,11 @@ const urls = {
     'confirm_email_code': 'confirm-email/{code}',
 }
 
+window.console.log(process.env.VUE_APP_BASE_API_URL)
+window.console.log(process.env)
+
 const axiosConfigured = axios.create({
-    baseURL: '/api/',
+    baseURL: process.env.VUE_APP_BASE_API_URL,
 });
 
 axiosConfigured.defaults.headers.common['Accept'] = 'application/json'

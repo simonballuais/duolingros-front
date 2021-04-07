@@ -1,14 +1,23 @@
 const path = require('path');
 const PrerenderSpaPlugin = require('prerender-spa-plugin');
+const Dotenv = require('dotenv-webpack');
+
 
 module.exports = {
     configureWebpack: {
+        devServer: {
+            headers: {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Method": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept",
+            }
+        },
         plugins: [
+            new Dotenv(),
             new PrerenderSpaPlugin({
                 staticDir: path.join(__dirname, 'dist'),
-                routes: ['/login'],
+                routes: ['/'],
                 renderer: new PrerenderSpaPlugin.PuppeteerRenderer({
-                    inject: {kiki: 'coucou'},
                     renderAfterDocumentEvent: 'render-event',
                     headless: true,
                 }),

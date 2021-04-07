@@ -19,9 +19,8 @@
         </h2>
 
         <h3 v-if="currentCorrection && !currentCorrection.isCorrect && (currentCorrection.correctAnswer || currentCorrection.correctAnswerText)"
+            :html="currentCorrection.remark + currentCorrection.correctAnswerText"
             >
-            {{ currentCorrection.remark }}
-            {{ currentCorrection.correctAnswerText }}
         </h3>
 
         <button class="end-correction"
