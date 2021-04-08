@@ -57,7 +57,7 @@
           </span>
         </b-navbar-brand>
 
-        <router-link :to="{ name: 'login' }"
+        <router-link to="/?l=true"
                      v-slot="{href, route, navigate, isActive, isExactActive}"
                       v-if="!isLoggedIn"
                      >
