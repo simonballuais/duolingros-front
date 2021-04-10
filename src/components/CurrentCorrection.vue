@@ -18,8 +18,8 @@
           Bonne réponse :
         </h2>
 
-        <h3 v-if="currentCorrection && !currentCorrection.isCorrect && (currentCorrection.correctAnswer || currentCorrection.correctAnswerText)"
-            :html="currentCorrection.remark + currentCorrection.correctAnswerText"
+        <h3 v-if="currentCorrection && !currentCorrection.isCorrect && currentCorrection.correctAnswerText"
+            v-html="currentCorrection.remark || currentCorrection.correctAnswerText"
             >
         </h3>
 

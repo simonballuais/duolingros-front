@@ -10,11 +10,11 @@
             </div>
 
             <div class="login-box" v-if="showingBox">
-              <transition name="fade">
+              <transition name="box-fade">
                 <div class="transition-container"
                      v-if="showingRegistration && !resetPasswordToken"
                   >
-                  <h2>Apprenez le malgache en ligne grace à des exercices simples et gratuits</h2>
+                  <h2>Apprenez le malgache en ligne grâce à des exercices simples et gratuits</h2>
 
                   <div class="buttons">
                     <router-link :to="{name: 'registration'}"
@@ -32,7 +32,7 @@
                 </div>
               </transition>
 
-              <transition name="fade">
+              <transition name="box-fade">
                 <div class="transition-container"
                      v-if="showingLogin && !resetPasswordToken"
                   >
@@ -41,32 +41,32 @@
                     <TextInput v-model="username" placeholder="Email" />
                     <small v-if="status.invalidCredentials"
                            class="form-text text-danger">
-                      Invalid credentials
+                      Mot de passe ou email erroné
                     </small>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" style="margin-bottom: 0.2rem;">
                     <TextInput v-model="password" placeholder="Mot de passe" type="password" />
                   </div>
+                  <a href="#" @click="showForgotPassword" style="margin-left: 1rem;">Mot de passe oublié ?</a>
+
                   <div class="form-group">
-                    <Submit label="Valider" :loading="status.loggingIn" />
+                    <Submit label="Valider" :loading="status.loggingIn" class="login-button"/>
                   </div>
 
                   <div class="form-group">
                     <router-link :to="{name: 'registration'}"
                                  v-slot="{href, route, navigate, isActive, isExactActive}"
                     >
-                      <a :href="href">
+                      <a :href="href" style="margin-left: 1rem;">
                         S'inscrire
                       </a>
                     </router-link>
                   </div>
-
-                  <a href="#" @click="showForgotPassword">Mot de passe oublié ?</a>
                   </InlineForm>
                 </div>
               </transition>
 
-              <transition name="fade">
+              <transition name="box-fade">
                 <div class="transition-container"
                      v-if="showingPasswordReset && !resetPasswordToken"
                   >
@@ -84,6 +84,7 @@
                     <Submit label="Valider"
                             :loading="sendingPasswordResetRequest"
                             :disabled="!username"
+                            class="login-button"
                             />
                   </div>
 
@@ -92,7 +93,7 @@
                 </div>
               </transition>
 
-              <transition name="fade">
+              <transition name="box-fade">
                 <div class="transition-container"
                      v-if="resetPasswordToken"
                   >
@@ -122,20 +123,50 @@
 
     <div class="infos">
       <div class="center-column">
-        <h1>
-          Apprenez grace à des exercices simples
-        </h1>
-        <p>
-          Les exe
-        </p>
+        <h2>
+          Des exercices simples
+        </h2>
+        <div class="info-row">
+          <p style="width: 50%">
+            Les leçons sont découpées en sessions de cours exercices.<br>
+            En terminant des leçons, vous validez des niveaux et débloquez les leçons suivantes&nbsp;<font-awesome-icon class="star" icon="star" style="color: orange"/>
+          </p>
+          <img src="/question.png" class="img-right">
+        </div>
+
         <hr>
-        <h1>
+
+        <div class="info-row">
+          <img src="/correction.png" class="img-left">
+          <p style="width: 50%">
+            Les corrections sont apportées immédiatement. En cas d'erreur, une bonne réponse est suggérée et vous permet de vous améliorer.
+          </p>
+        </div>
+        <hr>
+        <h2>
           Suivez vos progrès
-        </h1>
+        </h2>
+        <div class="info-row">
+          <p style="width: 50%">
+            Toutes vos sessions d'entrainement sont sauvegardées et vous pouvez suivre vos progrès jour après jour.
+          </p>
+          <img src="/progress.png" class="img-right">
+        </div>
         <hr>
-        <h1>
-          Étudiez les détails grâce à des leçons avancées
-        </h1>
+        <h2>
+          Étudiez en détail, où vous voulez
+        </h2>
+        <div class="info-row">
+          <font-awesome-icon class="book" icon="book" style="width: 30%"/>
+          <p style="width: 70%">
+            En plus des leçons, notre
+            <a href="#">base de connaissance</a>
+            est là pour vous permettre de réviser des détails ou aller plus loin.
+            <br>
+            <br>
+            Miteny gasy est également disponible sur mobile <font-awesome-icon class="mobile-alt" icon="mobile-alt" />
+          </p>
+        </div>
       </div>
 
       <div class="footer">
@@ -217,7 +248,7 @@ export default {
       this.showingPasswordReset = false
     },
     showLogin() {
-      this.showingLogin = true
+      setTimeout(() => this.showingLogin = true, 100)
       this.showingRegistration = false
       this.showingPasswordReset = false
     },
@@ -305,15 +336,19 @@ export default {
 h1
   font-family: 'Ubuntu', sans-serif
   font-size: 24pt
+  font-weight: 700
+  margin: 0
 
 .transition-container
   width: 100%
   height: 100%
   position: relative
   padding: 1cm
+  top: 0
+  left: 0
 
 .login-container
-  background: url("/bg1.jpg")
+  background: url("/bg4.jpg")
   position: absolute
   left: 0
   right: 0
@@ -336,7 +371,7 @@ h1
 
   .login-box
     border-radius: 3mm
-    background: transparentize(white, 0.5)
+    background: transparentize(white, 0.2)
     width: 18cm
     height: 8cm
 
@@ -361,12 +396,35 @@ h1
   right: 0
   top: calc(var(--vh, 1vh) * 100)
   bottom: 0
-  height: calc(var(--vh, 1vh) * 100)
-  padding: 2%
+
+  h2
+    font-size: 28pt
+    font-weight: lighter
+    padding: 8pt
+
+  p
+    font-size: 17pt
+    padding: 8pt
+    font-weight: lighter
+
+  img
+    box-shadow: 0 0 25px lightgray
+    width: 45%
+
+    &.img-left
+      margin-right: 5%
+    &.img-right
+      margin-left: 5%
+
+  .center-column
+    padding: 2%
+
+  .book
+    color: $navbar-bg
+    font-size: 48pt
 
 .mtn-button
   width: initial
-  font-variant: all-small-caps
   background: $navbar-bg
 
   &.mtn-secondary
@@ -393,7 +451,7 @@ h1
     font-family: 'Ubuntu', sans-serif
 
 .footer
-  position: absolute
+  position: relative
   bottom: 0
   left: 0
   background: $navbar-bg
@@ -417,6 +475,24 @@ h1
   max-width: 1000px
   margin: 0 auto
   position: relative
+
+.info-row
+  display: flex
+  width: 100%
+  flex-flow: row wrap
+  align-items: center
+
+.login-button
+  width: 80%
+  margin-left: 10%
+  margin-top: 8pt
+
+@media screen and (max-width: 1000px)
+  .login-container
+    .box-container
+      .login-box
+        h2
+          font-size: 20pt
 
 @media screen and (max-width: 800px)
   h1
@@ -442,9 +518,39 @@ h1
           font-size: 18pt
 
   .miteny-gasy
-    padding: 1.5mm
+    padding: 2.5mm
 
   .footer .center-column
     font-size: 10pt
 
+  .infos
+    h2
+      font-size: 18pt
+      font-weight: normal
+      padding: 8pt
+
+    p
+      padding: 8pt
+      font-weight: lighter
+      font-size: 14pt
+
+    img
+      width: 50%
+
+      &.img-left
+        margin-right: 0
+      &.img-right
+        margin-left: 0
+
+@media screen and (max-width: 400px)
+  .login-container
+    .box-container
+      .login-box
+        h2
+          font-size: 16pt
+
+.box-fade-enter-active
+  transition: opacity .3s ease
+.box-fade-enter
+  opacity: 0
 </style>

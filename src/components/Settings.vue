@@ -37,7 +37,7 @@
                     id="logout"
           >
             Se déconnecter
-            <font-awesome-icon class="sign-out-alt" icon="sign-out-alt"/>
+            <font-awesome-icon class="sign-out-alt" icon="sign-out-alt" style="margin-left: 6pt"/>
           </b-button>
         </div>
       </div>

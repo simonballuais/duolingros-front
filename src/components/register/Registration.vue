@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="registration-container">
       <ReasonSelection :show="delayedWorkflowPosition === 1" :transitionName="transitionName"/>
       <IntensitySelection :show="delayedWorkflowPosition === 2" :transitionName="transitionName"/>
       <CurrentLevelSelection :show="delayedWorkflowPosition === 3" :transitionName="transitionName"/>
@@ -99,13 +99,18 @@ export default {
   opacity: 0
   transform: translateX(100vw)
 
+div.registration-container
+  position: absolute
+  overflow: hidden
+  width: 100%
+  height: 100%
+
 div.registration
   position: absolute
   top: 0
   left: 0
   height: calc(var(--vh, 1vh) * 100)
   width: 100%
-  height: 100%
   overflow: hidden
 
   div.registration-content

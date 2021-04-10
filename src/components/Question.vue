@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       selectedPropositionId: null,
+      destroyCorrectionEndedSubsription: null,
     }
   },
   props: [
@@ -128,9 +129,15 @@ export default {
   },
   created() {
     window.addEventListener('keyup', this.handleKeyUp)
+    this.destroyCorrectionEndedSubsription = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'learningSession/correctionEnded') {
+        this.selectedPropositionId = null
+      }
+    });
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)
+    this.destroyCorrectionEndedSubsription()
   }
 }
 </script>
@@ -321,4 +328,5 @@ div.proposition-container
   .proposition.with-picture
     padding: 0.8em ! important
 </style>
+
 

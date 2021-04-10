@@ -57,6 +57,7 @@ export default {
     return {
       proposedAnswer: '',
       showTranslationHelp: false,
+      destroyCorrectionEndedSubsription: null,
     }
   },
   directives: {
@@ -99,6 +100,11 @@ export default {
   },
   created() {
     window.addEventListener('keyup', this.handleEnterKey)
+    this.destroyCorrectionEndedSubsription = this.$store.subscribe((mutation) => {
+      if (mutation.type === 'learningSession/correctionEnded') {
+        this.proposedAnswer = ''
+      }
+    });
   },
   mounted () {
     setTimeout(() => this.$refs['answer-input'].focus(), 500)
@@ -111,6 +117,7 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleEnterKey)
+    this.destroyCorrectionEndedSubsription()
   }
 }
 </script>

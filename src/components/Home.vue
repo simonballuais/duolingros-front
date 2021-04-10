@@ -40,17 +40,23 @@
                :center="true"
                ></Spinner>
 
-      <b-popover target="book-lesson-1" placement="bottom" :show.sync="showLessonHelp"
+      <b-popover target="book-lesson-1"
+                 placement="bottom"
+                 :show.sync="showLessonHelp"
+                 triggers="manual"
         >
         <template #title>Leçons</template>
-        Vous avez terminé votre premier exercice !
+        Vous avez terminé votre premier exercice&nbsp;!
         Vous pouvez cliquer ici pour passer au suivant et continuer la première leçon
         <b-button @click="closeLessonHelp">
           Ok
         </b-button>
       </b-popover>
 
-      <b-popover target="book-lesson-2" placement="bottom" :show.sync="showSecondLessonHelp"
+      <b-popover target="book-lesson-2"
+                 placement="bottom"
+                 :show.sync="showSecondLessonHelp"
+                 triggers="manual"
         >
         <template #title>Leçons suivantes</template>
         Vous débloquerez la leçon suivant lorsque vous atteindrez le niveau 1 à la première leçon

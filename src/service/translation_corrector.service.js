@@ -21,7 +21,7 @@ function correct(translation, proposedAnswer) {
         type: 'translation',
         id: translation.id,
         isCorrect: false,
-        correctAnswer: '',
+        correctAnswerText: '',
         proposedAnswer: proposedAnswer,
         remark: '',
     }
@@ -47,7 +47,7 @@ function correct(translation, proposedAnswer) {
         answers
     )
 
-    correction.correctAnswer = closestGoodAnswer
+    correction.correctAnswerText = "«&nbsp;" + closestGoodAnswer + "&nbsp;»"
     const purifiedAnswer = purifyString(closestGoodAnswer)
     log("Réponse la plus proche de la proposition" + purifiedAnswer)
 
@@ -66,7 +66,11 @@ function correct(translation, proposedAnswer) {
                 closestGoodAnswer
             )
 
-            correction.remark = "Vouliez-vous dire " + correctedAnswer + " ?"
+            if (correction.isCorrect) {
+                correction.remark = "Vouliez-vous dire&nbsp;:&nbsp;«&nbsp;" + correctedAnswer + "&nbsp;»&nbsp;?"
+            } else {
+                correction.remark = "«&nbsp;" + correctedAnswer + "&nbsp;»"
+            }
         }
     }
 

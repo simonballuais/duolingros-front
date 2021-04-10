@@ -85,17 +85,19 @@
                     {{ bookLesson.progress.cycleProgression === 0 && bookLesson.progress.difficulty === 1 ? "Commencer" : "Continuer" }}
                   </b-button>
 
-                  <b-button :href="href"
-                            variant="secondary"
-                            class="mtn-button"
-                            v-if="bookLesson.progress && bookLesson.progress.completed"
-                            id="revision"
-                            disabled
-                            >
-                    Réviser
-                  </b-button>
+                  <div id="revision-wrapper">
+                    <b-button :href="href"
+                              variant="secondary"
+                              class="mtn-button"
+                              v-if="bookLesson.progress && bookLesson.progress.completed"
+                              id="revision"
+                              disabled
+                              >
+                      Réviser
+                    </b-button>
+                  </div>
 
-                  <b-tooltip target="revision" placement="top" triggers="hover">
+                  <b-tooltip target="revision-wrapper" placement="top">
                     <span>Bientôt :)</span>
                   </b-tooltip>
               </router-link>
