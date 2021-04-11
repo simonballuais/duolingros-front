@@ -4,8 +4,9 @@
       Traduisez cette phrase
     </h1>
 
-    <h2 id="sentence">
-      {{ translation.text }}
+    <h2 id="sentence"
+        v-html="textWithHelp"
+        >
     </h2>
 
     <b-form-textarea
@@ -30,13 +31,30 @@
       Valider
     </button>
 
-    <b-popover target="sentence" placement="bottom" :show.sync="showTranslationHelp"
+    <b-popover target="sentence"
+               placement="bottom"
+               :show.sync="showTranslationHelp"
+               triggers="manual"
       >
       <template #title>Traduction</template>
       Vous pouvez voir la traduction d'un mot en cliquant dessus !
       <b-button @click="closeTranslationHelp">
         Ok
       </b-button>
+    </b-popover>
+
+    <b-popover placement="bottom"
+               triggers="hover"
+               v-for="p in helpPopovers"
+               :key="p.key"
+               :target="'help-translation-' + p.key"
+      >
+        <p v-for="(v, i) in p.values"
+           :key="i"
+           class="translation-help-element"
+           >
+           {{ v }}
+        </p>
     </b-popover>
   </div>
 </template>
@@ -58,6 +76,8 @@ export default {
       proposedAnswer: '',
       showTranslationHelp: false,
       destroyCorrectionEndedSubsription: null,
+      textWithHelp: null,
+      helpPopovers: [],
     }
   },
   directives: {
@@ -105,6 +125,30 @@ export default {
         this.proposedAnswer = ''
       }
     });
+
+    this.textWithHelp = this.translation.text
+    this.textWithHelp = this.textWithHelp.charAt(0).toUpperCase() + this.textWithHelp.slice(1)
+    this.helpPopovers = []
+
+    for (const [key, values] of Object.entries(this.translation.words)) {
+      const regex = new RegExp(key, 'i')
+      let printedKey = key
+      const replacedVersion = this.textWithHelp.replace(
+        regex,
+        "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + key + "</span>"
+      )
+
+      if (this.textWithHelp.charAt(0) != replacedVersion.charAt(0)) {
+        printedKey = printedKey.charAt(0).toUpperCase() + printedKey.slice(1)
+      }
+
+      this.textWithHelp = this.textWithHelp.replace(
+        regex,
+        "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + printedKey + "</span>"
+      )
+
+      this.helpPopovers.push({key, values})
+    }
   },
   mounted () {
     setTimeout(() => this.$refs['answer-input'].focus(), 500)
@@ -136,6 +180,7 @@ h2
   font-size: 1.3rem
   font-weight: normal
   display: inline-block
+  margin-bottom: 12pt
 
 button
   width: 90%
@@ -184,4 +229,16 @@ button
     background: $textarea-bg
     outline: none
 
+p.translation-help-element
+  margin: 0
+  font-size: 12pt
+  text-align: center
+  padding: 4pt
+
+  &:not(:last-child)
+    border-bottom: 1px solid $light-gray
+
+@media screen and (max-width: 800px)
+  h2
+    user-select: none
 </style>

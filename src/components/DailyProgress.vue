@@ -1,7 +1,7 @@
 <template>
   <div class="daily-progress">
     <h1>
-      {{ user.learningSessionCountThatDay >= 2 ? "Exercices" : "Exercice" }} terminés aujourd'hui&nbsp;: {{ user.learningSessionCountThatDay + 1 }}
+      {{ user.learningSessionCountThatDay >= 2 ? "Exercices" : "Exercice" }} terminés aujourd'hui&nbsp;:&nbsp;{{ user.learningSessionCountThatDay + 1 }}
     </h1>
 
     <ProgressBar

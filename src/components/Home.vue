@@ -138,7 +138,7 @@ export default {
         return
       }
 
-      setTimeout(() => this.showSecondLessonHelp = true, 1000)
+      setTimeout(() => this.showSecondLessonHelp = true, 250)
     },
     closeSecondLessonHelp() {
       this.showSecondLessonHelp = false
