@@ -29,6 +29,7 @@ const actions = {
         commit('endShowingCreatedProfile')
     },
     goToNextPosition({state, commit, dispatch}) {
+        window.console.log(state.workflowPosition)
         if (state.workflowPosition >= 3) {
             commit('allQuestionsAnswered')
             dispatch('security/putUserData', null, {root: true})

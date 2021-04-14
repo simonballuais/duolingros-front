@@ -62,9 +62,6 @@ export default {
   methods: {
     ...mapActions('registration', ['goToNextPosition', 'goToPreviousPosition' ]),
     handleKeyUp(e) {
-      if (e.keyCode === 13 && this.user.currentLevel) {
-        this.goToNextPosition()
-      }
       if (e.keyCode === 49) {
         this.user.currentLevel = 1
       }

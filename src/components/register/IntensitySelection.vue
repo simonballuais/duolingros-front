@@ -74,9 +74,6 @@ export default {
   methods: {
     ...mapActions('registration', ['goToNextPosition', 'goToPreviousPosition']),
     handleKeyUp(e) {
-      if (e.keyCode === 13 && this.user.dailyObjective) {
-        this.goToNextPosition()
-      }
       if (e.keyCode === 49) {
         this.user.dailyObjective = 1
       }

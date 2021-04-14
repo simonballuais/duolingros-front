@@ -33,6 +33,12 @@ export default {
         'workflowDirection',
       ]
     ),
+    ...mapState(
+      'security',
+      [
+        'user',
+      ]
+    ),
     ...mapState('bookLesson', ['bookLessons']),
     transitionName() {
       if (this.workflowDirection === 'backward') {
@@ -48,8 +54,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions('registration', ['startRegistration', 'cancelRegistration']),
+    ...mapActions('registration', ['startRegistration', 'cancelRegistration', 'goToNextPosition']),
     ...mapActions('bookLesson', ['loadAllBookLessons']),
+    handleKeyUp(e) {
+      if (e.keyCode === 13 && this.user.reason) {
+        this.goToNextPosition()
+      }
+    },
   },
   created() {
     this.startRegistration()
@@ -75,9 +86,12 @@ export default {
         this.$router.push({name: 'login'})
       }
     })
+
+    window.addEventListener('keyup', this.handleKeyUp)
   },
   beforeDestroy() {
     this.destroyRedirectSubscription()
+    window.removeEventListener('keyup', this.handleKeyUp)
   },
 }
 </script>
