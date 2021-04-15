@@ -82,11 +82,15 @@ export default {
     ),
   },
   beforeRouteLeave(to, from, next) {
-    if (confirm('Êtes-vous sûrs de vouloir quitter ? Votre session ne sera pas sauvegardée')) {
-      next()
-    } else {
-      next(false)
+    if (this.exercisesToDo.length) {
+      if (confirm('Êtes-vous sûrs de vouloir quitter ? Votre session ne sera pas sauvegardée')) {
+        next()
+      } else {
+        next(false)
+      }
     }
+
+    next()
   },
   created() {
     this.loadAnonymousUserDataIfNecessary()

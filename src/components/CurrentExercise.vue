@@ -1,15 +1,17 @@
 <template>
   <transition name="exercise-fade">
-    <div class="current-exercise"
-         v-if="exercise.id == currentExercise.id"
+    <div class="exercise-container"
+          v-if="exercise.id == currentExercise.id"
       >
-      <Question v-if="exercise.question"
-                :question="exercise"
-      />
+      <div class="current-exercise" >
+        <Question v-if="exercise.question"
+                  :question="exercise"
+        />
 
-      <Translation v-if="exercise.translation"
-                   :translation="exercise"
-      />
+        <Translation v-if="exercise.translation"
+                     :translation="exercise"
+        />
+      </div>
     </div>
   </transition>
 </template>
@@ -55,19 +57,24 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-div.current-exercise
-  position: relative
-  margin: 0 auto
-  top: 0
-  left: 0
-  overflow: hidden
-  left: 0
-  height: 90%
-  max-width: 700px
-  padding: 3%
+div.exercise-container
+  position: absolute
+  width: 100%
+  height: 100%
+
+  div.current-exercise
+    position: relative
+    margin: 0 auto
+    top: 0
+    left: 0
+    overflow: hidden
+    left: 0
+    height: 90%
+    max-width: 700px
+    padding: 3%
 
 .exercise-fade-enter-active, .exercise-fade-leave-active
-  transition: all .3s ease
+  transition: all 0.6s ease
 .exercise-fade-enter
   transform: translateX(100vw)
 .exercise-fade-leave-to

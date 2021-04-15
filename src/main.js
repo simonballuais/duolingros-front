@@ -23,6 +23,12 @@ Vue.use(VueRouter)
 Vue.use(Notifications)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+Vue.filter('capitalize', function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+})
+
 const vueApp = new Vue({
   store,
   router,

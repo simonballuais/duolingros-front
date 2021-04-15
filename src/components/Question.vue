@@ -6,15 +6,15 @@
     </h1>
 
     <h2 v-if="!question.noPictures && !question.direction">
-      Comment dit-on «&nbsp;{{ question.text }}&nbsp;»&nbsp;?
+      Comment dit-on «&nbsp;{{ question.text | capitalize }}&nbsp;»&nbsp;?
     </h2>
 
     <h2 v-if="!question.noPictures && question.direction">
-      Quelle est la traduction de «&nbsp;{{ question.text }}&nbsp;»&nbsp;?
+      Quelle est la traduction de «&nbsp;{{ question.text | capitalize }}&nbsp;»&nbsp;?
     </h2>
 
     <h2 v-if="question.noPictures">
-      «&nbsp;{{ question.text }}&nbsp;»
+      «&nbsp;{{ question.text | capitalize }}&nbsp;»
     </h2>
 
     <div class="proposition-container"
@@ -46,7 +46,7 @@
             {{ i + 1 }}
           </span>
           <span class="text">
-            {{ proposition.text }}
+            {{ proposition.text | capitalize }}
           </span>
         </div>
       </button>
