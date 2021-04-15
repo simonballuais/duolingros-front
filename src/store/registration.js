@@ -28,8 +28,19 @@ const actions = {
     endShowingCreatedProfile({commit}) {
         commit('endShowingCreatedProfile')
     },
-    goToNextPosition({state, commit, dispatch}) {
-        window.console.log(state.workflowPosition)
+    goToNextPosition({state, rootState, commit, dispatch}) {
+        if (state.workflowPosition >= 1 && null === rootState.security.user.reason) {
+            return
+        }
+
+        if (state.workflowPosition >= 2 && null === rootState.security.user.dailyObjective) {
+            return
+        }
+
+        if (state.workflowPosition >= 3 && null === rootState.security.user.currentLevel) {
+            return
+        }
+
         if (state.workflowPosition >= 3) {
             commit('allQuestionsAnswered')
             dispatch('security/putUserData', null, {root: true})

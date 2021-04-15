@@ -4,6 +4,16 @@
       <div class="exit-container" v-if="exercisesToDo && exercisesToDo.length > 0">
         <router-link :to="{ name: 'home'}"
                      v-slot="{href, route, navigate, isActive, isExactActive}"
+                     v-if="isLoggedIn"
+          >
+          <a :href="href">
+            <font-awesome-icon class="times" icon="times" />
+          </a>
+        </router-link>
+
+        <router-link :to="{ name: 'login'}"
+                     v-slot="{href, route, navigate, isActive, isExactActive}"
+                     v-if="!isLoggedIn"
           >
           <a :href="href">
             <font-awesome-icon class="times" icon="times" />
@@ -40,6 +50,7 @@ export default {
   },
   computed: {
     ...mapState('learningSession', ['progress', 'exercisesToDo']),
+    ...mapState('security', ['isLoggedIn']),
   },
   methods: {
     ...mapActions('learningSession', ['startLearningSession']),

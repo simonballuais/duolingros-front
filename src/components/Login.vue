@@ -128,6 +128,7 @@
         </h2>
         <div class="info-row">
           <p style="width: 50%">
+            Avec Miteny Gasy, pratiquez le malgache quotidiennement.<br>
             Les leçons sont découpées en sessions de cours exercices.<br>
             En terminant des leçons, vous validez des niveaux et débloquez les leçons suivantes&nbsp;<font-awesome-icon class="star" icon="star" style="color: orange"/>
           </p>
@@ -139,7 +140,10 @@
         <div class="info-row">
           <img src="/correction.png" class="img-left">
           <p style="width: 50%">
-            Les corrections sont apportées immédiatement. En cas d'erreur, une bonne réponse est suggérée et vous permet de vous améliorer.
+            Les exercices sont des traductions.<br>
+            Vous avez des outils à disposition et les corrections sont apportées immédiatement.<br>
+            En cas d'erreur, une bonne réponse est suggérée et vous permet de vous améliorer.<br>
+            La difficulté est augmentée en douceur, à votre rythme.
           </p>
         </div>
         <hr>
@@ -154,7 +158,7 @@
         </div>
         <hr>
         <h2>
-          Étudiez en détail, où vous voulez
+          Apprendre une nouvelle langue
         </h2>
         <div class="info-row">
           <font-awesome-icon class="book" icon="book" style="width: 30%"/>
@@ -172,9 +176,13 @@
       <div class="footer">
         <div class="center-column">
           Apprenez le malgache avec Miteny Gasy
-          <b-button :href="href" class="mtn-button">
-            C'est parti
-          </b-button>
+          <router-link :to="{name: 'registration'}"
+                       v-slot="{href, route, navigate, isActive, isExactActive}"
+          >
+            <b-button :href="href" class="mtn-button">
+              C'est parti
+            </b-button>
+          </router-link>
         </div>
       </div>
     </div>
