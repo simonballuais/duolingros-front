@@ -1,5 +1,19 @@
 <template>
   <div class="main-container">
+    <b-tooltip v-if="bookLesson.disabled"
+               :target="'book-lesson-' + bookLesson.id"
+               placement="top"
+               >
+      <span>Bientôt :)</span>
+    </b-tooltip>
+
+    <b-tooltip v-if="disabled && !bookLesson.disabled"
+               :target="'book-lesson-' + bookLesson.id"
+               placement="top"
+               >
+      <span>Atteignez le niveau 1 à la leçon précédente pour débloquer celle-ci</span>
+    </b-tooltip>
+
     <b-card title-tag="title"
             style="width: 100%; height: 100%; border-radius: 0"
             @click="emitClickIfPossible"

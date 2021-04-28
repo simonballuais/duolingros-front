@@ -37,7 +37,7 @@
                triggers="manual"
       >
       <template #title>Traduction</template>
-      Vous pouvez voir la traduction d'un mot en cliquant dessus !
+      Vous pouvez voir la traduction d'un mot en le survolant !
       <b-button @click="closeTranslationHelp">
         Ok
       </b-button>

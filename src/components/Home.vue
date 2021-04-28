@@ -17,7 +17,7 @@
               <BookLessonItem v-for="bookLesson in course.bookLessonList"
                               :bookLesson="bookLesson"
                               :key="bookLesson.id"
-                              :disabled="!bookLesson.progress && ! (course.order === 1 && bookLesson.order === 1)"
+                              :disabled="!bookLesson.progress && ! (course.order === 1 && bookLesson.order === 1) || bookLesson.disabled"
                               :expanded="bookLesson.id == selectedBookLessonId"
                               @click="selectBookLessonId(bookLesson.id)"
                               :progress="bufferedProgresses[bookLesson.id] ? bufferedProgresses[bookLesson.id].progress : 0"

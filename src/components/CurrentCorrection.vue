@@ -111,7 +111,7 @@ div.current-correction
       bottom: 2vh
 
 .correction-fade-enter-active, .correction-fade-leave-active
-  transition: all .6s ease
+  transition: all .3s ease
 .correction-fade-enter
   transform: translateY(20vh)
 .correction-fade-leave-to
