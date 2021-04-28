@@ -82,6 +82,16 @@
               </span>
             </b-col>
             <b-col style="text-align: right">
+              <b-button :href="'http://cours.coincoin.me/index.php/' + bookLesson.courseLink"
+                        variant="secondary"
+                        class="mtn-button"
+                        target="_blank"
+                        v-if="bookLesson.courseLink"
+                        >
+                Conseils
+              </b-button>
+            </b-col>
+            <b-col style="text-align: right">
               <router-link :to="{
                       name: 'learning-session',
                       params: {
@@ -91,6 +101,7 @@
                     }"
                   v-slot="{href, route, navigate, isActive, isExactActive}"
                 >
+
                   <b-button :href="href"
                             variant="primary"
                             class="mtn-button"
