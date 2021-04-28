@@ -83,7 +83,7 @@
                   <div class="form-group">
                     <Submit label="Valider"
                             :loading="sendingPasswordResetRequest"
-                            :disabled="!username"
+                            :disabled="!username || sendingPasswordResetRequest"
                             class="login-button"
                             />
                   </div>
