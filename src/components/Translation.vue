@@ -36,7 +36,7 @@
                :show.sync="showTranslationHelp"
                triggers="manual"
       >
-      <template #title>Traduction</template>
+      <template #title>Dictionnaire</template>
       Vous pouvez voir la traduction d'un mot en le survolant !
       <b-button @click="closeTranslationHelp">
         Ok
