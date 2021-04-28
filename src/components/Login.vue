@@ -164,7 +164,7 @@
           <font-awesome-icon class="book" icon="book" style="width: 30%"/>
           <p style="width: 70%">
             En plus des leçons, notre
-            <a href="#">base de connaissance</a>
+            <a href="https://cours.mitenygasy.com">base de connaissance</a>
             est là pour vous permettre de réviser des détails ou aller plus loin.
             <br>
             <br>
