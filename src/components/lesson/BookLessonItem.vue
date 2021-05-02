@@ -82,7 +82,7 @@
               </span>
             </b-col>
             <b-col style="text-align: right">
-              <b-button :href="'http://cours.coincoin.me/index.php/' + bookLesson.courseLink"
+              <b-button :href="'http://cours.mitenygasy.com/' + bookLesson.courseLink"
                         variant="secondary"
                         class="mtn-button"
                         target="_blank"

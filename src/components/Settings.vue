@@ -28,6 +28,13 @@
               buttons
              ></b-form-radio-group>
           </div>
+
+          <div class="band">
+            <br>
+            <br>
+            <p style="display: inline-block; width: 100%; text-align: center;">Un soucis ? N'hésitez pas à envoyer un mail à notre support :</p>
+            <a style="display: inline-block; width: 100%; text-align: center;" href="mailto:support@mitenygasy.com">support@mitenygasy.com</a>
+          </div>
         </div>
 
         <div class="footer">
