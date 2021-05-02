@@ -1,6 +1,6 @@
 <template>
   <div class="main-container">
-    <Spinner v-if="!maxCount"
+    <Spinner v-if="maxCount === undefined"
              :big="true"
              :center="true"
              :fade="true"
@@ -72,6 +72,7 @@ export default {
   },
   computed: {
     ...mapState('learningSession', ['lastSevenDaysGraph']),
+    ...mapState('security', ['user']),
   },
   created() {
     this.loadLastSevenDaysGraph()
@@ -106,7 +107,7 @@ export default {
       return d + '/' + m
     },
     updateMaxCount() {
-      setTimeout(() => this.maxCount = Math.max(...this.lastSevenDaysGraph.map((d) => d.count)), 200)
+      setTimeout(() => this.maxCount = Math.max(this.user.dailyObjective, ...this.lastSevenDaysGraph.map((d) => d.count)), 200)
     },
   }
 }

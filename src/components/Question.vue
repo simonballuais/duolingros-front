@@ -22,7 +22,7 @@
             'with-picture': !question.noPictures,
          }"
       >
-      <button v-for="(proposition, i) in question.propositions"
+      <button v-for="(proposition, i) in shuffledPropositions"
               type="button"
               :key="proposition.id"
               :class="{
@@ -65,6 +65,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import _ from 'lodash'
 
 export default {
   computed: {
@@ -74,6 +75,7 @@ export default {
     return {
       selectedPropositionId: null,
       destroyCorrectionEndedSubsription: null,
+      shuffledPropositions: [],
     }
   },
   props: [
@@ -114,16 +116,16 @@ export default {
         }
       }
       if (e.keyCode === 49) {
-        this.selectedPropositionId = this.question.propositions[0].id
+        this.selectedPropositionId = this.shuffledPropositions[0].id
       }
       if (e.keyCode === 50) {
-        this.selectedPropositionId = this.question.propositions[1].id
+        this.selectedPropositionId = this.shuffledPropositions[1].id
       }
       if (e.keyCode === 51) {
-        this.selectedPropositionId = this.question.propositions[2].id
+        this.selectedPropositionId = this.shuffledPropositions[2].id
       }
       if (e.keyCode === 52) {
-        this.selectedPropositionId = this.question.propositions[3].id
+        this.selectedPropositionId = this.shuffledPropositions[3].id
       }
     },
   },
@@ -134,6 +136,8 @@ export default {
         this.selectedPropositionId = null
       }
     });
+
+    this.shuffledPropositions = _.shuffle(this.question.propositions)
   },
   beforeDestroy() {
     window.removeEventListener('keyup', this.handleKeyUp)
