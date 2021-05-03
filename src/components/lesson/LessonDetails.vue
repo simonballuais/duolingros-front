@@ -86,13 +86,6 @@ export default {
       this.saveCurrentLesson()
     }, 1000),
   },
-  created() {
-    this.$store.subscribe((mutation) => {
-      if (mutation.type === 'lesson/questionSaved') {
-        window.console.log('COCUOC question')
-      }
-    });
-  }
 }
 </script>
 

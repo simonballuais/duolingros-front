@@ -52,6 +52,17 @@
       </button>
     </div>
 
+    <div class="super-edit" v-if="user.superAdmin">
+      <input v-model="question.text" style="width: 100%;">
+      <hr>
+      <div v-for="proposition in question.propositions" :key="proposition.id">
+        <input  v-model="proposition.text" style="width: 100%;">
+      </div>
+
+      <br>
+      <button @click="pushUpdate">go</button>
+    </div>
+
     <button class="submit"
             type="button"
             @click="submit"
@@ -70,6 +81,7 @@ import _ from 'lodash'
 export default {
   computed: {
     ...mapState('learningSession', ['currentCorrection']),
+    ...mapState('security', ['user']),
   },
   data() {
     return {
@@ -87,6 +99,7 @@ export default {
       [
         'submitAnswer',
         'endCorrection',
+        'updateQuestion',
       ]
     ),
     selectProposition(id) {
@@ -105,6 +118,14 @@ export default {
     },
     resetButtonFocus() {
       document.activeElement.blur()
+    },
+    pushUpdate() {
+      this.updateQuestion(
+        {
+          questionId: this.question.id,
+          question: this.question,
+        }
+      )
     },
     handleKeyUp(e) {
       if (e.keyCode === 13) {
@@ -324,6 +345,14 @@ div.proposition-container
       width: 35vw
       height: 35vw
       margin: 2vw
+
+.super-edit
+  position: fixed
+  right: 0
+  top: 200px
+  width: 400px
+  height: 500px
+  background: #AA1144
 
 @media screen and (max-width: 800px)
   span.shortcut-indicator

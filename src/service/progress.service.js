@@ -54,7 +54,6 @@ function getOrInitiateList () {
 
 function getAsArray () {
     const indexedList = getOrInitiateList()
-        window.console.log(indexedList)
     return Object.keys(indexedList).map((k) => indexedList[k])
 }
 

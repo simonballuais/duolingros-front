@@ -1,6 +1,6 @@
 <template>
   <transition name="settings-modale-fade">
-    <div class="settings-modale" v-if="show" @click="handleClick">
+    <div class="settings-modale" v-if="show">
       <div class="modale">
         <div class="header">
           <div @click="$emit('closeMe')" class="close-icon">
@@ -27,6 +27,13 @@
               style="text-align: center; width: 100%;"
               buttons
              ></b-form-radio-group>
+          </div>
+
+          <div class="band">
+            <br>
+            <br>
+            <p style="display: inline-block; width: 100%; text-align: center;">Un soucis ? N'hésitez pas à envoyer un mail à notre support :</p>
+            <a style="display: inline-block; width: 100%; text-align: center;" href="mailto:support@mitenygasy.com">support@mitenygasy.com</a>
           </div>
         </div>
 
@@ -83,9 +90,6 @@ export default {
   methods: {
     ...mapActions('registration', ['cancelCreateProfile', 'submitRegistration']),
     ...mapActions('security', ['logout', 'putUserData']),
-    handleClick() {
-      window.console.log('COUCO')
-    },
     handleChange: _.debounce(function () {
       this.putUserData(this.user)
     }, 500),

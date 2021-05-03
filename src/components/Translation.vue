@@ -56,6 +56,19 @@
            {{ v }}
         </p>
     </b-popover>
+
+    <div class="super-edit" v-if="user.superAdmin">
+      <input v-model="translation.text" style="width: 100%;" @keyup="updateTextWithHelp">
+      <hr>
+      <div v-for="(answer, i) in translation.answers" :key="i">
+        <input  v-model="translation.answers[i]" style="width: 100%;">
+      </div>
+
+      <br>
+      <button style="transform: none;" @click="pushUpdate">go</button>
+      <br>
+      <button style="transform: none;" @click="submitCurrentAnswer">resub</button>
+    </div>
   </div>
 </template>
 
@@ -94,6 +107,7 @@ export default {
       [
         'submitAnswer',
         'endCorrection',
+        'updateTranslation',
       ]
     ),
     ...mapActions(
@@ -102,11 +116,14 @@ export default {
         'putUserData',
       ]
     ),
+    submitCurrentAnswer() {
+        this.submitAnswer({answer: this.proposedAnswer})
+    },
     submitOrNext() {
       this.proposedAnswer = this.proposedAnswer.replace(/\n/, '')
 
       if (!this.currentCorrection) {
-        this.submitAnswer({answer: this.proposedAnswer})
+        this.submitCurrentAnswer()
       } else {
         this.endCorrection()
         this.proposedAnswer = null
@@ -116,7 +133,41 @@ export default {
       this.showTranslationHelp = false
       this.user.translationHelpShown = true
       this.putUserData()
-    }
+    },
+    pushUpdate() {
+      this.updateTranslation(
+        {
+          translationId: this.translation.id,
+          text: this.translation.text,
+          answers: this.translation.answers,
+        }
+      )
+    },
+    updateTextWithHelp() {
+      this.textWithHelp = this.translation.text
+      this.textWithHelp = this.textWithHelp.charAt(0).toUpperCase() + this.textWithHelp.slice(1)
+      this.helpPopovers = []
+
+      for (const [key, values] of Object.entries(this.translation.words)) {
+        const regex = new RegExp(key, 'i')
+        let printedKey = key
+        const replacedVersion = this.textWithHelp.replace(
+          regex,
+          "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + key + "</span>"
+        )
+
+        if (this.textWithHelp.charAt(0) != replacedVersion.charAt(0)) {
+          printedKey = printedKey.charAt(0).toUpperCase() + printedKey.slice(1)
+        }
+
+        this.textWithHelp = this.textWithHelp.replace(
+          regex,
+          "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + printedKey + "</span>"
+        )
+
+        this.helpPopovers.push({key, values})
+      }
+    },
   },
   created() {
     window.addEventListener('keyup', this.handleEnterKey)
@@ -126,29 +177,7 @@ export default {
       }
     });
 
-    this.textWithHelp = this.translation.text
-    this.textWithHelp = this.textWithHelp.charAt(0).toUpperCase() + this.textWithHelp.slice(1)
-    this.helpPopovers = []
-
-    for (const [key, values] of Object.entries(this.translation.words)) {
-      const regex = new RegExp(key, 'i')
-      let printedKey = key
-      const replacedVersion = this.textWithHelp.replace(
-        regex,
-        "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + key + "</span>"
-      )
-
-      if (this.textWithHelp.charAt(0) != replacedVersion.charAt(0)) {
-        printedKey = printedKey.charAt(0).toUpperCase() + printedKey.slice(1)
-      }
-
-      this.textWithHelp = this.textWithHelp.replace(
-        regex,
-        "<span class=\"word-with-translation\" id=\"help-translation-" + key + "\">" + printedKey + "</span>"
-      )
-
-      this.helpPopovers.push({key, values})
-    }
+    this.updateTextWithHelp()
   },
   mounted () {
     setTimeout(() => this.$refs['answer-input'].focus(), 500)
@@ -237,6 +266,14 @@ p.translation-help-element
 
   &:not(:last-child)
     border-bottom: 1px solid $light-gray
+
+.super-edit
+  position: fixed
+  right: 0
+  top: 200px
+  width: 400px
+  height: 500px
+  background: #AA1144
 
 @media screen and (max-width: 800px)
   h2

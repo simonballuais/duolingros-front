@@ -17,6 +17,9 @@ const urls = {
     'send_reset_password_request': 'password-reset-request',
     'send_change_password': 'password-change/{token}',
     'confirm_email_code': 'confirm-email/{code}',
+    'questions': 'questions/{question}',
+    'propositions': 'propositions/{proposition}',
+    'translations': 'translations/{translation}',
 }
 
 window.console.log(process.env.VUE_APP_BASE_API_URL)

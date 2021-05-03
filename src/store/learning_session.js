@@ -2,6 +2,8 @@ import {
     learningSessionService,
     questionCorrector,
     translationCorrector,
+    questionService,
+    translationService,
 } from '../service'
 
 const state = {
@@ -106,7 +108,6 @@ const actions = {
             {bookLessonId: state.currentLearningSession.bookLesson.id},
             {root: true}
         )
-        window.console.log('coucoucoucoucoc')
     },
     endEndOfDifficulty({commit, dispatch, rootState}) {
         commit('endOfDifficultyEnded')
@@ -179,6 +180,20 @@ const actions = {
                 commit('lastSevenDaysGraphUpdated', lastSevenDaysGraph)
             })
             .catch(() => commit('lastSevenDaysGraphFailed'))
+    },
+    updateQuestion({commit}, {questionId, question}) {
+        questionService.updateQuestionText(questionId, question.text)
+
+        question.propositions.forEach((p) => {
+            questionService.updatePropositionText(p.id, p.text)
+        })
+
+        commit
+    },
+    updateTranslation({commit}, {translationId, text, answers}) {
+        translationService.update(translationId, text, answers)
+
+        commit
     },
 }
 
