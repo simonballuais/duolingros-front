@@ -28,7 +28,7 @@ module.exports = {
         host: 'coincoin.me',
         hot: true,
         disableHostCheck: true,
-        proxy: 'http://coincoin.me/duolingros/',
+        proxy: 'https://coincoin.me/duolingros/',
     },
     css: {
         loaderOptions: {
