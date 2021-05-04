@@ -124,7 +124,7 @@
     <div class="infos">
       <div class="center-column">
         <h2>
-          Des exercices simples
+          Des exercices simples pour apprendre le malgache
         </h2>
         <div class="info-row">
           <p style="width: 50%">

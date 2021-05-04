@@ -49,7 +49,7 @@ let noSecurityRoutes = [
     'registration',
     'home',
     'learning-session',
-    'confirm-email',
+    'confirmer-email',
     'reset-password',
 ]
 
