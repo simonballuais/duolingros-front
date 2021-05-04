@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="login-container">
+      <img src="bg4.png">
       <div class="center-column">
         <transition name="fade">
           <div class="box-container" v-if="showingBox">
@@ -356,7 +357,6 @@ h1
   left: 0
 
 .login-container
-  background: url("/bg4.jpg")
   position: absolute
   left: 0
   right: 0
