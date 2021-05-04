@@ -25,7 +25,7 @@ module.exports = {
         ],
     },
     devServer: {
-        host: '0.0.0.0',
+        host: 'coincoin.me',
         hot: true,
         disableHostCheck: true,
         proxy: 'http://coincoin.me/duolingros/',
