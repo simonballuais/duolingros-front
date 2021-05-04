@@ -27,6 +27,7 @@ function register(
                     anonymousLearningSessions
                 }
             ).then((response) => {
+                window.console.log(response)
                 resolve(response.data)
             }).catch((data) => {
                 window.console.error(data);

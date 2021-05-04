@@ -1,8 +1,16 @@
 import { userService } from '../service'
 import router from '../router'
 
-const user = JSON.parse(localStorage.getItem('user'))
-const token = localStorage.getItem('token')
+let user = null
+let token = null
+
+try {
+    user = JSON.parse(localStorage.getItem('user'))
+    token = localStorage.getItem('token')
+} catch (e) {
+    router.push({'name': 'login'})
+}
+
 const state = {
     'status': {
         loggedIn: !!user,
