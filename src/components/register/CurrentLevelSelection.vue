@@ -29,9 +29,12 @@
 
         <button @click="goToNextPosition"
                 class="submit"
-                :disabled="!user.currentLevel"
+                :disabled="!user.currentLevel || loadingFirstExercise"
         >
-          Confirmer
+          <Spinner inline="true" small="true" v-if="loadingFirstExercise" />
+          <span v-if="!loadingFirstExercise">
+            Confirmer
+          </span>
         </button>
       </div>
     </div>
@@ -40,12 +43,16 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
+import Spinner from '../misc/Spinner'
 
 export default {
   name: 'Registration',
   data() {
     return {
     }
+  },
+  components: {
+    Spinner,
   },
   props: [
     'show',
@@ -56,6 +63,12 @@ export default {
       'security',
       [
         'user',
+      ]
+    ),
+    ...mapState(
+      'registration',
+      [
+        'loadingFirstExercise',
       ]
     ),
   },

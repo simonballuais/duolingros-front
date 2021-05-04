@@ -8,6 +8,7 @@ const state = {
     submittingProfile: false,
     workflowPosition: 1,
     workflowDirection: 'forward',
+    loadingFirstExercise: false,
 }
 
 const actions = {
@@ -87,9 +88,11 @@ const mutations = {
     },
     registrationStarted(state) {
         state.workflowPosition = 1
+        state.loadingFirstExercise = false
     },
     allQuestionsAnswered(state) {
         state.showCurrentLevelSelection = false
+        state.loadingFirstExercise = true
     },
     showingCreateProfile(state) {
         state.showCreateProfile = true
