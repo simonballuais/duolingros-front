@@ -45,14 +45,17 @@ const actions = {
         })
     },
     moveAnonymousProgressForward({commit}, {bookLesson}) {
+        window.console.log(0)
         let progress = progressService.getAnonymousForBookLessonOrCreateNewOne(bookLesson)
         let lessonId = progress.currentLessonId
+        window.console.log(1)
         const completeBookLesson = state.bookLessons.filter((bl) => bl.id === bookLesson.id).shift()
         let nextLessonIndex = 0
         let sortedLessonList = completeBookLesson.lessonList.sort(
             (a, b) => a.order < b.order ? -1 : 1
         )
 
+        window.console.log(2)
         sortedLessonList.every(
             (l) => {
                 nextLessonIndex++
@@ -60,6 +63,7 @@ const actions = {
             }
         )
 
+        window.console.log(3)
         progress.cycleProgression += 1
 
         if (nextLessonIndex >= sortedLessonList.length) {
@@ -67,15 +71,18 @@ const actions = {
             progress.cycleProgression = 0
             progress.difficulty += 1
         }
+        window.console.log(4)
 
         if (progress.difficulty > 5) {
             progress.difficulty = 5
             progress.completed = true
         }
+        window.console.log(5)
 
         progress.currentLessonId = completeBookLesson.lessonList[nextLessonIndex].id
         progress.totalLessonCount = completeBookLesson.lessonList.length
 
+        window.console.log(6)
         commit('localProgressMovedForward', {progress})
     },
     updateBufferedProgresses({state, commit}) {

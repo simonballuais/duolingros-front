@@ -44,6 +44,17 @@ if (!window.mobileCheck()) {
   }
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+  const bgFat = document.querySelector('img#bg-fat')
+  if (bgFat && bgFat.complete) {
+    bgFat.style.opacity = 1
+  } else if (bgFat && !bgFat.complete) {
+    bgFat.addEventListener('load', () => {
+      bgFat.style.opacity = 1
+    })
+  }
+})
+
 export default {
   name: 'app',
   components: {

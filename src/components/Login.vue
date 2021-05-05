@@ -1,16 +1,27 @@
 <template>
   <div>
-    <div class="login-container">
-      <img src="bg4.png">
+    <div class="login-container" style="height: calc(var(--vh, 1vh) * 100)">
+      <img src="bg4-veryverysmol.jpg"
+           id="bg-smol"
+           ref="bgSmol"
+           style="filter: blur(8px);"
+      />
+      <img src="bg4.jpg"
+           alt="allée des baobabs"
+           defer
+           ref="bgFat"
+           id="bg-fat"
+      />
+
       <div class="center-column">
         <transition name="fade">
-          <div class="box-container" v-if="showingBox">
+          <div class="box-container">
             <div class="mada" style="">
             <div class="mada" style="">
             </div>
             </div>
 
-            <div class="login-box" v-if="showingBox">
+            <div class="login-box">
               <transition name="box-fade">
                 <div class="transition-container"
                      v-if="showingRegistration && !resetPasswordToken"
@@ -215,7 +226,6 @@ export default {
       password: '',
       loading: false,
       showingLogin: false,
-      showingBox: false,
       showingRegistration: true,
       showingPasswordReset: false,
       resetPasswordToken: null,
@@ -330,13 +340,17 @@ export default {
     if (loginDirectly) {
       this.showLogin()
     }
-
-    if (localStorage.getItem('startfaded')) {
-      this.showingBox = true
-    } else {
-      setTimeout(() => this.showingBox = true, 1500)
-      localStorage.setItem('startfaded', true)
-    }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      if (this.$refs.bgFat.complete) {
+        this.$refs.bgFat.style.opacity = 1
+      } else {
+        this.$refs.bgFat.addEventListener('load', () => {
+          this.$refs.bgFat.style.opacity = 1
+        })
+      }
+    })
   }
 }
 </script>
@@ -365,6 +379,20 @@ h1
   height: calc(var(--vh, 1vh) * 100)
   background-size: cover
   background-position: center
+  overflow: hidden
+
+  img
+    transition: opacity 0.5s ease-in-out
+    object-fit: cover
+    position: absolute
+    top: 50%
+    left: 50%
+    height: calc(var(--vh, 1vh) * 100)
+    width: 100%
+    transform: translate(-50%, -50%)
+
+    &#bg-fat
+      opacity: 0
 
   .box-container
     display: flex

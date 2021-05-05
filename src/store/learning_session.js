@@ -144,6 +144,7 @@ const actions = {
                         state.validatedAnswers
                         )
                     .then(() => {
+        window.console.log(state.currentLearningSession.bookLesson)
                         dispatch(
                             'bookLesson/moveAnonymousProgressForward',
                             {bookLesson: state.currentLearningSession.bookLesson},

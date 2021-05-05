@@ -22,6 +22,7 @@ function get () {
 
 function getAnonymousForBookLessonOrCreateNewOne (bookLesson) {
     let currentProgress = getOrInitiateList()
+        window.console.log(bookLesson)
     let progress = currentProgress[bookLesson.id]
 
     if (!progress) {
@@ -40,14 +41,17 @@ function saveAnonymous (progress) {
 
 function getOrInitiateList () {
     let currentProgress = JSON.parse(localStorage.getItem('anonymousProgress'))
+        window.console.log(currentProgress)
 
     if (!currentProgress) {
+        window.console.log('pouet')
         currentProgress = {}
         localStorage.setItem(
             'anonymousProgress',
             JSON.stringify(currentProgress)
         )
     }
+        window.console.log('narstie')
 
     return currentProgress
 }
