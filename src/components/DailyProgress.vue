@@ -176,4 +176,11 @@ div.progress-container
 .fade-enter
   opacity: 0
   transform: scale(1.3, 1.3)
+
+@media screen and (max-width: 500px), ( max-height: 600px)
+  h2
+    font-size: 1.3 ! important
+
+  h3
+    font-size: 1rem ! important
 </style>

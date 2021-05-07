@@ -167,6 +167,8 @@ export default {
 
         this.helpPopovers.push({key, values})
       }
+
+      this.textWithHelp = "«&nbsp;" + this.textWithHelp + "&nbsp;»"
     },
   },
   created() {
@@ -248,7 +250,7 @@ button
   background: $textarea-bg
   font-family: 'Ubuntu', sans-serif
   border: 0.05em solid $textarea-border
-  border-radius: 0
+  border-radius: 10px
   outline: none
 
   &:focus
@@ -278,4 +280,22 @@ p.translation-help-element
 @media screen and (max-width: 800px)
   h2
     user-select: none
+
+@media screen and (max-width: 500px), ( max-height: 600px)
+  button.submit
+    width: 200px ! important
+    height: 38px ! important
+    font-size: 10pt ! important
+
+@media screen and (max-width: 400px), ( max-height: 600px)
+  h1
+    margin: 0.5rem
+    font-size: 1rem
+
+  #sentence
+    font-size: 12pt
+
+  textarea
+    font-size: 12pt
 </style>
+

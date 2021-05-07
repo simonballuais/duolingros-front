@@ -7,6 +7,7 @@
       <div class="correction-content">
         <h2 v-if="currentCorrection && currentCorrection.isCorrect">
           Correct !
+          <font-awesome-icon class="thumbs-up" icon="thumbs-up"/>
         </h2>
 
         <h3 v-if="currentCorrection && currentCorrection.isCorrect && currentCorrection.remark"
@@ -110,25 +111,48 @@ div.current-correction
       border-radius: 25px
       bottom: 2vh
 
-.correction-fade-enter-active, .correction-fade-leave-active
+.correction-fade-enter-active
   transition: all .3s ease
+.correction-fade-leave-active
+  transition: all .6s ease
 .correction-fade-enter
   transform: translateY(20vh)
 .correction-fade-leave-to
   transform: translateX(-100vw)
-  opacity: 0
+  opacity: 50
 
-@media screen and (max-width: 800px)
+@media screen and (max-width: 800px), ( max-height: 800px)
   div.current-correction
     height: 30vh
     max-height: 30vh
 
     h2
-      font-size: 1.5
+      font-size: 1.5 ! important
 
     h3
-      font-size: 1.1rem
+      font-size: 1.1rem ! important
 
     .correction-content button
       bottom: 4vh
+
+@media screen and (max-width: 500px), ( max-height: 600px)
+  h2
+    font-size: 1.3 ! important
+
+  h3
+    font-size: 1rem ! important
+
+  button.end-correction
+    width: 250px ! important
+    font-size: 12pt ! important
+    height: 38px ! important
+
+@media screen and (max-width: 400px), ( max-height: 500px)
+  h2
+    font-size: 1.1 ! important
+
+  button.end-correction
+    width: 200px ! important
+    font-size: 10pt ! important
+    height: 30px ! important
 </style>

@@ -2,14 +2,14 @@
   <div class="main-container">
     <b-tooltip v-if="bookLesson.disabled"
                :target="'book-lesson-' + bookLesson.id"
-               placement="top"
+               placement="bottom"
                >
       <span>Bientôt :)</span>
     </b-tooltip>
 
     <b-tooltip v-if="disabled && !bookLesson.disabled"
                :target="'book-lesson-' + bookLesson.id"
-               placement="top"
+               placement="bottom"
                >
       <span>Atteignez le niveau 1 à la leçon précédente pour débloquer celle-ci</span>
     </b-tooltip>
@@ -49,7 +49,7 @@
           ></div>
       </transition>
 
-      <b-tooltip :target="'disabler-' + bookLesson.id" placement="top" triggers="hover"
+      <b-tooltip :target="'disabler-' + bookLesson.id" placement="bottom" triggers="hover"
                   v-if="!isLoggedIn"
         >
         <span>Créez un profil pour débloquer les leçons suivantes !</span>
@@ -63,7 +63,7 @@
             <b-col style="text-align: left; display: flex; align-items: center"
                    v-if="bookLesson.progress"
               >
-              <span>
+              <span class="lesson-progress">
                 {{ bookLesson.progress.cycleProgression }}
                 /
                 {{ bookLesson.progress.totalLessonCount }}
@@ -122,7 +122,7 @@
                     </b-button>
                   </div>
 
-                  <b-tooltip target="revision-wrapper" placement="top">
+                  <b-tooltip target="revision-wrapper" placement="bottom">
                     <span>Bientôt :)</span>
                   </b-tooltip>
               </router-link>
@@ -274,4 +274,12 @@ h4
 @media screen and (max-width: 800px)
   h4
     font-size: 15pt
+
+@media screen and (max-width: 500px), ( max-height: 600px)
+  .mtn-button, button
+    font-size: 10pt
+    padding: 8px
+
+  .lesson-progress
+    font-size: 10pt
 </style>

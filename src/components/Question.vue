@@ -407,7 +407,7 @@ div.proposition-container
     font-size: 10pt
   .without-picture button
       margin: 2px
-      height: 30px ! important
+      height: initial ! important
 </style>
 
 
