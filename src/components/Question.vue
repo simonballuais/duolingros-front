@@ -20,6 +20,7 @@
     <div class="proposition-container"
          :class="{
             'with-picture': !question.noPictures,
+            'without-picture': question.noPictures,
          }"
       >
       <button v-for="(proposition, i) in shuffledPropositions"
@@ -176,11 +177,13 @@ h1
   font-weight: bold
   margin-top: 1.5rem
   margin-bottom: 1.5rem
+  text-align: center
 
 h2
   font-size: 1.3rem
   font-weight: normal
   margin-bottom: 1.5rem
+  text-align: center
 
 div.main-container
   position: absolute
@@ -264,7 +267,7 @@ div.main-container
               margin-left: 0
 
           img
-            border-radius: 5%
+            border-radius: 10%
 
           &.selected
             color: $dark-gray
@@ -317,6 +320,7 @@ div.proposition-container
   align-content: flex-start
   width: 100%
   justify-content: center
+  max-width: 50vh
 
   button.proposition
     margin: 0
@@ -354,12 +358,56 @@ div.proposition-container
   height: 500px
   background: #AA1144
 
-@media screen and (max-width: 800px)
+@media screen and (max-width: 800px), ( max-height: 720px)
   span.shortcut-indicator
     display: none ! important
 
   .proposition.with-picture
     padding: 0.8em ! important
+
+  h1
+    font-size: 1.5rem
+  h2
+    font-size: 14pt
+
+@media screen and (max-width: 700px), ( max-height: 550px)
+  span
+    font-size: 10pt
+  h1
+    font-size: 1.3rem
+  h2
+    margin-bottom: 0.5rem
+    font-size: 12pt
+  .proposition.with-picture
+    margin: 1%
+  .without-picture button
+    margin: 5px
+    height: 42px ! important
+
+@media screen and (max-width: 500px), ( max-height: 600px)
+  button.submit
+    width: 200px ! important
+    height: 38px ! important
+    font-size: 10pt ! important
+  h1
+    font-size: 1.3rem
+  h2
+    margin-bottom: 0.5rem
+    font-size: 12pt
+  .proposition.with-picture
+    margin: 1%
+  .without-picture button
+    margin: 5px
+    height: 42px ! important
+
+@media screen and (max-width: 300px), ( max-height: 400px)
+  h1
+    font-size: 1.1rem
+  h2
+    font-size: 10pt
+  .without-picture button
+      margin: 2px
+      height: 30px ! important
 </style>
 
 
