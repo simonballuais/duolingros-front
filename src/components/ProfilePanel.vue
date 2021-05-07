@@ -136,7 +136,7 @@ h2
   top: 0
   left: 0
   width: 100%
-  height: calc(100% - 1.5cm)
+  height: 90%
   z-index: 1400
   padding: 2vh
 
@@ -144,7 +144,6 @@ h2
     position: relative
     width: 90%
     height: 100%
-    background: pink
     margin: auto
     max-width: 600px
     background: white
@@ -248,7 +247,7 @@ h2
     top: 0
     left: 0
     width: 100%
-    height: 100%
+    height: calc(100% - 1.5cm)
     z-index: 1400
     padding: 0
     margin: 0

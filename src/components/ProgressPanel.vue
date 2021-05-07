@@ -130,15 +130,14 @@ h2
   top: 0
   left: 0
   width: 100%
-  height: calc(100% - 1.5cm)
+  height: 90%
   z-index: 1400
   padding: 2vh
 
   .modale
     position: relative
     width: 90%
-    height: 90%
-    background: pink
+    height: 100%
     margin: auto
     max-width: 600px
     background: white
@@ -226,7 +225,7 @@ label
     top: 0
     left: 0
     width: 100%
-    height: 100%
+    height: calc(100% - 1.5cm)
     z-index: 1400
     padding: 0
     margin: 0
