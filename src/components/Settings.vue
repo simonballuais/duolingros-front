@@ -138,14 +138,14 @@ h2, legend
   top: 0
   left: 0
   width: 100%
-  height: 100%
+  height: calc(100% - 1.5cm)
   z-index: 1400
   padding: 2vh
 
   .modale
     position: relative
     width: 90%
-    height: 90%
+    height: 100%
     background: pink
     margin: auto
     max-width: 600px
