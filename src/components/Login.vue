@@ -17,8 +17,6 @@
         <transition name="fade">
           <div class="box-container">
             <div class="mada" style="">
-            <div class="mada" style="">
-            </div>
             </div>
 
             <div class="login-box">
