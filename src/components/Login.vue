@@ -13,6 +13,14 @@
            id="bg-fat"
       />
 
+      <span class="image-credit">
+        Photo par
+        <a href="https://unsplash.com/@themeinn">Theme Inn</a>
+        sur
+        <a href="https://unsplash.com">Unsplash</a>.
+      </span>
+
+
       <div class="center-column">
         <transition name="fade">
           <div class="box-container">
@@ -521,6 +529,13 @@ h1
   margin-left: 10%
   margin-top: 8pt
 
+.image-credit
+  position: absolute
+  right: 5px
+  font-size: 12px
+  top: calc(var(--vh, 1vh) * 100 - 16px)
+  color: white
+
 @media screen and (max-width: 1000px)
   .login-container
     .box-container
@@ -550,6 +565,13 @@ h1
 
         h2
           font-size: 18pt
+
+  .image-credit
+    position: absolute
+    right: 5px
+    font-size: 10px
+    top: calc(var(--vh, 1vh) * 100 - 14px)
+    color: white
 
   .miteny-gasy
     padding: 2.5mm
