@@ -227,7 +227,7 @@ button
 
   &.submit,&.end-correction
     position: fixed
-    bottom: 5vh
+    bottom: 2vh
 
 .popover
   border: 1px solid $light-gray
@@ -287,7 +287,7 @@ p.translation-help-element
     height: 38px ! important
     font-size: 10pt ! important
 
-@media screen and (max-width: 400px), ( max-height: 600px)
+@media screen and (max-width: 400px)
   h1
     margin: 0.5rem
     font-size: 1rem

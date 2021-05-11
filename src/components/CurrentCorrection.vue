@@ -133,7 +133,7 @@ div.current-correction
       font-size: 1.1rem ! important
 
     .correction-content button
-      bottom: 4vh
+      bottom: 2vh
 
 @media screen and (max-width: 500px), ( max-height: 600px)
   h2

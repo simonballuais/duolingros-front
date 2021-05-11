@@ -60,7 +60,8 @@ export default {
 div.exercise-container
   position: absolute
   width: 100%
-  height: 100%
+  top: 50px
+  bottom: 0
 
   div.current-exercise
     position: relative
@@ -69,7 +70,7 @@ div.exercise-container
     left: 0
     overflow: hidden
     left: 0
-    height: 90%
+    height: 100%
     max-width: 700px
     padding: 3%
 

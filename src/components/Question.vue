@@ -211,7 +211,6 @@ div.main-container
     button
       display: block
       width: 100%
-      max-width: 400px
       transition: background 0.35s, color 0.50s, border 0.35s
       background: white
       color: $dark-gray
@@ -293,11 +292,12 @@ div.main-container
           color: white
 
       &.submit
+        height: 50px
+        max-width: 700px
+        width: calc(94% - 1em)
         position: absolute
-        transform: translate(-50%, 0)
-        bottom: 5vh
+        bottom: 2vh
         background-color: $green
-        left: 50%
         color: white
         margin: 0
 
@@ -339,7 +339,6 @@ div.proposition-container
     img
       display: flex
       width: 100%
-      height: 100%
     span
       display: flex
 
@@ -383,10 +382,11 @@ div.proposition-container
   .without-picture button
     margin: 5px
     height: 42px ! important
+  button.submit
+    height: 42px ! important
 
 @media screen and (max-width: 500px), ( max-height: 600px)
   button.submit
-    width: 200px ! important
     height: 38px ! important
     font-size: 10pt ! important
   h1
@@ -398,7 +398,7 @@ div.proposition-container
     margin: 1%
   .without-picture button
     margin: 5px
-    height: 42px ! important
+    height: 38px ! important
 
 @media screen and (max-width: 300px), ( max-height: 400px)
   h1
