@@ -320,7 +320,9 @@ div.proposition-container
   align-content: flex-start
   width: 100%
   justify-content: center
-  max-width: 50vh
+
+  &.with-picture
+    max-width: 50vh
 
   button.proposition
     margin: 0
