@@ -1,0 +1,33 @@
+{
+    "name": "Miteny Gasy",
+    "short_name": "MitenyGasy",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#17a2b8",
+    "description": "Apprenez le malgache en ligne",
+    "icons": [{
+        "src": "images/touch/mglogo48.png",
+        "sizes": "48x48",
+        "type": "image/png"
+    }, {
+        "src": "images/touch/mglogo72.png",
+        "sizes": "72x72",
+        "type": "image/png"
+    }, {
+        "src": "images/touch/mglogo96.png",
+        "sizes": "96x96",
+        "type": "image/png"
+    }, {
+        "src": "images/touch/mglogo144.png",
+        "sizes": "144x144",
+        "type": "image/png"
+    }, {
+        "src": "images/touch/mglogo168.png",
+        "sizes": "168x168",
+        "type": "image/png"
+    }, {
+        "src": "images/touch/mglogo192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+    }]
+}
