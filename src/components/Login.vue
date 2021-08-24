@@ -32,7 +32,7 @@
                 <div class="transition-container"
                      v-if="showingRegistration && !resetPasswordToken"
                   >
-                  <h2>Apprenez le malgache en ligne grâce à des exercices simples et gratuits</h2>
+                  <h1>Apprenez le malgache en ligne grâce à des exercices simples et gratuits</h1>
 
                   <div class="buttons">
                     <router-link :to="{name: 'registration'}"
@@ -207,9 +207,9 @@
 
     <div class="miteny-gasy">
       <div class="center-column">
-        <h1>
+        <span class="main-title">
           Miteny Gasy
-        </h1>
+        </span>
       </div>
     </div>
 
@@ -362,11 +362,12 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-h1
+.main-title
   font-family: 'Ubuntu', sans-serif
   font-size: 24pt
   font-weight: 700
   margin: 0
+  color: white
 
 .transition-container
   width: 100%
@@ -413,7 +414,7 @@ h1
 
   .login-box
     border-radius: 3mm
-    background: transparentize(white, 0.2)
+    background: transparentize(white, 0.15)
     width: 18cm
     height: 8cm
 
@@ -425,7 +426,7 @@ h1
       height: 75%
       margin: 0 15% 0 15%
 
-    h2
+    h1
       font-size: 24pt
       font-family: 'Ubuntu', sans-serif
       text-align: center
@@ -540,11 +541,11 @@ h1
   .login-container
     .box-container
       .login-box
-        h2
+        h1
           font-size: 20pt
 
 @media screen and (max-width: 800px)
-  h1
+  .main-title
     font-size: 18pt
 
   .login-container
@@ -559,11 +560,11 @@ h1
         border-radius: 0
         width: 100%
         height: 8cm
-        background: transparentize(white, 0.2)
+        background: transparentize(white, 0.15)
         box-shadow: 0 0 50px gray
         top: calc(var(--vh, 1vh) * 15)
 
-        h2
+        h1
           font-size: 18pt
 
   .image-credit
@@ -602,7 +603,7 @@ h1
   .login-container
     .box-container
       .login-box
-        h2
+        h1
           font-size: 16pt
 
 .box-fade-enter-active
