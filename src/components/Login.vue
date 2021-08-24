@@ -146,9 +146,9 @@
         </h2>
         <div class="info-row">
           <p style="width: 50%">
-            Avec Miteny Gasy, pratiquez le malgache quotidiennement.<br>
+            Que vous soyez expatrié ou que vous prévoyiez un voyage, Miteny Gasy vous permet d'initier votre apprentissage de la langue malgache.<br>
             Les leçons sont découpées en sessions de cours exercices.<br>
-            En terminant des leçons, vous validez des niveaux et débloquez les leçons suivantes&nbsp;<font-awesome-icon class="star" icon="star" style="color: orange"/>
+            En terminant des leçons, vous validez des niveaux et débloquez les leçons suivantes.
           </p>
           <img src="/question.png" class="img-right">
         </div>
@@ -158,6 +158,7 @@
         <div class="info-row">
           <img src="/correction.png" class="img-left">
           <p style="width: 50%">
+            Avec Miteny Gasy, pratiquez le malgache quotidiennement.<br>
             Les exercices sont des traductions.<br>
             Vous avez des outils à disposition et les corrections sont apportées immédiatement.<br>
             En cas d'erreur, une bonne réponse est suggérée et vous permet de vous améliorer.<br>
