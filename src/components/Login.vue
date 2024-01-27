@@ -32,7 +32,7 @@
                 <div class="transition-container"
                      v-if="showingRegistration && !resetPasswordToken"
                   >
-                  <h1>Apprenez le malgache en ligne grâce à des exercices simples et gratuits</h1>
+                  <h1>Apprendre le malgache en ligne grâce à une méthode simples et gratuite</h1>
 
                   <div class="buttons">
                     <router-link :to="{name: 'registration'}"
@@ -142,12 +142,12 @@
     <div class="infos">
       <div class="center-column">
         <h2>
-          Des exercices simples pour apprendre le malgache
+          Une méthode simples pour apprendre le malgache
         </h2>
         <div class="info-row">
           <p style="width: 50%">
             Que vous soyez expatrié ou que vous prévoyiez un voyage, Miteny Gasy vous permet d'initier votre apprentissage de la langue malgache.<br>
-            Les leçons sont découpées en sessions de cours exercices.<br>
+            Les leçons sont découpées en sessions de courts exercices.<br>
             En terminant des leçons, vous validez des niveaux et débloquez les leçons suivantes.
           </p>
           <img src="/question.png" class="img-right">
@@ -158,7 +158,7 @@
         <div class="info-row">
           <img src="/correction.png" class="img-left">
           <p style="width: 50%">
-            Avec Miteny Gasy, pratiquez le malgache quotidiennement.<br>
+            Avec Miteny Gasy vous pouvez pratiquer le malgache quotidiennement.<br>
             Les exercices sont des traductions.<br>
             Vous avez des outils à disposition et les corrections sont apportées immédiatement.<br>
             En cas d'erreur, une bonne réponse est suggérée et vous permet de vous améliorer.<br>
